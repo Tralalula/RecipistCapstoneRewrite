@@ -1,9 +1,12 @@
-package com.example.tobias.recipist;
+package com.example.tobias.recipist.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.BaseAdapter;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.tobias.recipist.R;
+
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

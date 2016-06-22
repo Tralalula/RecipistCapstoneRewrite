@@ -1,7 +1,9 @@
-package com.example.tobias.recipist;
+package com.example.tobias.recipist.activity;
 
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.tobias.recipist.R;
 
 /**
  * Created by Tobias on 22-06-2016.
