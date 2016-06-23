@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     android:orientation="vertical"
-    android:weightSum="4">
+    android:weightSum="4"
+    tools:context=".activity.auth.GoogleSignInActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

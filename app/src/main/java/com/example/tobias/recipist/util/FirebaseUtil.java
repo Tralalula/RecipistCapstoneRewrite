@@ -1,3 +1,5 @@
+// https://github.com/firebase/friendlypix/blob/master/android/app/src/main/java/com/google/firebase/samples/apps/friendlypix/FirebaseUtil.java
+
 package com.example.tobias.recipist.util;
 
 import com.google.firebase.auth.FirebaseAuth;

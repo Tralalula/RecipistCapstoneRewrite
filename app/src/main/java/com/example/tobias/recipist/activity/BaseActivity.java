@@ -1,3 +1,5 @@
+// https://github.com/firebase/quickstart-android/blob/master/auth/app/src/main/java/com/google/firebase/quickstart/auth/BaseActivity.java
+
 package com.example.tobias.recipist.activity;
 
 import android.app.ProgressDialog;
@@ -16,6 +18,7 @@ public class BaseActivity extends AppCompatActivity {
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setMessage(getString(R.string.base_activity_progress_dialog_loading));
             mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
         }
 
         mProgressDialog.show();

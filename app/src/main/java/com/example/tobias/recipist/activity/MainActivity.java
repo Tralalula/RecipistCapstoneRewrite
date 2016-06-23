@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.auth.GoogleSignInActivity;
+import com.example.tobias.recipist.activity.recipe.CreateRecipeActivity;
 import com.example.tobias.recipist.util.FirebaseUtil;
 
 public class MainActivity extends BaseActivity {
@@ -16,9 +17,12 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        if (FirebaseUtil.getCurrentUser() == null) {
+        if (FirebaseUtil.getCurrentUser() != null) {
+            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
+            startActivity(intent);
+        } else {
             Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
             startActivity(intent);
-//        }
+        }
     }
 }

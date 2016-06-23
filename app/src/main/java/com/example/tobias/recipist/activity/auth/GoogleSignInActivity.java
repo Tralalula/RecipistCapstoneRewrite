@@ -1,3 +1,5 @@
+// https://github.com/firebase/quickstart-android/blob/master/auth/app/src/main/java/com/google/firebase/quickstart/auth/GoogleSignInActivity.java
+
 package com.example.tobias.recipist.activity.auth;
 
 import android.content.Intent;
@@ -31,7 +33,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
  * Created by Tobias on 22-06-2016.
  */
 public class GoogleSignInActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
-    private static final String TAG = GoogleSignInActivity.class.toString();
+    private static final String TAG = GoogleSignInActivity.class.getSimpleName();
     private static final int REQUEST_CODE_GOOGLE_SIGN_IN = 9001;
 
     // FirebaseAuth
