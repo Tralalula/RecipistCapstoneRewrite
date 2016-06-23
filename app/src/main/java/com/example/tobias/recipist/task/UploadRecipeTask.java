@@ -11,17 +11,23 @@ import android.util.Log;
 
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.callback.TaskCallback;
+import com.example.tobias.recipist.model.Recipe;
+import com.example.tobias.recipist.model.Author;
 import com.example.tobias.recipist.util.FirebaseUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Tobias on 23-06-2016.
@@ -74,7 +80,6 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 final Uri fullSizeUrl = taskSnapshot.getDownloadUrl();
-
                 Log.d(TAG, "doInBackground:fullSizeRef:onSuccess:fullSizeUrl: " + fullSizeUrl.toString());
 
                 ByteArrayOutputStream thumbnailStream = new ByteArrayOutputStream();
@@ -82,10 +87,50 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                 thumbnailRef.putBytes(thumbnailStream.toByteArray()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        final Uri thumbnailUrl = taskSnapshot.getDownloadUrl();
+                        final DatabaseReference reference = FirebaseUtil.getBaseRef();
+                        DatabaseReference recipesRef = FirebaseUtil.getRecipesRef();
+                        final String newRecipeKey = recipesRef.push().getKey();
 
+                        final Uri thumbnailUrl = taskSnapshot.getDownloadUrl();
                         Log.d(TAG, "doInBackground:fullSizeRef:onSuccess:thumbnailRef:onSuccess:thumbnailUrl: " + thumbnailUrl.toString());
-                        mCallback.onRecipeUploaded(null);
+
+                        Author author = FirebaseUtil.getAuthor();
+                        if (author == null) {
+                            FirebaseCrash.logcat(Log.ERROR, TAG, "Couldn't upload recipe: Couldn't get signed in author.");
+                            mCallback.onRecipeUploaded("Author not signed in");
+                            return;
+                        }
+
+                        Recipe recipe = new Recipe(
+                                author,
+                                fullSizeUrl.toString(),
+                                fullSizeRef.toString(),
+                                thumbnailUrl.toString(),
+                                thumbnailRef.toString(),
+                                "Title test",
+                                "Progress test",
+                                "Time test",
+                                "Servings test"
+                        );
+
+//                        recipesRef.child(newRecipeKey).setValue(recipe);
+//                        mCallback.onRecipeUploaded(null);
+
+                        Map<String, Object> updatedUserData = new HashMap<>();
+                        updatedUserData.put(FirebaseUtil.getPeoplePath() + author.getUid() + "/" + FirebaseUtil.getRecipesPath() + newRecipeKey, true);
+                        updatedUserData.put(FirebaseUtil.getRecipesPath() + newRecipeKey, new ObjectMapper().convertValue(recipe, Map.class));
+                        reference.updateChildren(updatedUserData, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                if (databaseError == null) {
+                                    mCallback.onRecipeUploaded(null);
+                                } else {
+                                    Log.e(TAG, "Unable to create new recipe: " + databaseError.getMessage());
+                                    FirebaseCrash.report(databaseError.toException());
+                                    mCallback.onRecipeUploaded("Error uploading recipe task...");
+                                }
+                            }
+                        });
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
