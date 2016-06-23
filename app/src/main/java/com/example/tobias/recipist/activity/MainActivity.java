@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.auth.GoogleSignInActivity;
+import com.example.tobias.recipist.util.FirebaseUtil;
 
 public class MainActivity extends BaseActivity {
 
@@ -15,7 +16,9 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
-        startActivity(intent);
+//        if (FirebaseUtil.getCurrentUser() == null) {
+            Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
+            startActivity(intent);
+//        }
     }
 }

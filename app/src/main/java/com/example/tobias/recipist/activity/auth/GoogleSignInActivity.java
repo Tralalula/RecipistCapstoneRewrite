@@ -56,8 +56,6 @@ public class GoogleSignInActivity extends BaseActivity implements GoogleApiClien
 
         // Button listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.disconnect_button).setOnClickListener(this);
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -118,19 +116,13 @@ public class GoogleSignInActivity extends BaseActivity implements GoogleApiClien
             case R.id.sign_in_button:
                 signIn();
                 break;
-            case R.id.sign_out_button:
-                signOut();
-                break;
-            case R.id.disconnect_button:
-                disconnect();
-                break;
         }
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed: " + connectionResult);
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.error_google_play_services_error), Toast.LENGTH_SHORT).show();
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount googleAccount) {
@@ -145,7 +137,7 @@ public class GoogleSignInActivity extends BaseActivity implements GoogleApiClien
 
                 if (!task.isSuccessful()) {
                     Log.w(TAG, "firebaseAuthWithGoogle:signInWithCredential:error", task.getException());
-                    Toast.makeText(GoogleSignInActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GoogleSignInActivity.this, getString(R.string.error_authentication_failed), Toast.LENGTH_SHORT).show();
                 }
 
                 hideProgressDialog();
@@ -187,17 +179,15 @@ public class GoogleSignInActivity extends BaseActivity implements GoogleApiClien
     private void updateUi(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+            mStatusTextView.setText(getString(R.string.google_sign_in_activity_status_fmt, user.getEmail()));
+            mDetailTextView.setText(getString(R.string.google_sign_in_activity_firebase_status_fmt, user.getUid()));
 
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
         } else {
-            mStatusTextView.setText("Signed out");
+            mStatusTextView.setText(getString(R.string.google_sign_in_activity_signed_out));
             mDetailTextView.setText(null);
 
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }
 }

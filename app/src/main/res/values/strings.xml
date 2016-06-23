@@ -5,6 +5,12 @@
     <string name="base_activity_progress_dialog_loading" translatable="true">Loading...</string>
 
     <!-- GoogleSignInActivity -->
-    <string name="firebase_status_fmt">Firebase User: %s</string>
-    <string name="google_status_fmt">Google User: %s</string>
+    <string name="google_sign_in_activity_title">@string/app_name</string>
+    <string name="google_sign_in_activity_firebase_status_fmt" translatable="true">Firebase User: %s</string>
+    <string name="google_sign_in_activity_status_fmt" translatable="true">Google User: %s</string>
+    <string name="google_sign_in_activity_signed_out" translatable="true">Signed out</string>
+
+    <!-- Error -->
+    <string name="error_google_play_services_error" translatable="true">Google Play Services error.</string>
+    <string name="error_authentication_failed" translatable="true">Authentication failed.</string>
 </resources>
