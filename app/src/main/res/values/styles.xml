@@ -40,6 +40,15 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="ThemeOverlay.StandardEditText" parent="AppTheme">
+        <item name="android:inputType">text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">@dimen/medium_small_text_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
         <item name="tabIndicatorColor">@color/colorAccent</item>
         <item name="tabIndicatorHeight">2dp</item>
@@ -54,6 +63,11 @@
         <item name="android:textSize">@dimen/standard_text_size</item>
         <item name="android:textColor">@color/textSecondary</item>
         <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="CollapsingToolbarLayoutAppearance">
+        <item name="android:textSize">@dimen/medium_text_size</item>
+        <item name="android:textColor">@color/textPrimary</item>
     </style>
 
 </resources>

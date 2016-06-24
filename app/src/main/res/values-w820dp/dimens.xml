@@ -1,10 +1,12 @@
 <resources>
     <!-- Common margin sizes -->
+    <dimen name="micro_margin">8dp</dimen>
     <dimen name="mini_margin">16dp</dimen>
     <dimen name="small_margin">32dp</dimen>
     <dimen name="standard_margin">64dp</dimen>
 
     <!-- Common padding sizes -->
+    <dimen name="micro_padding">8dp</dimen>
     <dimen name="mini_padding">16dp</dimen>
     <dimen name="small_padding">32dp</dimen>
     <dimen name="standard_padding">64dp</dimen>

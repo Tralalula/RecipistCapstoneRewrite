@@ -14,7 +14,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -51,8 +53,8 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private static final int FULL_SIZE_MAX_DIMENSION = 1280;
     private static final int THUMBNAIL_MAX_DIMENSION = 640;
 
-    private ImageView mPhotoImageView;
-    private Button mSubmitButton;
+    private ImageView mPhotoImgView;
+    private FloatingActionButton mSubmitFab;
 
     private Uri mFileUri;
     private Bitmap mResizedBitmap;
@@ -65,6 +67,10 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_recipe);
 
+        // Initialize & setup Toolbar.
+        Toolbar toolbar = (Toolbar) findViewById(R.id.create_recipe_toolbar);
+        setSupportActionBar(toolbar);
+
         // Find the retained fragment on activity restarts.
         FragmentManager fragmentManager = getSupportFragmentManager();
         mUploadTaskFragment = (CreateRecipeUploadTaskFragment) fragmentManager.findFragmentByTag(CreateRecipeUploadTaskFragment.TAG);
@@ -76,16 +82,16 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         }
 
         // Initialize views.
-        mPhotoImageView = (ImageView) findViewById(R.id.create_recipe_image_view_image);
-        mSubmitButton = (Button) findViewById(R.id.create_recipe_button_submit);
+        mPhotoImgView = (ImageView) findViewById(R.id.create_recipe_image_view_image);
+        mSubmitFab = (FloatingActionButton) findViewById(R.id.create_recipe_floating_action_button_submit);
 
         // Set click listeners.
-        mPhotoImageView.setOnClickListener(this);
-        mSubmitButton.setOnClickListener(this);
+        mPhotoImgView.setOnClickListener(this);
+        mSubmitFab.setOnClickListener(this);
 
         Bitmap selectedBitmap = mUploadTaskFragment.getSelectedBitmap();
         if (selectedBitmap != null) {
-            mPhotoImageView.setImageBitmap(selectedBitmap);
+            mPhotoImgView.setImageBitmap(selectedBitmap);
             mResizedBitmap = selectedBitmap;
         }
 
@@ -132,7 +138,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
             case R.id.create_recipe_image_view_image:
                 pickImage();
                 break;
-            case R.id.create_recipe_button_submit:
+            case R.id.create_recipe_floating_action_button_submit:
                 submitRecipe();
                 break;
         }
@@ -189,7 +195,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         }
 
         showProgressDialog();
-        mSubmitButton.setEnabled(true);
+        mSubmitFab.setEnabled(true);
 
         Long timestamp = System.currentTimeMillis();
 
@@ -218,11 +224,11 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
             mThumbnailBitmap = resizedBitmap;
         } else if (maxDimension == FULL_SIZE_MAX_DIMENSION) {
             mResizedBitmap = resizedBitmap;
-            mPhotoImageView.setImageBitmap(mResizedBitmap);
+            mPhotoImgView.setImageBitmap(mResizedBitmap);
         }
 
         if (mThumbnailBitmap != null && mResizedBitmap != null) {
-            mSubmitButton.setEnabled(true);
+            mSubmitFab.setEnabled(true);
         }
     }
 
@@ -231,7 +237,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         CreateRecipeActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mSubmitButton.setEnabled(true);
+                mSubmitFab.setEnabled(true);
                 hideProgressDialog();
                 if (error == null) {
                     Toast.makeText(CreateRecipeActivity.this,
