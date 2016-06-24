@@ -76,8 +76,8 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         }
 
         // Initialize views.
-        mPhotoImageView = (ImageView) findViewById(R.id.new_recipe_picture);
-        mSubmitButton = (Button) findViewById(R.id.new_recipe_submit);
+        mPhotoImageView = (ImageView) findViewById(R.id.create_recipe_image_view_image);
+        mSubmitButton = (Button) findViewById(R.id.create_recipe_button_submit);
 
         // Set click listeners.
         mPhotoImageView.setOnClickListener(this);
@@ -129,10 +129,10 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.new_recipe_picture:
+            case R.id.create_recipe_image_view_image:
                 pickImage();
                 break;
-            case R.id.new_recipe_submit:
+            case R.id.create_recipe_button_submit:
                 submitRecipe();
                 break;
         }

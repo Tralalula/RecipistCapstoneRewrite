@@ -53,11 +53,11 @@ public class GoogleSignInActivity extends BaseActivity implements GoogleApiClien
         setContentView(R.layout.activity_google_sign_in);
 
         // Views
-        mStatusTextView = (TextView) findViewById(R.id.status);
-        mDetailTextView = (TextView) findViewById(R.id.detail);
+        mStatusTextView = (TextView) findViewById(R.id.google_sign_in_text_view_status);
+        mDetailTextView = (TextView) findViewById(R.id.google_sign_in_text_view_detail);
 
         // Button listeners
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
+        findViewById(R.id.google_sign_in_sign_in_button).setOnClickListener(this);
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -115,7 +115,7 @@ public class GoogleSignInActivity extends BaseActivity implements GoogleApiClien
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.sign_in_button:
+            case R.id.google_sign_in_sign_in_button:
                 signIn();
                 break;
         }
@@ -184,12 +184,12 @@ public class GoogleSignInActivity extends BaseActivity implements GoogleApiClien
             mStatusTextView.setText(getString(R.string.google_sign_in_activity_status_fmt, user.getEmail()));
             mDetailTextView.setText(getString(R.string.google_sign_in_activity_firebase_status_fmt, user.getUid()));
 
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            findViewById(R.id.google_sign_in_sign_in_button).setVisibility(View.GONE);
         } else {
             mStatusTextView.setText(getString(R.string.google_sign_in_activity_signed_out));
             mDetailTextView.setText(null);
 
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.google_sign_in_sign_in_button).setVisibility(View.VISIBLE);
         }
     }
 }

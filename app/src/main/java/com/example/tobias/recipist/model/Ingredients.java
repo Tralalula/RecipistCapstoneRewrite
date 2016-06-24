@@ -15,6 +15,7 @@ public class Ingredients {
         public String ingredient;
 
         public Ingredient() {
+            // Empty default constructor, necessary for Firebase to be able to deserialize recipes.
         }
 
         private Ingredient(Parcel source) {

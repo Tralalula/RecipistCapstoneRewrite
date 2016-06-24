@@ -24,6 +24,9 @@ public class Recipe implements Parcelable {
     public String time;
     public String servings;
 
+    public ArrayList<Ingredients.Ingredient> ingredients;
+    public ArrayList<Steps.Step> steps;
+
     public Recipe() {
         // Empty default constructor, necessary for Firebase to be able to deserialize recipes.
     }
@@ -31,7 +34,8 @@ public class Recipe implements Parcelable {
     public Recipe(Author author,
                   String fullSizeImageUrl, String fullSizeImageStorageUrl,
                   String thumbnailImageUrl, String thumbnailImageStorageUrl,
-                  String title, String progress, String time, String servings) {
+                  String title, String progress, String time, String servings,
+                  ArrayList<Ingredients.Ingredient> ingredients, ArrayList<Steps.Step> steps) {
         this.author = author;
         this.fullSizeImageUrl = fullSizeImageUrl;
         this.fullSizeImageStorageUrl = fullSizeImageStorageUrl;
@@ -41,6 +45,8 @@ public class Recipe implements Parcelable {
         this.progress = progress;
         this.time = time;
         this.servings = servings;
+        this.ingredients = ingredients;
+        this.steps = steps;
     }
 
     protected Recipe(Parcel in) {
@@ -53,6 +59,8 @@ public class Recipe implements Parcelable {
         progress = in.readString();
         time = in.readString();
         servings = in.readString();
+        ingredients = in.createTypedArrayList(Ingredients.Ingredient.CREATOR);
+        steps = in.createTypedArrayList(Steps.Step.CREATOR);
     }
 
     @Override
@@ -66,6 +74,8 @@ public class Recipe implements Parcelable {
         dest.writeString(progress);
         dest.writeString(time);
         dest.writeString(servings);
+        dest.writeTypedList(ingredients);
+        dest.writeTypedList(steps);
     }
 
     @Override

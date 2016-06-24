@@ -14,6 +14,10 @@ public class Steps {
     public static class Step implements Parcelable {
         public String method;
 
+        public Step() {
+            // Empty default constructor, necessary for Firebase to be able to deserialize recipes.
+        }
+
         public Step(Parcel source) {
             method = source.readString();
         }

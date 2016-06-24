@@ -7,7 +7,7 @@
     tools:context=".activity.recipe.CreateRecipeActivity">
 
     <ImageView
-        android:id="@+id/new_recipe_picture"
+        android:id="@+id/create_recipe_image_view_image"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:background="@drawable/ic_camera_alt_24dp"
@@ -15,7 +15,7 @@
         android:scaleType="centerCrop" />
 
     <Button
-        android:id="@+id/new_recipe_submit"
+        android:id="@+id/create_recipe_button_submit"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="300dp"
         android:layout_height="wrap_content"

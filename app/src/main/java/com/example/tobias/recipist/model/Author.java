@@ -12,7 +12,7 @@ public class Author implements Parcelable {
     public String uid;
 
     public Author() {
-
+        // Empty default constructor, necessary for Firebase to be able to deserialize recipes.
     }
 
     public Author(String email, String fullName, String uid) {
