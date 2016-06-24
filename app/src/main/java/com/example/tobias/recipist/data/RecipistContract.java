@@ -44,7 +44,7 @@ public class RecipistContract {
     public static final class IngredientEntry implements BaseColumns {
         public static final String TABLE_NAME = "ingredient";
 
-        public static final String COLUMN_RECIPE_ID = "recipe_id";
+        public static final String COLUMN_RECIPE_FIREBASE_KEY = "recipe_id";
         public static final String COLUMN_ORDER_NUMBER = "order_number";
         public static final String COLUMN_INGREDIENT = "ingredient";
 
@@ -62,7 +62,7 @@ public class RecipistContract {
     public static final class StepEntry implements BaseColumns {
         public static final String TABLE_NAME = "step";
 
-        public static final String COLUMN_RECIPE_ID = "recipe_id";
+        public static final String COLUMN_RECIPE_FIREBASE_KEY = "recipe_id";
         public static final String COLUMN_ORDER_NUMBER = "order_number";
         public static final String COLUMN_METHOD = "method";
 

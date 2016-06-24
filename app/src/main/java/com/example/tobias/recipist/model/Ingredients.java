@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.tobias.recipist.data.RecipistContract;
+
 import java.util.ArrayList;
 
 /**
@@ -13,26 +15,44 @@ public class Ingredients {
     public ArrayList<Ingredient> results;
 
     public static class Ingredient implements Parcelable {
+        public static final String[] INGREDIENT_COLUMNS = {
+                RecipistContract.IngredientEntry._ID,
+                RecipistContract.IngredientEntry.COLUMN_RECIPE_FIREBASE_KEY,
+                RecipistContract.IngredientEntry.COLUMN_ORDER_NUMBER,
+                RecipistContract.IngredientEntry.COLUMN_INGREDIENT
+        };
+
+        public static final int COL_ID = 0;
+        public static final int COL_RECIPE_FIREBASE_KEY = 1;
+        public static final int COL_ORDER_NUMBER = 2;
+        public static final int COL_INGREDIENT = 3;
+
+        public String recipeFirebaseKey;
+        public int orderNumber;
         public String ingredient;
 
         public Ingredient() {
             // Empty default constructor, necessary for Firebase to be able to deserialize recipes.
         }
 
-        private Ingredient(Parcel source) {
-            ingredient = source.readString();
-        }
-
         public Ingredient(String ingredient) {
             this.ingredient = ingredient;
         }
 
-        public String getIngredient() {
-            return ingredient;
+        public Ingredient(String recipeFirebaseKey, int orderNumber, String ingredient) {
+            this.recipeFirebaseKey = recipeFirebaseKey;
+            this.orderNumber = orderNumber;
+            this.ingredient = ingredient;
         }
 
-        public void setIngredient(String ingredient) {
-            this.ingredient = ingredient;
+        public Ingredient(Cursor cursor) {
+            recipeFirebaseKey = cursor.getString(COL_RECIPE_FIREBASE_KEY);
+            orderNumber = cursor.getInt(COL_ORDER_NUMBER);
+            ingredient = cursor.getString(COL_INGREDIENT);
+        }
+
+        private Ingredient(Parcel source) {
+            ingredient = source.readString();
         }
 
         @Override

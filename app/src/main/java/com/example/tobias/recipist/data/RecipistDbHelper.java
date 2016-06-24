@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Tobias on 24-06-2016.
  */
 public class RecipistDbHelper extends SQLiteOpenHelper {
-    public static int DATABASE_VERSION = 2;
+    public static int DATABASE_VERSION = 3;
     public static String DATABASE_NAME = "recipist.db";
 
     public RecipistDbHelper(Context context) {
@@ -34,14 +34,14 @@ public class RecipistDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_INGREDIENT_TABLE = "CREATE TABLE " +
                 RecipistContract.IngredientEntry.TABLE_NAME + " (" +
                 RecipistContract.IngredientEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                RecipistContract.IngredientEntry.COLUMN_RECIPE_ID + " INTEGER NOT NULL, " +
+                RecipistContract.IngredientEntry.COLUMN_RECIPE_FIREBASE_KEY + " TEXT NOT NULL, " +
                 RecipistContract.IngredientEntry.COLUMN_ORDER_NUMBER + " INTEGER NOT NULL, " +
                 RecipistContract.IngredientEntry.COLUMN_INGREDIENT + " TEXT NOT NULL);";
 
         final String SQL_CREATE_STEP_TABLE = "CREATE TABLE " +
                 RecipistContract.StepEntry.TABLE_NAME + " (" +
                 RecipistContract.StepEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                RecipistContract.StepEntry.COLUMN_RECIPE_ID + " INTEGER NOT NULL, " +
+                RecipistContract.StepEntry.COLUMN_RECIPE_FIREBASE_KEY + " TEXT NOT NULL, " +
                 RecipistContract.StepEntry.COLUMN_ORDER_NUMBER + " INTEGER NOT NULL, " +
                 RecipistContract.StepEntry.COLUMN_METHOD + " TEXT NOT NULL);";
 

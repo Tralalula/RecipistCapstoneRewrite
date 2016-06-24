@@ -2,9 +2,7 @@
 
 package com.example.tobias.recipist.task;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,7 +11,7 @@ import android.util.Log;
 
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.callback.TaskCallback;
-import com.example.tobias.recipist.data.RecipistContract;
+import com.example.tobias.recipist.data.RecipistDbHandler;
 import com.example.tobias.recipist.model.Ingredients;
 import com.example.tobias.recipist.model.Recipe;
 import com.example.tobias.recipist.model.Author;
@@ -130,7 +128,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                                 fullSizeRef.toString(),
                                 thumbnailUrl.toString(),
                                 thumbnailRef.toString(),
-                                "Title test",
+                                "Pew Pew Boomerang",
                                 1,
                                 "Time test",
                                 "Servings test",
@@ -142,7 +140,9 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
 //                        recipesRef.child(newRecipeKey).setValue(recipe);
 //                        mCallback.onRecipeUploaded(null);
 
-                        addRecipeToSqliteDb(recipe);
+                        // Add recipe to local SQLite DB
+                        RecipistDbHandler recipistDbHandler = new RecipistDbHandler(mContext);
+                        recipistDbHandler.addRecipeToDb(recipe, ingredients, steps);
 
                         Map<String, Object> updatedUserData = new HashMap<>();
                         updatedUserData.put(FirebaseUtil.getUsersPath() + author.getUid() + "/" + FirebaseUtil.getRecipesPath() + newRecipeKey, true);
@@ -179,23 +179,6 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
         });
 
         return null;
-    }
-
-    public void addRecipeToSqliteDb(Recipe recipe) {
-        Log.d(TAG, "addRecipeToSqliteDb: Start");
-        ContentValues values = new ContentValues();
-        values.put(Recipe.RECIPE_COLUMNS[Recipe.COL_AUTHOR_UID], recipe.authorUid);
-        values.put(Recipe.RECIPE_COLUMNS[Recipe.COL_FULL_SIZE_IMAGE_URL], recipe.fullSizeImageUrl);
-        values.put(Recipe.RECIPE_COLUMNS[Recipe.COL_FULL_SIZE_IMAGE_STORAGE_URL], recipe.fullSizeImageStorageUrl);
-        values.put(Recipe.RECIPE_COLUMNS[Recipe.COL_THUMBNAIL_URL], recipe.thumbnailImageUrl);
-        values.put(Recipe.RECIPE_COLUMNS[Recipe.COL_THUMBNAIL_STORAGE_URL], recipe.thumbnailImageStorageUrl);
-        values.put(Recipe.RECIPE_COLUMNS[Recipe.COL_TITLE], recipe.title);
-        values.put(Recipe.RECIPE_COLUMNS[Recipe.COL_PROGRESS], recipe.progress);
-        values.put(Recipe.RECIPE_COLUMNS[Recipe.COL_TIME], recipe.time);
-        values.put(Recipe.RECIPE_COLUMNS[Recipe.COL_SERVINGS], recipe.servings);
-        values.put(Recipe.RECIPE_COLUMNS[Recipe.COL_FIREBASE_KEY], recipe.firebaseKey);
-        mContext.getContentResolver().insert(RecipistContract.RecipeEntry.CONTENT_URI, values);
-        Log.d(TAG, "addRecipeToSqliteDb: End");
     }
 
     @Override

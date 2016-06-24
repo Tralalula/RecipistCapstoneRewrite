@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.tobias.recipist.data.RecipistContract;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Recipe implements Parcelable {
             RecipistContract.RecipeEntry.COLUMN_SERVINGS,
             RecipistContract.RecipeEntry.COLUMN_FIREBASE_KEY
     };
+
     public static final int COL_ID = 0;
     public static final int COL_AUTHOR_UID = 1;
     public static final int COL_FULL_SIZE_IMAGE_URL = 2;

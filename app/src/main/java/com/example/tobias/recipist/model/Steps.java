@@ -3,6 +3,8 @@ package com.example.tobias.recipist.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.ArrayList;
 
 /**
