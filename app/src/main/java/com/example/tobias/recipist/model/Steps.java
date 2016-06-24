@@ -1,8 +1,10 @@
 package com.example.tobias.recipist.model;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.tobias.recipist.data.RecipistContract;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.ArrayList;
@@ -14,26 +16,44 @@ public class Steps {
     public ArrayList<Step> results;
 
     public static class Step implements Parcelable {
+        public static final String[] STEP_COLUMENS = {
+                RecipistContract.StepEntry._ID,
+                RecipistContract.StepEntry.COLUMN_RECIPE_FIREBASE_KEY,
+                RecipistContract.StepEntry.COLUMN_ORDER_NUMBER,
+                RecipistContract.StepEntry.COLUMN_METHOD
+        };
+
+        public static final int COL_ID = 0;
+        public static final int COL_RECIPE_FIREBASE_KEY = 1;
+        public static final int COL_ORDER_NUMBER = 2;
+        public static final int COL_METHOD = 3;
+
+        public String recipeFirebaseKey;
+        public int orderNumber;
         public String method;
 
         public Step() {
             // Empty default constructor, necessary for Firebase to be able to deserialize recipes.
         }
 
-        public Step(Parcel source) {
-            method = source.readString();
-        }
-
         public Step(String method) {
             this.method = method;
         }
 
-        public String getMethod() {
-            return method;
+        public Step(String recipeFirebaseKey, int orderNumber, String method) {
+            this.recipeFirebaseKey = recipeFirebaseKey;
+            this.orderNumber = orderNumber;
+            this.method = method;
         }
 
-        public void setMethod(String method) {
-            this.method = method;
+        public Step(Cursor cursor) {
+            this.recipeFirebaseKey = cursor.getString(COL_RECIPE_FIREBASE_KEY);
+            this.orderNumber = cursor.getInt(COL_ORDER_NUMBER);
+            this.method = cursor.getString(COL_METHOD);
+        }
+
+        public Step(Parcel source) {
+            method = source.readString();
         }
 
         @Override

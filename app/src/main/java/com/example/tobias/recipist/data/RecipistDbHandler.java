@@ -49,6 +49,14 @@ public class RecipistDbHandler {
                     ingredientValues.put(Ingredients.Ingredient.INGREDIENT_COLUMNS[Ingredients.Ingredient.COL_INGREDIENT], ingredients.get(i).ingredient);
                     mContext.getContentResolver().insert(RecipistContract.IngredientEntry.CONTENT_URI, ingredientValues);
                 }
+
+                for (int i = 0; i < steps.size(); i++) {
+                    ContentValues stepValues = new ContentValues();
+                    stepValues.put(Steps.Step.STEP_COLUMENS[Steps.Step.COL_RECIPE_FIREBASE_KEY], recipe.firebaseKey);
+                    stepValues.put(Steps.Step.STEP_COLUMENS[Steps.Step.COL_ORDER_NUMBER], i);
+                    stepValues.put(Steps.Step.STEP_COLUMENS[Steps.Step.COL_METHOD], steps.get(i).method);
+                    mContext.getContentResolver().insert(RecipistContract.StepEntry.CONTENT_URI, stepValues);
+                }
             }
             cursor.close();
         }

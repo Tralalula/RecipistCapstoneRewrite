@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.tobias.recipist.data.RecipistContract;
 import com.example.tobias.recipist.model.Ingredients;
 import com.example.tobias.recipist.model.Recipe;
+import com.example.tobias.recipist.model.Steps;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,10 +47,18 @@ public class FetchMyRecipesTask extends AsyncTask<Void, Void, List<Recipe>> {
                 null
         );
 
-        return getRecipesData(recipeCursor, ingredientsCursor);
+        Cursor stepsCursor = mContext.getContentResolver().query(
+                RecipistContract.StepEntry.CONTENT_URI,
+                Steps.Step.STEP_COLUMENS,
+                null,
+                null,
+                null
+        );
+
+        return getRecipesData(recipeCursor, ingredientsCursor, stepsCursor);
     }
 
-    private List<Recipe> getRecipesData(Cursor recipeCursor, Cursor ingredientsCursor) {
+    private List<Recipe> getRecipesData(Cursor recipeCursor, Cursor ingredientsCursor, Cursor stepsCursor) {
         Log.d(TAG, "getRecipesData: cursor: " + recipeCursor);
         List<Recipe> results = new ArrayList<>();
         if (recipeCursor != null && recipeCursor.moveToFirst()) {
@@ -57,19 +66,30 @@ public class FetchMyRecipesTask extends AsyncTask<Void, Void, List<Recipe>> {
             do {
                 Recipe recipe = new Recipe(recipeCursor);
 
+                // Add ingredients to recipe.
                 ArrayList<Ingredients.Ingredient> ingredients = new ArrayList<>();
-                Log.d(TAG, "getRecipesData: cursor != null && cursor.moveToFirst: ingredientsCursor " + ingredientsCursor);
                 if (ingredientsCursor != null && ingredientsCursor.moveToFirst()) {
-                    Log.d(TAG, "getRecipesData: cursor != null && cursor.moveToFirst: ingredientsCursor != null && ingredientsCursor.moveToFirst() ");
                     do {
                         Ingredients.Ingredient ingredient = new Ingredients.Ingredient(ingredientsCursor);
-                        Log.d(TAG, "getRecipesData: cursor != null && cursor.moveToFirst: ingredientsCursor != null && ingredientsCursor.moveToFirst(): ingredient.recipeFirebaseKey " + ingredient.recipeFirebaseKey);
                         if (Objects.equals(ingredient.recipeFirebaseKey, recipe.firebaseKey)) {
                             ingredients.add(ingredient);
                         }
                     } while (ingredientsCursor.moveToNext());
                 }
                 recipe.ingredients = ingredients;
+
+                // Add steps to recipe.
+                ArrayList<Steps.Step> steps = new ArrayList<>();
+                if (stepsCursor != null && stepsCursor.moveToFirst()) {
+                    do {
+                        Steps.Step step = new Steps.Step(stepsCursor);
+                        if (Objects.equals(step.recipeFirebaseKey, recipe.firebaseKey)) {
+                            steps.add(step);
+                        }
+                    } while (stepsCursor.moveToNext());
+                }
+                recipe.steps = steps;
+
                 results.add(recipe);
             } while (recipeCursor.moveToNext());
             recipeCursor.close();
@@ -82,10 +102,14 @@ public class FetchMyRecipesTask extends AsyncTask<Void, Void, List<Recipe>> {
         Log.d(TAG, "onPostExecute: recipes: " + recipes);
         if (!recipes.isEmpty()) {
             Log.d(TAG, "onPostExecute: !recipes.isEmpty()");
+
+            // Print recipe for debugging purposes..
             for (Recipe recipe : recipes) {
                 System.out.println("Recipe.title = " + recipe.title);
                 System.out.println("Recipe.authorUid = " + recipe.authorUid);
                 System.out.println("Recipe.firebaseKey = " + recipe.firebaseKey);
+
+                // Print recipe ingredients for debugging purposes..
                 if (!recipe.ingredients.isEmpty()) {
                     for (Ingredients.Ingredient ingredient : recipe.ingredients) {
                         System.out.println("Recipe.ingredients.ingredient.recipeFirebaseKey = " + ingredient.recipeFirebaseKey);
@@ -94,6 +118,17 @@ public class FetchMyRecipesTask extends AsyncTask<Void, Void, List<Recipe>> {
                         System.out.println("\n");
                     }
                 }
+
+                // Print recipe steps for debugging purposes..
+                if (!recipe.steps.isEmpty()) {
+                    for (Steps.Step step : recipe.steps) {
+                        System.out.println("Recipe.steps.step.recipeFirebaseKey = " + step.recipeFirebaseKey);
+                        System.out.println("Recipe.steps.step.orderNumber = " + step.orderNumber);
+                        System.out.println("Recipe.steps.step.method = " + step.method);
+                        System.out.println("\n");
+                    }
+                }
+
                 System.out.println("\n");
             }
         }
