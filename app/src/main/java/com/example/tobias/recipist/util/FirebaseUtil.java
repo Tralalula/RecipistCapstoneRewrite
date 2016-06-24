@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 /**
  * Created by Tobias on 22-06-2016.
@@ -14,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class FirebaseUtil {
     private static String RECIPES = "recipes";
     private static String USERS = "users";
+    private static String AUTHOR_UID = "authorUid";
 
     private static FirebaseDatabase mDatabase;
     private static FirebaseAuth mAuth;
@@ -60,11 +62,15 @@ public class FirebaseUtil {
         return RECIPES + "/";
     }
 
-    public static DatabaseReference getPeopleRef() {
+    public static DatabaseReference getUsersRef() {
         return getBaseRef().child(USERS);
     }
 
-    public static String getPeoplePath() {
+    public static String getUsersPath() {
         return USERS + "/";
+    }
+
+    public static Query getUsersRecipesQuery() {
+        return getRecipesRef().orderByChild(AUTHOR_UID).equalTo(getCurrentUserId());
     }
 }

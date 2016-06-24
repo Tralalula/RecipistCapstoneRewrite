@@ -16,8 +16,14 @@ import com.example.tobias.recipist.model.Recipe;
 import com.example.tobias.recipist.util.FirebaseUtil;
 import com.example.tobias.recipist.viewholder.RecipeViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 /**
  * Created by Tobias on 24-06-2016.
@@ -62,7 +68,7 @@ public class RecipesFragment extends Fragment {
                 handleOverviewLayout();
                 break;
             case TYPE_MY:
-                handleOverviewLayout();
+                handleMyLayout();
                 break;
             default:
                 throw new RuntimeException("Illegal recipe fragment type specified.");
@@ -104,6 +110,8 @@ public class RecipesFragment extends Fragment {
     private void handleOverviewLayout() {
         Query recipesQuery = FirebaseUtil.getRecipesRef();
 
+        System.out.println("QUERY QUERY 1 " + recipesQuery.toString());
+
         mAdapter = new FirebaseRecyclerAdapter<Recipe, RecipeViewHolder>(Recipe.class,
                 R.layout.recipe_item, RecipeViewHolder.class, recipesQuery) {
             @Override
@@ -124,6 +132,27 @@ public class RecipesFragment extends Fragment {
     }
 
     private void handleMyLayout() {
+        String currentUserId = FirebaseUtil.getCurrentUserId();
+        if (currentUserId != null) {
+            Query recipesQuery2 = FirebaseUtil.getUsersRecipesQuery();
 
+            mAdapter = new FirebaseRecyclerAdapter<Recipe, RecipeViewHolder>(Recipe.class,
+                    R.layout.recipe_item, RecipeViewHolder.class, recipesQuery2) {
+                @Override
+                protected void populateViewHolder(RecipeViewHolder viewHolder, Recipe model, int position) {
+                    final DatabaseReference recipeRef = getRef(position);
+                    final String recipeKey = recipeRef.getKey();
+
+                    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Log.d(TAG, "handleOverviewLayout: populateViewHolder: onClick: recipeKey: " + recipeKey);
+                        }
+                    });
+
+                    viewHolder.bindToRecipe(mRecyclerView.getContext(), model);
+                }
+            };
+        }
     }
 }

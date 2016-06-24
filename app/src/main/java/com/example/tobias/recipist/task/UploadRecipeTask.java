@@ -139,7 +139,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
 //                        mCallback.onRecipeUploaded(null);
 
                         Map<String, Object> updatedUserData = new HashMap<>();
-                        updatedUserData.put(FirebaseUtil.getPeoplePath() + author.getUid() + "/" + FirebaseUtil.getRecipesPath() + newRecipeKey, true);
+                        updatedUserData.put(FirebaseUtil.getUsersPath() + author.getUid() + "/" + FirebaseUtil.getRecipesPath() + newRecipeKey, true);
                         updatedUserData.put(FirebaseUtil.getRecipesPath() + newRecipeKey, new ObjectMapper().convertValue(recipe, Map.class));
                         reference.updateChildren(updatedUserData, new DatabaseReference.CompletionListener() {
                             @Override

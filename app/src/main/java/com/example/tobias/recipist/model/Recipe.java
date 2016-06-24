@@ -13,6 +13,7 @@ import java.util.ArrayList;
 @IgnoreExtraProperties
 public class Recipe implements Parcelable {
     public Author author;
+    public String authorUid;
 
     public String fullSizeImageUrl;
     public String fullSizeImageStorageUrl;
@@ -37,6 +38,7 @@ public class Recipe implements Parcelable {
                   String title, String progress, String time, String servings,
                   ArrayList<Ingredients.Ingredient> ingredients, ArrayList<Steps.Step> steps) {
         this.author = author;
+        this.authorUid = this.author.uid;
         this.fullSizeImageUrl = fullSizeImageUrl;
         this.fullSizeImageStorageUrl = fullSizeImageStorageUrl;
         this.thumbnailImageUrl = thumbnailImageUrl;
@@ -51,6 +53,7 @@ public class Recipe implements Parcelable {
 
     protected Recipe(Parcel in) {
         author = in.readParcelable(Author.class.getClassLoader());
+        authorUid = in.readString();
         fullSizeImageUrl = in.readString();
         fullSizeImageStorageUrl = in.readString();
         thumbnailImageUrl = in.readString();
@@ -66,6 +69,7 @@ public class Recipe implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(author, flags);
+        dest.writeString(authorUid);
         dest.writeString(fullSizeImageUrl);
         dest.writeString(fullSizeImageStorageUrl);
         dest.writeString(thumbnailImageUrl);
