@@ -29,6 +29,12 @@
         <activity
             android:name=".activity.recipe.CreateRecipeActivity"
             android:label="@string/app_name" />
+
+        <provider
+            android:name=".data.RecipistProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"
+            android:syncable="true" />
     </application>
 
 </manifest>

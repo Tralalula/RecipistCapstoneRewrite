@@ -31,7 +31,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     public void bindToRecipe(Context context, Recipe recipe) {
         String title = recipe.title;
         String thumbnailUrl = recipe.thumbnailImageUrl;
-        String progress = recipe.progress;
+        String progress = String.valueOf(recipe.progress);
         String time = recipe.time;
 
         mRecipeTitle.setText(title);

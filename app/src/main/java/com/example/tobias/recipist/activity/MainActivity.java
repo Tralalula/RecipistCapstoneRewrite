@@ -13,6 +13,7 @@ import com.example.tobias.recipist.activity.auth.GoogleSignInActivity;
 import com.example.tobias.recipist.activity.recipe.CreateRecipeActivity;
 import com.example.tobias.recipist.adapter.MainPageAdapter;
 import com.example.tobias.recipist.fragment.RecipesFragment;
+import com.example.tobias.recipist.task.FetchMyRecipesTask;
 import com.example.tobias.recipist.util.FirebaseUtil;
 
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         // Setup views.
         mViewPager.setAdapter(mMainPageAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        new FetchMyRecipesTask(this).execute();
 
 //        if (FirebaseUtil.getCurrentUser() != null) {
 //            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
