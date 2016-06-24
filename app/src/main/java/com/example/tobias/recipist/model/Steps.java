@@ -5,7 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.tobias.recipist.data.RecipistContract;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Steps {
     public ArrayList<Step> results;
 
+    @IgnoreExtraProperties
     public static class Step implements Parcelable {
         public static final String[] STEP_COLUMENS = {
                 RecipistContract.StepEntry._ID,

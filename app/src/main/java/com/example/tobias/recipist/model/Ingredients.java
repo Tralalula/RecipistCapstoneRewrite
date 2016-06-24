@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.tobias.recipist.data.RecipistContract;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public class Ingredients {
     public ArrayList<Ingredient> results;
 
+    @IgnoreExtraProperties
     public static class Ingredient implements Parcelable {
         public static final String[] INGREDIENT_COLUMNS = {
                 RecipistContract.IngredientEntry._ID,

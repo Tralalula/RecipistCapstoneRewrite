@@ -5,7 +5,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.tobias.recipist.data.RecipistContract;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;

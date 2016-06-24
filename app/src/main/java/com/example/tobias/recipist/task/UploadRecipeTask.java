@@ -53,8 +53,8 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
         mContext = context;
         mCallback = callback;
 
-        mBitmapReference = new WeakReference<Bitmap>(bitmap);
-        mThumbnailReference = new WeakReference<Bitmap>(thumbnail);
+        mBitmapReference = new WeakReference<>(bitmap);
+        mThumbnailReference = new WeakReference<>(thumbnail);
 
         mFileName = inFileName;
         mBitmapPath = inBitmapPath;
@@ -136,9 +136,6 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                                 steps,
                                 newRecipeKey
                         );
-
-//                        recipesRef.child(newRecipeKey).setValue(recipe);
-//                        mCallback.onRecipeUploaded(null);
 
                         // Add recipe to local SQLite DB
                         RecipistDbHandler recipistDbHandler = new RecipistDbHandler(mContext);

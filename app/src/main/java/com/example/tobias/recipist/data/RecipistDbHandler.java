@@ -3,7 +3,6 @@ package com.example.tobias.recipist.data;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.text.InputType;
 import android.util.Log;
 
 import com.example.tobias.recipist.model.Ingredients;

@@ -3,7 +3,6 @@
 package com.example.tobias.recipist.task;
 
 import android.content.Context;
-import android.content.pm.LauncherApps;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -11,7 +10,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.tobias.recipist.callback.TaskCallback;
-import com.example.tobias.recipist.fragment.CreateRecipeUploadTaskFragment;
 import com.google.firebase.crash.FirebaseCrash;
 
 import java.io.BufferedInputStream;

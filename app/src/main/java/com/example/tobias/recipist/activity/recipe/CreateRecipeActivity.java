@@ -19,7 +19,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -160,7 +159,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         mFileUri = Uri.fromFile(file);
 
         // Camera
-        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final List<Intent> cameraIntents = new ArrayList<>();
         final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         final PackageManager packageManager = getPackageManager();
         final List<ResolveInfo> cameraList = packageManager.queryIntentActivities(captureIntent, 0);
