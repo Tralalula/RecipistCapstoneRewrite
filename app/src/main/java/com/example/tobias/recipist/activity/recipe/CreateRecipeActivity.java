@@ -40,7 +40,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 /**
  * Created by Tobias on 23-06-2016.
  */
-public class CreateRecipeActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks, TaskCallback, View.OnClickListener {
+public class CreateRecipeActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks, TaskCallback, View.OnClickListener {
     public static String TAG = CreateRecipeActivity.class.getSimpleName();
 
     private static final String[] cameraPermissions = new String[]{
@@ -194,7 +194,7 @@ public class CreateRecipeActivity extends AppCompatActivity implements EasyPermi
             return;
         }
 
-//        showProgressDialog();
+        showProgressDialog();
         mSubmitFab.setEnabled(true);
 
         Long timestamp = System.currentTimeMillis();
@@ -238,7 +238,7 @@ public class CreateRecipeActivity extends AppCompatActivity implements EasyPermi
             @Override
             public void run() {
                 mSubmitFab.setEnabled(true);
-//                hideProgressDialog();
+                hideProgressDialog();
                 if (error == null) {
                     Toast.makeText(CreateRecipeActivity.this,
                             "Recipe created!",
