@@ -334,7 +334,9 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                 title,
                 progress,
                 time,
-                servings
+                servings,
+                mIngredients,
+                mSteps
         );
     }
 

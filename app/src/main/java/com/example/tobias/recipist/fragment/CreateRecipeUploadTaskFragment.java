@@ -9,8 +9,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.example.tobias.recipist.callback.TaskCallback;
+import com.example.tobias.recipist.model.Ingredients;
+import com.example.tobias.recipist.model.Steps;
 import com.example.tobias.recipist.task.LoadResizedBitmapTask;
 import com.example.tobias.recipist.task.UploadRecipeTask;
+
+import java.util.ArrayList;
 
 /**
  * Created by Tobias on 23-06-2016.
@@ -76,7 +80,9 @@ public class CreateRecipeUploadTaskFragment extends Fragment {
     public void uploadRecipe(Bitmap bitmap, String inBitmapPath,
                              Bitmap thumbnail, String inThumbnailPath,
                              String inFileName,
-                             String title, int progress, String time, String servings) {
+                             String title, int progress, String time, String servings,
+                             ArrayList<Ingredients.Ingredient> ingredients,
+                             ArrayList<Steps.Step> steps) {
         UploadRecipeTask task = new UploadRecipeTask(
                 mContext,
                 mCallback,
@@ -88,7 +94,9 @@ public class CreateRecipeUploadTaskFragment extends Fragment {
                 title,
                 progress,
                 time,
-                servings
+                servings,
+                ingredients,
+                steps
         );
 
         task.execute();
