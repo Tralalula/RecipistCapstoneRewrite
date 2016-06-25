@@ -14,13 +14,16 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.tobias.recipist.R;
@@ -34,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -53,8 +58,16 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private static final int FULL_SIZE_MAX_DIMENSION = 1280;
     private static final int THUMBNAIL_MAX_DIMENSION = 640;
 
-    private ImageView mPhotoImgView;
-    private FloatingActionButton mSubmitFab;
+    @BindView(R.id.create_recipe_collapsing_toolbar_layout) CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @BindView(R.id.create_recipe_toolbar) Toolbar mToolbar;
+    @BindView(R.id.create_recipe_image_view_image) ImageView mPhotoImageView;
+    @BindView(R.id.create_recipe_edit_text_title) EditText mTitleEditText;
+    @BindView(R.id.create_recipe_switch_progress) Switch mProgressSwitch;
+    @BindView(R.id.create_recipe_edit_text_time) EditText mTimeEditText;
+    @BindView(R.id.create_recipe_edit_text_servings) EditText mServingsEditText;
+    @BindView(R.id.create_recipe_linear_layout_ingredients_list) LinearLayout mIngredientsLinearLayout;
+    @BindView(R.id.create_recipe_linear_layout_steps_list) LinearLayout mStepsLinearLayout;
+    @BindView(R.id.create_recipe_floating_action_button_submit) FloatingActionButton mSubmitFab;
 
     private Uri mFileUri;
     private Bitmap mResizedBitmap;
@@ -66,10 +79,10 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_recipe);
+        ButterKnife.bind(this);
 
-        // Initialize & setup Toolbar.
-        Toolbar toolbar = (Toolbar) findViewById(R.id.create_recipe_toolbar);
-        setSupportActionBar(toolbar);
+        // Setup Toolbar.
+        setSupportActionBar(mToolbar);
 
         // Find the retained fragment on activity restarts.
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -81,17 +94,14 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
             fragmentManager.beginTransaction().add(mUploadTaskFragment, CreateRecipeUploadTaskFragment.TAG).commit();
         }
 
-        // Initialize views.
-        mPhotoImgView = (ImageView) findViewById(R.id.create_recipe_image_view_image);
-        mSubmitFab = (FloatingActionButton) findViewById(R.id.create_recipe_floating_action_button_submit);
-
         // Set click listeners.
-        mPhotoImgView.setOnClickListener(this);
+        mCollapsingToolbarLayout.setOnClickListener(this);
+        mToolbar.setOnClickListener(this);
         mSubmitFab.setOnClickListener(this);
 
         Bitmap selectedBitmap = mUploadTaskFragment.getSelectedBitmap();
         if (selectedBitmap != null) {
-            mPhotoImgView.setImageBitmap(selectedBitmap);
+            mPhotoImageView.setImageBitmap(selectedBitmap);
             mResizedBitmap = selectedBitmap;
         }
 
@@ -135,7 +145,8 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.create_recipe_image_view_image:
+            case R.id.create_recipe_collapsing_toolbar_layout:
+            case R.id.create_recipe_toolbar:
                 pickImage();
                 break;
             case R.id.create_recipe_floating_action_button_submit:
@@ -224,7 +235,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
             mThumbnailBitmap = resizedBitmap;
         } else if (maxDimension == FULL_SIZE_MAX_DIMENSION) {
             mResizedBitmap = resizedBitmap;
-            mPhotoImgView.setImageBitmap(mResizedBitmap);
+            mPhotoImageView.setImageBitmap(mResizedBitmap);
         }
 
         if (mThumbnailBitmap != null && mResizedBitmap != null) {

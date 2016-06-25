@@ -14,18 +14,18 @@
             android:id="@+id/create_recipe_collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:collapsedTitleTextAppearance="@style/DetailsToolbar"
+            app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutAppearance"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="72dp"
-            app:expandedTitleTextAppearance="@style/DetailsToolbar"
+            app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutAppearance"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/create_recipe_image_view_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
                 android:layout_gravity="center"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_camera_alt_48dp"
                 android:transitionName="test"
                 app:layout_collapseMode="parallax" />

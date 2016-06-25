@@ -67,12 +67,12 @@
 
     <style name="CollapsingToolbarLayoutAppearance">
         <item name="android:textSize">@dimen/medium_text_size</item>
-        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textColor">#FFFFFFFF</item>
     </style>
 
     <style name="DetailsToolbar">
         <item name="android:textSize">@dimen/medium_text_size</item>
-        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textColor">#FFFFFFFF</item>
     </style>
 
 </resources>
