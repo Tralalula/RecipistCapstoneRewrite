@@ -46,6 +46,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.7.3'
     compile 'pub.devrel:easypermissions:0.1.7'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jmedeisis:draglinearlayout:1.1.0'
     compile 'com.jakewharton:butterknife:8.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
 }

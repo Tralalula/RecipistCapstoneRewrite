@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/create_ingredients_coordinator_layout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/create_ingredients_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:gravity="start"
+            app:navigationIcon="@drawable/ic_close_alt_24dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@color/textPrimary" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.jmedeisis.draglinearlayout.DragLinearLayout
+                    android:id="@+id/create_ingredients_drag_linear_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="26dp"
+                    android:orientation="vertical" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/create_ingredients_app_compat_button_add_ingredient"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/create_ingredients_drag_linear_layout"
+                    android:layout_marginEnd="26dp"
+                    android:layout_marginStart="26dp"
+                    android:text="Add Ingredient"
+                    android:textColor="@color/textPrimary"
+                    android:textSize="@dimen/standard_text_size" />
+
+            </RelativeLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/create_ingredients_floating_action_button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/standard_margin"
+        android:src="@drawable/ic_complete_alt_24dp" />
+
+</android.support.design.widget.CoordinatorLayout>

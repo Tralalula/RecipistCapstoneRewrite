@@ -49,7 +49,15 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
     private String mBitmapPath;
     private String mThumbnailPath;
 
-    public UploadRecipeTask(Context context, TaskCallback callback, Bitmap bitmap, String inBitmapPath, Bitmap thumbnail, String inThumbnailPath, String inFileName) {
+    private String mTitle;
+    private int mProgress;
+    private String mTime;
+    private String mServings;
+
+    public UploadRecipeTask(Context context, TaskCallback callback,
+                            Bitmap bitmap, String inBitmapPath,
+                            Bitmap thumbnail, String inThumbnailPath, String inFileName,
+                            String title, int progress, String time, String servings) {
         mContext = context;
         mCallback = callback;
 
@@ -59,6 +67,11 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
         mFileName = inFileName;
         mBitmapPath = inBitmapPath;
         mThumbnailPath = inThumbnailPath;
+
+        mTitle = title;
+        mProgress = progress;
+        mTime = time;
+        mServings = servings;
     }
 
     @Override
@@ -128,10 +141,10 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                                 fullSizeRef.toString(),
                                 thumbnailUrl.toString(),
                                 thumbnailRef.toString(),
-                                "Pew Pew Boomerang",
-                                1,
-                                "Time test",
-                                "Servings test",
+                                mTitle,
+                                mProgress,
+                                mTime,
+                                mServings,
                                 ingredients,
                                 steps,
                                 newRecipeKey

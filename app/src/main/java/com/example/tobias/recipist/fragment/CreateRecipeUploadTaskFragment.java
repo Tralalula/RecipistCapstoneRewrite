@@ -73,7 +73,10 @@ public class CreateRecipeUploadTaskFragment extends Fragment {
         task.execute(uri);
     }
 
-    public void uploadRecipe(Bitmap bitmap, String inBitmapPath, Bitmap thumbnail, String inThumbnailPath, String inFileName) {
+    public void uploadRecipe(Bitmap bitmap, String inBitmapPath,
+                             Bitmap thumbnail, String inThumbnailPath,
+                             String inFileName,
+                             String title, int progress, String time, String servings) {
         UploadRecipeTask task = new UploadRecipeTask(
                 mContext,
                 mCallback,
@@ -81,7 +84,11 @@ public class CreateRecipeUploadTaskFragment extends Fragment {
                 inBitmapPath,
                 thumbnail,
                 inThumbnailPath,
-                inFileName
+                inFileName,
+                title,
+                progress,
+                time,
+                servings
         );
 
         task.execute();

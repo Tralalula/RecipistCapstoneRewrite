@@ -5,10 +5,12 @@ package com.example.tobias.recipist.activity.recipe;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -20,19 +22,24 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.BaseActivity;
 import com.example.tobias.recipist.callback.TaskCallback;
 import com.example.tobias.recipist.fragment.CreateRecipeUploadTaskFragment;
+import com.example.tobias.recipist.model.Ingredients;
+import com.example.tobias.recipist.model.Steps;
 import com.example.tobias.recipist.util.FirebaseUtil;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -47,6 +54,10 @@ import pub.devrel.easypermissions.EasyPermissions;
  */
 public class CreateRecipeActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks, TaskCallback, View.OnClickListener {
     public static String TAG = CreateRecipeActivity.class.getSimpleName();
+
+    public static final String KEY_CREATE_RECIPE = "CREATE_RECIPE";
+    public static final String KEY_EDIT_RECIPE = "EDIT RECIPE";
+    public static final String KEY_RECIPE_FIREBASE_KEY = "RECIPE FIREBASE KEY";
 
     private static final String[] cameraPermissions = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -65,15 +76,22 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     @BindView(R.id.create_recipe_switch_progress) Switch mProgressSwitch;
     @BindView(R.id.create_recipe_edit_text_time) EditText mTimeEditText;
     @BindView(R.id.create_recipe_edit_text_servings) EditText mServingsEditText;
+    @BindView(R.id.create_recipe_button_edit_ingredients) Button mEditIngredientsBtn;
     @BindView(R.id.create_recipe_linear_layout_ingredients_list) LinearLayout mIngredientsLinearLayout;
+    @BindView(R.id.create_recipe_button_edit_steps) Button mEditStepsBtn;
     @BindView(R.id.create_recipe_linear_layout_steps_list) LinearLayout mStepsLinearLayout;
     @BindView(R.id.create_recipe_floating_action_button_submit) FloatingActionButton mSubmitFab;
+
+    private ArrayList<Ingredients.Ingredient> mIngredients;
+    private ArrayList<Steps.Step> mSteps;
 
     private Uri mFileUri;
     private Bitmap mResizedBitmap;
     private Bitmap mThumbnailBitmap;
 
     private CreateRecipeUploadTaskFragment mUploadTaskFragment;
+
+    private boolean mEditing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +116,13 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         mCollapsingToolbarLayout.setOnClickListener(this);
         mToolbar.setOnClickListener(this);
         mSubmitFab.setOnClickListener(this);
+        mEditIngredientsBtn.setOnClickListener(this);
+        mEditStepsBtn.setOnClickListener(this);
+
+        if (mIngredients == null) {
+            mIngredients = new ArrayList<>();
+            updateIngredients();
+        }
 
         Bitmap selectedBitmap = mUploadTaskFragment.getSelectedBitmap();
         if (selectedBitmap != null) {
@@ -122,22 +147,28 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE_PICK_IMAGE) {
-            if (resultCode == Activity.RESULT_OK) {
-                boolean isCamera;
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            switch (requestCode) {
+                case REQUEST_CODE_PICK_IMAGE:
+                    boolean isCamera;
 
-                if (data == null) {
-                    isCamera = true;
-                } else {
-                    isCamera = MediaStore.ACTION_IMAGE_CAPTURE.equals(data.getAction());
-                }
+                    if (data == null) {
+                        isCamera = true;
+                    } else {
+                        isCamera = MediaStore.ACTION_IMAGE_CAPTURE.equals(data.getAction());
+                    }
 
-                if (!isCamera) mFileUri = data.getData();
+                    if (!isCamera) mFileUri = data.getData();
 
-                Log.d(TAG, "Received file uri: " + mFileUri.getPath());
+                    Log.d(TAG, "Received file uri: " + mFileUri.getPath());
 
-                mUploadTaskFragment.resizeBitmap(mFileUri, THUMBNAIL_MAX_DIMENSION);
-                mUploadTaskFragment.resizeBitmap(mFileUri, FULL_SIZE_MAX_DIMENSION);
+                    mUploadTaskFragment.resizeBitmap(mFileUri, THUMBNAIL_MAX_DIMENSION);
+                    mUploadTaskFragment.resizeBitmap(mFileUri, FULL_SIZE_MAX_DIMENSION);
+                    break;
+                case CreateIngredientsActivity.REQUEST_CODE_INGREDIENTS:
+                    mIngredients = data.getParcelableArrayListExtra(CreateIngredientsActivity.KEY_INGREDIENTS);
+                    updateIngredients();
+                    break;
             }
         }
     }
@@ -147,16 +178,40 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         switch (view.getId()) {
             case R.id.create_recipe_collapsing_toolbar_layout:
             case R.id.create_recipe_toolbar:
-                pickImage();
+                selectImage();
                 break;
             case R.id.create_recipe_floating_action_button_submit:
                 submitRecipe();
                 break;
+            case R.id.create_recipe_button_edit_ingredients:
+                editIngredients();
+                break;
+            case R.id.create_recipe_button_edit_steps:
+//                editSteps();
+                break;
         }
     }
 
+    private void updateIngredients() {
+        mIngredientsLinearLayout.removeAllViews();
+        if (mIngredients == null || mIngredients.isEmpty()) {
+            addToLinearLayout(this, mIngredientsLinearLayout, "No ingredients added yet..", Typeface.NORMAL);
+        } else {
+            for (Ingredients.Ingredient ingredient : mIngredients) {
+                addToLinearLayout(this, mIngredientsLinearLayout, ingredient.ingredient, Typeface.NORMAL);
+            }
+        }
+    }
+
+    private void addToLinearLayout(Context context, LinearLayout linearLayout, String text, int typeface) {
+        TextView textView = new TextView(context);
+        textView.setText(text);
+        textView.setTypeface(null, typeface);
+        linearLayout.addView(textView);
+    }
+
     @AfterPermissionGranted(REQUEST_CODE_CAMERA_PERMISSIONS)
-    private void pickImage() {
+    private void selectImage() {
         // Check for camera permissions.
         if (!EasyPermissions.hasPermissions(this, cameraPermissions)) {
             EasyPermissions.requestPermissions(this,
@@ -212,13 +267,30 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
 
         String bitmapPath = "/" + FirebaseUtil.getCurrentUserId() + "/full/" + timestamp.toString() + "/";
         String thumbnailPath = "/" + FirebaseUtil.getCurrentUserId() + "/thumb/" + timestamp.toString() + "/";
+
+        String title = mTitleEditText.getText().toString();
+        int progress = 0;
+        if (mProgressSwitch.isChecked()) progress = 1;
+        String time = mTimeEditText.getText().toString();
+        String servings = mServingsEditText.getText().toString();
+
         mUploadTaskFragment.uploadRecipe(
                 mResizedBitmap,
                 bitmapPath,
                 mThumbnailBitmap,
                 thumbnailPath,
-                mFileUri.getLastPathSegment()
+                mFileUri.getLastPathSegment(),
+                title,
+                progress,
+                time,
+                servings
         );
+    }
+
+    private void editIngredients() {
+        Intent data = new Intent(this, CreateIngredientsActivity.class);
+        data.putParcelableArrayListExtra(CreateIngredientsActivity.KEY_INGREDIENTS, mIngredients);
+        startActivityForResult(data, CreateIngredientsActivity.REQUEST_CODE_INGREDIENTS);
     }
 
     @Override
