@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.recipe.CreateRecipeActivity">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/create_recipe_app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="192dp"
         android:background="?colorPrimary">
@@ -15,31 +14,30 @@
             android:id="@+id/create_recipe_collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutAppearance"
+            app:collapsedTitleTextAppearance="@style/DetailsToolbar"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="72dp"
-            app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutAppearance"
+            app:expandedTitleTextAppearance="@style/DetailsToolbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/create_recipe_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_left_alt_24dp"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <ImageView
                 android:id="@+id/create_recipe_image_view_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:scaleType="centerCrop"
+                android:layout_gravity="center"
                 android:src="@drawable/ic_camera_alt_48dp"
                 android:transitionName="test"
                 app:layout_collapseMode="parallax" />
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/create_recipe_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:contentInsetStart="72dp"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_left_alt_24dp" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
