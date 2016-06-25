@@ -38,6 +38,8 @@
                 android:value=".activity.recipe.CreateRecipeActivity" />
         </activity>
 
+        <activity android:name=".activity.recipe.ViewRecipeActivity" />
+
         <provider
             android:name=".data.RecipistProvider"
             android:authorities="@string/content_authority"

@@ -1,5 +1,6 @@
 package com.example.tobias.recipist.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tobias.recipist.R;
+import com.example.tobias.recipist.activity.recipe.ViewRecipeActivity;
 import com.example.tobias.recipist.model.Recipe;
 import com.example.tobias.recipist.util.FirebaseUtil;
+import com.example.tobias.recipist.util.Util;
 import com.example.tobias.recipist.viewholder.RecipeViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -115,6 +118,9 @@ public class RecipesFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Log.d(TAG, "handleOverviewLayout: populateViewHolder: onClick: recipeKey: " + recipeKey);
+                        Intent data = new Intent(getActivity(), ViewRecipeActivity.class);
+                        data.putExtra(ViewRecipeActivity.KEY_RECIPE_FIREBASE_KEY, recipeKey);
+                        startActivity(data);
                     }
                 });
 
@@ -139,6 +145,9 @@ public class RecipesFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
                             Log.d(TAG, "handleOverviewLayout: populateViewHolder: onClick: recipeKey: " + recipeKey);
+                            Intent data = new Intent(getActivity(), ViewRecipeActivity.class);
+                            data.putExtra(ViewRecipeActivity.KEY_RECIPE_FIREBASE_KEY, recipeKey);
+                            startActivity(data);
                         }
                     });
 

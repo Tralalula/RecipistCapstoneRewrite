@@ -2,11 +2,13 @@ package com.example.tobias.recipist.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.tobias.recipist.R;
 
@@ -29,6 +31,15 @@ public class Util {
         editText.setInputType(inputType);
         editText.setHint(hint);
         return editText;
+    }
+
+    public static TextView setupTextView(Context context, ViewGroup.LayoutParams layoutParams, String text, int textColor) {
+        TextView textView = new TextView(context);
+        textView.setLayoutParams(layoutParams);
+        textView.setText(text);
+        textView.setTextColor(textColor);
+
+        return textView;
     }
 
     public static void addView(ViewGroup parent, View child) {
@@ -56,5 +67,9 @@ public class Util {
 
     public static boolean isEditTextEmpty(EditText editText) {
         return editText.getText().toString().trim().length() == 0;
+    }
+
+    public static boolean isNullOrEmpty(String string) {
+        return (string == null || TextUtils.isEmpty(string));
     }
 }
