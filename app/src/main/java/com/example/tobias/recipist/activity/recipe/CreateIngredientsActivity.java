@@ -48,7 +48,6 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
     @BindView(R.id.create_ingredients_floating_action_button_save) FloatingActionButton mSaveFab;
 
     private boolean mSorting;
-    private boolean mSortingSavedSate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +58,7 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
         // Setup Toolbar.
         setSupportActionBar(mToolbar);
 
-        if (!mSortingSavedSate) mSorting = false; // Ingredients shouldn't be sortable at start.
+        mSorting = savedInstanceState != null && savedInstanceState.getBoolean(KEY_SORTING);
 
         // Set click listeners.
         mAddIngredientsBtn.setOnClickListener(this);
@@ -69,9 +68,8 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
         if (data != null) {
             ArrayList<Ingredients.Ingredient> ingredients = data.getParcelableArrayListExtra(KEY_INGREDIENTS);
             setupIngredients(ingredients);
+            handleIngredients();
         }
-
-        handleIngredients();
     }
 
     @Override
@@ -86,9 +84,6 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
                 Util.addView(mIngredientsDll, editText);
             }
         }
-
-        mSorting = savedInstanceState.getBoolean(KEY_SORTING);
-        mSortingSavedSate = savedInstanceState.getBoolean(KEY_SORTING_SAVED_STATE);
         handleIngredients();
     }
 
@@ -103,8 +98,6 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
         outState.putSerializable(KEY_EDITTEXTS, editTexts);
         outState.putBoolean(KEY_SORTING, mSorting);
 
-        outState.putBoolean(KEY_SORTING_SAVED_STATE, true);
-
         super.onSaveInstanceState(outState);
     }
 
@@ -112,7 +105,7 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.create_ingredients, menu);
         mMenu = menu;
-
+        setIcon();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -120,7 +113,8 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.create_ingredients_action_sort:
-                changeMode();
+                mSorting = !mSorting;
+                setIcon();
                 handleIngredients();
                 return true;
             case Util.TOOLBAR_NAVIGATION_ICON_CLICK_ID:
@@ -197,13 +191,11 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
         }
     }
 
-    private void changeMode() {
+    private void setIcon() {
         if (mSorting) {
-            mMenu.getItem(0).setIcon(getDrawable(R.drawable.ic_sort_black_24dp));
-            mSorting = false;
-        } else {
             mMenu.getItem(0).setIcon(getDrawable(R.drawable.ic_check_white_24dp));
-            mSorting = true;
+        } else {
+            mMenu.getItem(0).setIcon(getDrawable(R.drawable.ic_sort_black_24dp));
         }
     }
 
