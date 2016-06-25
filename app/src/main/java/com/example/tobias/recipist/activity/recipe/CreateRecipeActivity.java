@@ -71,7 +71,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private static final int REQUEST_CODE_CAMERA_PERMISSIONS = 102;
 
     private static final int FULL_SIZE_MAX_DIMENSION = 1280;
-    private static final int THUMBNAIL_MAX_DIMENSION = 640;
+    private static final int THUMBNAIL_MAX_DIMENSION = 120;
 
     @BindView(R.id.create_recipe_collapsing_toolbar_layout) CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.create_recipe_toolbar) Toolbar mToolbar;
