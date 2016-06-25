@@ -31,7 +31,7 @@
             android:label="@string/app_name" />
 
         <activity
-            android:name=".activity.recipe.CreateIngredientsActivity"
+            android:name=".activity.recipe.CreateRecipeItemsActivity"
             android:parentActivityName=".activity.recipe.CreateRecipeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

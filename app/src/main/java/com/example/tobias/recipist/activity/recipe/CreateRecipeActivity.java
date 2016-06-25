@@ -39,7 +39,6 @@ import com.example.tobias.recipist.model.Steps;
 import com.example.tobias.recipist.util.FirebaseUtil;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -124,6 +123,11 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
             updateIngredients();
         }
 
+        if (mSteps == null) {
+            mSteps = new ArrayList<>();
+            updateSteps();
+        }
+
         Bitmap selectedBitmap = mUploadTaskFragment.getSelectedBitmap();
         if (selectedBitmap != null) {
             mPhotoImageView.setImageBitmap(selectedBitmap);
@@ -165,9 +169,13 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                     mUploadTaskFragment.resizeBitmap(mFileUri, THUMBNAIL_MAX_DIMENSION);
                     mUploadTaskFragment.resizeBitmap(mFileUri, FULL_SIZE_MAX_DIMENSION);
                     break;
-                case CreateIngredientsActivity.REQUEST_CODE_INGREDIENTS:
-                    mIngredients = data.getParcelableArrayListExtra(CreateIngredientsActivity.KEY_INGREDIENTS);
+                case CreateRecipeItemsActivity.REQUEST_CODE_INGREDIENTS:
+                    mIngredients = data.getParcelableArrayListExtra(CreateRecipeItemsActivity.KEY_INGREDIENTS);
                     updateIngredients();
+                    break;
+                case CreateRecipeItemsActivity.REQUEST_CODE_STEPS:
+                    mSteps = data.getParcelableArrayListExtra(CreateRecipeItemsActivity.KEY_STEPS);
+                    updateSteps();
                     break;
             }
         }
@@ -187,7 +195,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                 editIngredients();
                 break;
             case R.id.create_recipe_button_edit_steps:
-//                editSteps();
+                editSteps();
                 break;
         }
     }
@@ -199,6 +207,17 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         } else {
             for (Ingredients.Ingredient ingredient : mIngredients) {
                 addToLinearLayout(this, mIngredientsLinearLayout, ingredient.ingredient, Typeface.NORMAL);
+            }
+        }
+    }
+
+    private void updateSteps() {
+        mStepsLinearLayout.removeAllViews();
+        if (mSteps == null || mSteps.isEmpty()) {
+            addToLinearLayout(this, mStepsLinearLayout, "No steps added yet..", Typeface.NORMAL);
+        } else {
+            for (Steps.Step step : mSteps) {
+                addToLinearLayout(this, mStepsLinearLayout, step.method, Typeface.NORMAL);
             }
         }
     }
@@ -288,9 +307,17 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     }
 
     private void editIngredients() {
-        Intent data = new Intent(this, CreateIngredientsActivity.class);
-        data.putParcelableArrayListExtra(CreateIngredientsActivity.KEY_INGREDIENTS, mIngredients);
-        startActivityForResult(data, CreateIngredientsActivity.REQUEST_CODE_INGREDIENTS);
+        Intent data = new Intent(this, CreateRecipeItemsActivity.class);
+        data.putExtra(CreateRecipeItemsActivity.KEY_TYPE, CreateRecipeItemsActivity.TYPE_INGREDIENTS);
+        data.putParcelableArrayListExtra(CreateRecipeItemsActivity.KEY_INGREDIENTS, mIngredients);
+        startActivityForResult(data, CreateRecipeItemsActivity.REQUEST_CODE_INGREDIENTS);
+    }
+
+    private void editSteps() {
+        Intent data = new Intent(this, CreateRecipeItemsActivity.class);
+        data.putExtra(CreateRecipeItemsActivity.KEY_TYPE, CreateRecipeItemsActivity.TYPE_STEPS);
+        data.putParcelableArrayListExtra(CreateRecipeItemsActivity.KEY_STEPS, mSteps);
+        startActivityForResult(data, CreateRecipeItemsActivity.REQUEST_CODE_STEPS);
     }
 
     @Override

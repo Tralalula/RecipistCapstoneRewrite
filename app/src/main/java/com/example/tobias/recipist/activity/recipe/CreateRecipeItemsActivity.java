@@ -16,10 +16,12 @@ import android.widget.EditText;
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.BaseActivity;
 import com.example.tobias.recipist.model.Ingredients;
+import com.example.tobias.recipist.model.Steps;
 import com.example.tobias.recipist.util.Util;
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,32 +29,41 @@ import butterknife.ButterKnife;
 /**
  * Created by Tobias on 25-06-2016.
  */
-public class CreateIngredientsActivity extends BaseActivity implements View.OnClickListener {
-    public static final String TAG = CreateIngredientsActivity.class.getSimpleName();
+public class CreateRecipeItemsActivity extends BaseActivity implements View.OnClickListener {
+    public static final String TAG = CreateRecipeItemsActivity.class.getSimpleName();
+
+    public static final String TYPE_INGREDIENTS = "TYPE INGREDIENTS";
+    public static final String TYPE_STEPS = "TYPE STEPS";
 
     public static final String KEY_INGREDIENTS = "INGREDIENTS";
+    public static final String KEY_STEPS = "STEPS";
     public static final String KEY_EDITTEXTS = "EDITTEXTS";
     public static final String KEY_SORTING = "SORTING";
-    public static final String KEY_SORTING_SAVED_STATE = "SORTING SAVED STATE";
+    public static final String KEY_TYPE = "TYPE";
 
     public static final int REQUEST_CODE_INGREDIENTS = 2357;
+    public static final int REQUEST_CODE_STEPS = 1113;
 
     private ArrayList<Ingredients.Ingredient> mOldIngredients = new ArrayList<>();
     private ArrayList<Ingredients.Ingredient> mNewIngredients = new ArrayList<>();
 
+    private ArrayList<Steps.Step> mOldSteps = new ArrayList<>();
+    private ArrayList<Steps.Step> mNewSteps = new ArrayList<>();
+
     private Menu mMenu;
 
-    @BindView(R.id.create_ingredients_toolbar) Toolbar mToolbar;
-    @BindView(R.id.create_ingredients_drag_linear_layout) DragLinearLayout mIngredientsDll;
-    @BindView(R.id.create_ingredients_app_compat_button_add_ingredient) Button mAddIngredientsBtn;
-    @BindView(R.id.create_ingredients_floating_action_button_save) FloatingActionButton mSaveFab;
+    @BindView(R.id.create_recipe_items_toolbar) Toolbar mToolbar;
+    @BindView(R.id.create_recipe_items_drag_linear_layout) DragLinearLayout mItemsDll;
+    @BindView(R.id.create_recipe_items_button_add_item) Button mAddItemBtn;
+    @BindView(R.id.create_recipe_items_floating_action_button_save) FloatingActionButton mSaveFab;
 
     private boolean mSorting;
+    private String mCurrentType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_ingredients);
+        setContentView(R.layout.activity_create_recipe_items);
         ButterKnife.bind(this);
 
         // Setup Toolbar.
@@ -61,14 +72,21 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
         mSorting = savedInstanceState != null && savedInstanceState.getBoolean(KEY_SORTING);
 
         // Set click listeners.
-        mAddIngredientsBtn.setOnClickListener(this);
+        mAddItemBtn.setOnClickListener(this);
         mSaveFab.setOnClickListener(this);
 
         Intent data = getIntent();
         if (data != null) {
-            ArrayList<Ingredients.Ingredient> ingredients = data.getParcelableArrayListExtra(KEY_INGREDIENTS);
-            setupIngredients(ingredients);
-            handleIngredients();
+            mCurrentType = data.getStringExtra(CreateRecipeItemsActivity.KEY_TYPE);
+
+            if (Objects.equals(mCurrentType, TYPE_INGREDIENTS)) {
+                ArrayList<Ingredients.Ingredient> ingredients = data.getParcelableArrayListExtra(KEY_INGREDIENTS);
+                setupIngredients(ingredients);
+            } else if (Objects.equals(mCurrentType, TYPE_STEPS)) {
+                ArrayList<Steps.Step> steps = data.getParcelableArrayListExtra(KEY_STEPS);
+                setupSteps(steps);
+            }
+            handleItems();
         }
     }
 
@@ -77,22 +95,22 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
         super.onRestoreInstanceState(savedInstanceState);
 
         ArrayList<EditText> editTexts = (ArrayList<EditText>) savedInstanceState.getSerializable(KEY_EDITTEXTS);
-        mIngredientsDll.removeAllViews();
+        mItemsDll.removeAllViews();
         if (editTexts != null) {
             for (EditText editText : editTexts) {
                 ((ViewGroup) editText.getParent()).removeView(editText);
-                Util.addView(mIngredientsDll, editText);
+                Util.addView(mItemsDll, editText);
             }
         }
-        handleIngredients();
+        handleItems();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         ArrayList<EditText> editTexts = new ArrayList<>();
-        int count = mIngredientsDll.getChildCount();
+        int count = mItemsDll.getChildCount();
         for (int i = 0; i < count; i++) {
-            View child = mIngredientsDll.getChildAt(i);
+            View child = mItemsDll.getChildAt(i);
             editTexts.add((EditText) child);
         }
         outState.putSerializable(KEY_EDITTEXTS, editTexts);
@@ -103,7 +121,7 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.create_ingredients, menu);
+        getMenuInflater().inflate(R.menu.create_recipe_items, menu);
         mMenu = menu;
         setIcon();
         return super.onCreateOptionsMenu(menu);
@@ -112,10 +130,10 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.create_ingredients_action_sort:
+            case R.id.create_recipe_items_action_sort:
                 mSorting = !mSorting;
                 setIcon();
-                handleIngredients();
+                handleItems();
                 return true;
             case Util.TOOLBAR_NAVIGATION_ICON_CLICK_ID:
                 onBackPressed();
@@ -128,12 +146,13 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.create_ingredients_app_compat_button_add_ingredient:
+            case R.id.create_recipe_items_button_add_item:
                 addEmptyEditTextToDragLinearLayout();
-                handleIngredients();
+                handleItems();
                 break;
-            case R.id.create_ingredients_floating_action_button_save:
-                saveIngredients();
+            case R.id.create_recipe_items_floating_action_button_save:
+                if (Objects.equals(mCurrentType, TYPE_INGREDIENTS)) saveIngredients();
+                else if (Objects.equals(mCurrentType, TYPE_STEPS)) saveSteps();
                 break;
         }
     }
@@ -150,15 +169,32 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
         Intent data = new Intent();
         mNewIngredients = new ArrayList<>();
 
-        int count = mIngredientsDll.getChildCount();
+        int count = mItemsDll.getChildCount();
         for (int i = 0; i < count; i++) {
-            EditText child = (EditText) mIngredientsDll.getChildAt(i);
+            EditText child = (EditText) mItemsDll.getChildAt(i);
             if (!Util.isEditTextEmpty(child)) {
                 mNewIngredients.add(new Ingredients.Ingredient(child.getText().toString()));
             }
         }
 
         data.putParcelableArrayListExtra(KEY_INGREDIENTS, mNewIngredients);
+        setResult(Activity.RESULT_OK, data);
+        finish();
+    }
+
+    private void saveSteps() {
+        Intent data = new Intent();
+        mNewSteps = new ArrayList<>();
+
+        int count = mItemsDll.getChildCount();
+        for (int i = 0; i < count; i++) {
+            EditText child = (EditText) mItemsDll.getChildAt(i);
+            if (!Util.isEditTextEmpty(child)) {
+                mNewSteps.add(new Steps.Step(child.getText().toString()));
+            }
+        }
+
+        data.putParcelableArrayListExtra(KEY_STEPS, mNewSteps);
         setResult(Activity.RESULT_OK, data);
         finish();
     }
@@ -175,18 +211,30 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
         }
     }
 
-    private void handleIngredients() {
-        int count = mIngredientsDll.getChildCount();
+    private void setupSteps(ArrayList<Steps.Step> steps) {
+        if (!steps.isEmpty()) {
+            // Store received steps, in case user decides not to change steps anyways.
+            mOldSteps = steps;
+            for (Steps.Step step : steps) {
+                addEditTextToDragLinearLayout(step.method);
+            }
+        } else {
+            addEmptyEditTextToDragLinearLayout();
+        }
+    }
+
+    private void handleItems() {
+        int count = mItemsDll.getChildCount();
         for (int i = 0; i < count; i++) {
-            View child = mIngredientsDll.getChildAt(i);
+            View child = mItemsDll.getChildAt(i);
             EditText editText = (EditText) child;
 
             if (mSorting) {
                 Util.addDrawableToTheRight(editText, getDrawable(R.drawable.ic_swap_vertical_black_24dp));
-                mIngredientsDll.setViewDraggable(child, child);
+                mItemsDll.setViewDraggable(child, child);
             } else {
                 Util.addDrawableToTheRight(editText, getDrawable(R.drawable.ic_delete_black_24dp));
-                Util.makeChildDeletableByClickingOnRightDrawalbe(mIngredientsDll, editText);
+                Util.makeChildDeletableByClickingOnRightDrawalbe(mItemsDll, editText);
             }
         }
     }
@@ -210,10 +258,10 @@ public class CreateIngredientsActivity extends BaseActivity implements View.OnCl
                 text,
                 1,
                 InputType.TYPE_CLASS_TEXT,
-                "Hinty Hint"
+                mCurrentType
         );
 
-        Util.addView(mIngredientsDll, editText);
+        Util.addView(mItemsDll, editText);
     }
 
     private void addEmptyEditTextToDragLinearLayout() {

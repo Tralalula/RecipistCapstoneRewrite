@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/create_ingredients_coordinator_layout_main"
+    android:id="@+id/create_recipe_items_coordinator_layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/create_ingredients_toolbar"
+            android:id="@+id/create_recipe_items_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
@@ -31,17 +31,17 @@
                 android:layout_height="wrap_content">
 
                 <com.jmedeisis.draglinearlayout.DragLinearLayout
-                    android:id="@+id/create_ingredients_drag_linear_layout"
+                    android:id="@+id/create_recipe_items_drag_linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="26dp"
                     android:orientation="vertical" />
 
                 <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/create_ingredients_app_compat_button_add_ingredient"
+                    android:id="@+id/create_recipe_items_button_add_item"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/create_ingredients_drag_linear_layout"
+                    android:layout_below="@id/create_recipe_items_drag_linear_layout"
                     android:layout_marginEnd="26dp"
                     android:layout_marginStart="26dp"
                     android:text="Add Ingredient"
@@ -53,7 +53,7 @@
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/create_ingredients_floating_action_button_save"
+        android:id="@+id/create_recipe_items_floating_action_button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
