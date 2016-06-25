@@ -45,10 +45,7 @@ public class CreateRecipeItemsActivity extends BaseActivity implements View.OnCl
     public static final int REQUEST_CODE_STEPS = 1113;
 
     private ArrayList<Ingredients.Ingredient> mOldIngredients = new ArrayList<>();
-    private ArrayList<Ingredients.Ingredient> mNewIngredients = new ArrayList<>();
-
     private ArrayList<Steps.Step> mOldSteps = new ArrayList<>();
-    private ArrayList<Steps.Step> mNewSteps = new ArrayList<>();
 
     private Menu mMenu;
 
@@ -160,14 +157,18 @@ public class CreateRecipeItemsActivity extends BaseActivity implements View.OnCl
     @Override
     public void onBackPressed() {
         Intent data = new Intent();
-        data.putParcelableArrayListExtra(KEY_INGREDIENTS, mOldIngredients);
+        if (Objects.equals(mCurrentType, TYPE_INGREDIENTS)) {
+            data.putParcelableArrayListExtra(KEY_INGREDIENTS, mOldIngredients);
+        } else if (Objects.equals(mCurrentType, TYPE_STEPS)) {
+            data.putParcelableArrayListExtra(KEY_STEPS, mOldSteps);
+        }
         setResult(Activity.RESULT_OK, data);
         super.onBackPressed();
     }
 
     private void saveIngredients() {
         Intent data = new Intent();
-        mNewIngredients = new ArrayList<>();
+        ArrayList<Ingredients.Ingredient> mNewIngredients = new ArrayList<>();
 
         int count = mItemsDll.getChildCount();
         for (int i = 0; i < count; i++) {
@@ -184,7 +185,7 @@ public class CreateRecipeItemsActivity extends BaseActivity implements View.OnCl
 
     private void saveSteps() {
         Intent data = new Intent();
-        mNewSteps = new ArrayList<>();
+        ArrayList<Steps.Step> mNewSteps = new ArrayList<>();
 
         int count = mItemsDll.getChildCount();
         for (int i = 0; i < count; i++) {

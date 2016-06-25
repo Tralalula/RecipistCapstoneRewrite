@@ -57,6 +57,11 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     public static final String KEY_CREATE_RECIPE = "CREATE_RECIPE";
     public static final String KEY_EDIT_RECIPE = "EDIT RECIPE";
     public static final String KEY_RECIPE_FIREBASE_KEY = "RECIPE FIREBASE KEY";
+    public static final String KEY_FILE_URI = "FILE URI";
+    public static final String KEY_RESIZED_BITMAP = "RESIZED BITMAP";
+    public static final String KEY_THUMBNAIL_BITMAP = "THUMBNAIL BITMAP";
+    public static final String KEY_SAVE_INGREDIENTS = "SAVE INGREDIENTS";
+    public static final String KEY_SAVE_STEPS = "SAVE STEPS";
 
     private static final String[] cameraPermissions = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -136,6 +141,33 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
 
         Bitmap thumbnail = mUploadTaskFragment.getThumbnail();
         if (thumbnail != null) mThumbnailBitmap = thumbnail;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+            mFileUri = savedInstanceState.getParcelable(KEY_FILE_URI);
+            mResizedBitmap = savedInstanceState.getParcelable(KEY_RESIZED_BITMAP);
+            mThumbnailBitmap = savedInstanceState.getParcelable(KEY_THUMBNAIL_BITMAP);
+            mIngredients = savedInstanceState.getParcelableArrayList(KEY_SAVE_INGREDIENTS);
+            mSteps = savedInstanceState.getParcelableArrayList(KEY_SAVE_STEPS);
+
+            if (mResizedBitmap != null) mPhotoImageView.setImageBitmap(mResizedBitmap);
+            updateIngredients();
+            updateSteps();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(KEY_FILE_URI, mFileUri);
+        outState.putParcelable(KEY_RESIZED_BITMAP, mResizedBitmap);
+        outState.putParcelable(KEY_THUMBNAIL_BITMAP, mThumbnailBitmap);
+        outState.putParcelableArrayList(KEY_SAVE_INGREDIENTS, mIngredients);
+        outState.putParcelableArrayList(KEY_SAVE_STEPS, mSteps);
+        super.onSaveInstanceState(outState);
+//        mPhotoImageView.setImageBitmap(mResizedBitmap);
     }
 
     @Override
