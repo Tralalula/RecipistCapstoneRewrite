@@ -14,10 +14,10 @@ import com.squareup.picasso.Picasso;
  * Created by Tobias on 24-06-2016.
  */
 public class RecipeViewHolder extends RecyclerView.ViewHolder {
-    private TextView mRecipeTitle;
-    private ImageView mRecipeThumbnail;
-    private TextView mRecipeProgress;
-    private TextView mRecipeTime;
+    public TextView mRecipeTitle;
+    public ImageView mRecipeThumbnail;
+    public TextView mRecipeProgress;
+    public TextView mRecipeTime;
 
     public RecipeViewHolder(View itemView) {
         super(itemView);

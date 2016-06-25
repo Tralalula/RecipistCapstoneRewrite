@@ -10,6 +10,7 @@ import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.auth.GoogleSignInActivity;
 import com.example.tobias.recipist.activity.recipe.CreateRecipeActivity;
 import com.example.tobias.recipist.adapter.MainPageAdapter;
+import com.example.tobias.recipist.fragment.LocalRecipesFragment;
 import com.example.tobias.recipist.fragment.RecipesFragment;
 import com.example.tobias.recipist.task.FetchMyRecipesTask;
 import com.example.tobias.recipist.util.FirebaseUtil;
@@ -35,6 +36,7 @@ public class MainActivity extends BaseActivity {
         mMainPageAdapter = new MainPageAdapter(getSupportFragmentManager());
         mMainPageAdapter.addFragment(RecipesFragment.newInstance(RecipesFragment.TYPE_OVERVIEW), "overview");
         mMainPageAdapter.addFragment(RecipesFragment.newInstance(RecipesFragment.TYPE_MY), "my recipes");
+        mMainPageAdapter.addFragment(new LocalRecipesFragment(), "local recipes");
 
         // Initialize views.
         mViewPager = (ViewPager) findViewById(R.id.main_view_pager);
@@ -45,13 +47,13 @@ public class MainActivity extends BaseActivity {
         mTabLayout.setupWithViewPager(mViewPager);
 
         new FetchMyRecipesTask(this).execute();
-
-        if (FirebaseUtil.getCurrentUser() != null) {
-            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
-            startActivity(intent);
-        }
+//
+//        if (FirebaseUtil.getCurrentUser() != null) {
+//            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
+//            startActivity(intent);
+//        } else {
+//            Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
+//            startActivity(intent);
+//        }
     }
 }
