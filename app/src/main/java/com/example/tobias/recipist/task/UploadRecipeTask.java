@@ -57,12 +57,16 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
     private ArrayList<Ingredients.Ingredient> mIngredients;
     private ArrayList<Steps.Step> mSteps;
 
+    private boolean mEditing;
+    private String mRecipeFirebaseKeyForEditing;
+
     public UploadRecipeTask(Context context, TaskCallback callback,
                             Bitmap bitmap, String inBitmapPath,
                             Bitmap thumbnail, String inThumbnailPath, String inFileName,
                             String title, int progress, String time, String servings,
                             ArrayList<Ingredients.Ingredient> ingredients,
-                            ArrayList<Steps.Step> steps) {
+                            ArrayList<Steps.Step> steps,
+                            boolean editing, String firebaseKeyForEditing) {
         mContext = context;
         mCallback = callback;
 
@@ -80,6 +84,9 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
 
         mIngredients = ingredients;
         mSteps = steps;
+
+        mEditing = editing;
+        mRecipeFirebaseKeyForEditing = firebaseKeyForEditing;
     }
 
     @Override
@@ -114,7 +121,9 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         final DatabaseReference reference = FirebaseUtil.getBaseRef();
                         DatabaseReference recipesRef = FirebaseUtil.getRecipesRef();
-                        final String newRecipeKey = recipesRef.push().getKey();
+                        String newRecipeKey;
+                        if (!mEditing) newRecipeKey = recipesRef.push().getKey();
+                        else newRecipeKey = mRecipeFirebaseKeyForEditing;
 
                         final Uri thumbnailUrl = taskSnapshot.getDownloadUrl();
                         Log.d(TAG, "doInBackground:fullSizeRef:onSuccess:thumbnailRef:onSuccess:thumbnailUrl: " + thumbnailUrl.toString());
@@ -143,7 +152,11 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
 
                         // Add recipe to local SQLite DB
                         RecipistDbHandler recipistDbHandler = new RecipistDbHandler(mContext);
-                        recipistDbHandler.addRecipeToDb(recipe, mIngredients, mSteps);
+                        if (mEditing) {
+                            recipistDbHandler.updateRecipeInDb(recipe, mIngredients, mSteps);
+                        } else {
+                            recipistDbHandler.addRecipeToDb(recipe, mIngredients, mSteps);
+                        }
 
                         Map<String, Object> updatedUserData = new HashMap<>();
                         updatedUserData.put(FirebaseUtil.getUsersPath() + author.getUid() + "/" + FirebaseUtil.getRecipesPath() + newRecipeKey, true);

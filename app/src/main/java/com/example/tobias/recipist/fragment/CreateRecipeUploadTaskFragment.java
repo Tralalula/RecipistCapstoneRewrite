@@ -82,7 +82,8 @@ public class CreateRecipeUploadTaskFragment extends Fragment {
                              String inFileName,
                              String title, int progress, String time, String servings,
                              ArrayList<Ingredients.Ingredient> ingredients,
-                             ArrayList<Steps.Step> steps) {
+                             ArrayList<Steps.Step> steps,
+                             boolean editing, String recipeFirebaseKeyForEditing) {
         UploadRecipeTask task = new UploadRecipeTask(
                 mContext,
                 mCallback,
@@ -96,7 +97,9 @@ public class CreateRecipeUploadTaskFragment extends Fragment {
                 time,
                 servings,
                 ingredients,
-                steps
+                steps,
+                editing,
+                recipeFirebaseKeyForEditing
         );
 
         task.execute();

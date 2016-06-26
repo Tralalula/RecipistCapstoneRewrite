@@ -2,7 +2,6 @@ package com.example.tobias.recipist.activity.recipe;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.BaseActivity;
 import com.example.tobias.recipist.data.RecipistContract;
-import com.example.tobias.recipist.loader.RecipeLoader;
 import com.example.tobias.recipist.model.Ingredients;
 import com.example.tobias.recipist.model.Recipe;
 import com.example.tobias.recipist.model.Steps;
@@ -158,9 +156,16 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.view_recipe_floating_action_button_edit:
-//                editRecipe();
+                editRecipe();
                 break;
         }
+    }
+
+    private void editRecipe() {
+        Intent data = new Intent(ViewRecipeActivity.this, CreateRecipeActivity.class);
+        data.putExtra(CreateRecipeActivity.KEY_EDIT_RECIPE, mRecipe);
+        data.putExtra(CreateRecipeActivity.KEY_RECIPE_FIREBASE_KEY, mRecipeFirebaseKey);
+        startActivity(data);
     }
 
     private void handleOfflineBinding() {

@@ -35,8 +35,11 @@ import com.example.tobias.recipist.activity.BaseActivity;
 import com.example.tobias.recipist.callback.TaskCallback;
 import com.example.tobias.recipist.fragment.CreateRecipeUploadTaskFragment;
 import com.example.tobias.recipist.model.Ingredients;
+import com.example.tobias.recipist.model.Recipe;
 import com.example.tobias.recipist.model.Steps;
 import com.example.tobias.recipist.util.FirebaseUtil;
+import com.example.tobias.recipist.util.Util;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -96,6 +99,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private CreateRecipeUploadTaskFragment mUploadTaskFragment;
 
     private boolean mEditing;
+    private String mRecipeFirebaseKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +118,15 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         if (mUploadTaskFragment == null) {
             mUploadTaskFragment = new CreateRecipeUploadTaskFragment();
             fragmentManager.beginTransaction().add(mUploadTaskFragment, CreateRecipeUploadTaskFragment.TAG).commit();
+        }
+
+        // Editing recipe
+        Intent data = getIntent();
+        Recipe recipe = data.getParcelableExtra(KEY_EDIT_RECIPE);
+        mRecipeFirebaseKey = data.getStringExtra(KEY_RECIPE_FIREBASE_KEY);
+        if (recipe != null && mRecipeFirebaseKey != null) {
+            mEditing = true;
+            editRecipe(recipe);
         }
 
         // Set click listeners.
@@ -141,6 +154,30 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
 
         Bitmap thumbnail = mUploadTaskFragment.getThumbnail();
         if (thumbnail != null) mThumbnailBitmap = thumbnail;
+    }
+
+    private void editRecipe(Recipe recipe) {
+        String imageUrl = recipe.fullSizeImageUrl;
+        String title = recipe.title;
+        boolean progress = false;
+        if (recipe.progress == 1) progress = true;
+        String time = recipe.time;
+        String servings = recipe.servings;
+
+        mIngredients = recipe.ingredients;
+        mSteps = recipe.steps;
+
+        Picasso.with(this)
+                .load(imageUrl)
+                .into(mPhotoImageView);
+
+        if (!Util.isNullOrEmpty(title)) mTitleEditText.setText(title);
+        mProgressSwitch.setChecked(progress);
+        if (!Util.isNullOrEmpty(time)) mTimeEditText.setText(time);
+        if (!Util.isNullOrEmpty(servings)) mServingsEditText.setText(servings);
+
+        updateIngredients();
+        updateSteps();
     }
 
     @Override
@@ -336,7 +373,9 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                 time,
                 servings,
                 mIngredients,
-                mSteps
+                mSteps,
+                mEditing,
+                mRecipeFirebaseKey
         );
     }
 

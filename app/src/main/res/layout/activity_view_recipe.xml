@@ -93,7 +93,7 @@
                 <TextView
                     android:id="@+id/view_recipe_text_view_ingredients_title"
                     style="@style/ThemeOverlay.StandardText"
-                    android:text="Ingredients PLACEHOLDER" />
+                    android:text="Ingredients" />
 
                 <LinearLayout
                     android:id="@+id/view_recipe_linear_layout_ingredients_list"
@@ -118,7 +118,7 @@
                 <TextView
                     android:id="@+id/view_recipe_text_view_steps_title"
                     style="@style/ThemeOverlay.StandardText"
-                    android:text="Steps PLACEHOLDER" />
+                    android:text="Steps" />
 
                 <LinearLayout
                     android:id="@+id/view_recipe_linear_layout_steps_list"

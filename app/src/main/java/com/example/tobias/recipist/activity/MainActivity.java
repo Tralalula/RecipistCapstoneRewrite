@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(mMainPageAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        new FetchMyRecipesTask(this).execute();
+//        new FetchMyRecipesTask(this).execute();
 //
 //        if (FirebaseUtil.getCurrentUser() != null) {
 //            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
