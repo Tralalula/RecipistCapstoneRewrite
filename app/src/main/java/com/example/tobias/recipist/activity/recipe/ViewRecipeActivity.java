@@ -2,8 +2,12 @@ package com.example.tobias.recipist.activity.recipe;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.BaseActivity;
+import com.example.tobias.recipist.data.RecipistContract;
 import com.example.tobias.recipist.loader.RecipeLoader;
 import com.example.tobias.recipist.model.Ingredients;
 import com.example.tobias.recipist.model.Recipe;
@@ -35,7 +40,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Tobias on 25-06-2016.
  */
-public class ViewRecipeActivity extends BaseActivity implements View.OnClickListener, android.app.LoaderManager.LoaderCallbacks {
+public class ViewRecipeActivity extends BaseActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
     public static final String TAG = ViewRecipeActivity.class.getSimpleName();
 
     public static final String TYPE_ONLINE = TAG + "TYPE ONLINE";
@@ -78,10 +83,11 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
         mCurrentType = data.getStringExtra(KEY_TYPE);
 
         mRecipeFirebaseKey = data.getStringExtra(KEY_RECIPE_FIREBASE_KEY);
+        Log.e(TAG, "mRecipeFirebaseKey = " + mRecipeFirebaseKey);
         if (Objects.equals(mCurrentType, TYPE_ONLINE)) {
             mRecipeRef = FirebaseUtil.getRecipesRef().child(mRecipeFirebaseKey);
         } else if (Objects.equals(mCurrentType, TYPE_OFFLINE)) {
-            getLoaderManager().initLoader(1, null, this);
+            getSupportLoaderManager().initLoader(0, null, this);
             mRecipeId = (long) data.getIntExtra(KEY_RECIPE_OFFLINE_ID, -1);
         }
 
@@ -163,7 +169,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
                     .load(mCursor.getString(Recipe.COL_FULL_SIZE_IMAGE_URL))
                     .into(mPhotoImgVw);
 
-            mTimeTxtVw.setText(mCursor.getString(Recipe.COL_TITLE));
+            mTitleTxtVw.setText(mCursor.getString(Recipe.COL_TITLE));
             String progress;
             if (mCursor.getInt(Recipe.COL_PROGRESS) == 0) progress = "In Progress";
             else progress = "Completed";
@@ -171,6 +177,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
             mTimeTxtVw.setText(mCursor.getString(Recipe.COL_TIME));
             mServingsTxtVw.setText(mCursor.getString(Recipe.COL_SERVINGS));
             mCursor.close();
+            mCursor = null;
         }
     }
 
@@ -217,27 +224,33 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
         addTextViewToLinearLayout(linearLayout, "");
     }
 
+
     @Override
-    public android.content.Loader onCreateLoader(int i, Bundle bundle) {
-        return RecipeLoader.newInstanceForRecipeId(this, mRecipeId);
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String selection = RecipistContract.RecipeEntry.COLUMN_FIREBASE_KEY + "=?";
+        String[] selectionArgs = {mRecipeFirebaseKey};
+
+        return new CursorLoader(
+                this,
+                RecipistContract.RecipeEntry.CONTENT_URI,
+                null,
+                selection,
+                selectionArgs,
+                null
+        );
     }
 
     @Override
-    public void onLoadFinished(android.content.Loader loader, Object o) {
-        mCursor = (Cursor) o;
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mCursor = data;
 
-        if (mCursor != null && !mCursor.moveToFirst()) {
-            Log.e(TAG, "Error reading recipe cursor");
-            mCursor.close();
-            mCursor = null;
+        if (mCursor != null && mCursor.moveToFirst()) {
+            handleOfflineBinding();
         }
-
-        handleOfflineBinding();
     }
 
     @Override
-    public void onLoaderReset(android.content.Loader loader) {
+    public void onLoaderReset(Loader<Cursor> loader) {
         mCursor = null;
-        handleOfflineBinding();
     }
 }

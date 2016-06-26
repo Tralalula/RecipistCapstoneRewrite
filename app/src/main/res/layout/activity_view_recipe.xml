@@ -55,13 +55,13 @@
                 android:id="@+id/view_recipe_text_view_title"
                 style="@style/ThemeOverlay.HeadingText"
                 android:layout_alignParentStart="true"
-                android:text="Title" />
+                android:text="Title PLACEHOLDER" />
 
             <TextView
                 android:id="@+id/view_recipe_text_view_progress"
                 style="@style/ThemeOverlay.StandardText"
                 android:layout_alignParentEnd="true"
-                android:text="Progress" />
+                android:text="Progress PLACEHOLDER" />
 
             <LinearLayout
                 android:id="@+id/view_recipe_linear_layout_time_and_servings_container"
@@ -75,12 +75,12 @@
                 <TextView
                     android:id="@+id/view_recipe_text_view_time"
                     style="@style/ThemeOverlay.StandardEditText"
-                    android:text="Time" />
+                    android:text="Time PLACEHOLDER" />
 
                 <TextView
                     android:id="@+id/view_recipe_text_view_servings"
                     style="@style/ThemeOverlay.StandardEditText"
-                    android:text="Servings" />
+                    android:text="Servings PLACEHOLDER" />
             </LinearLayout>
 
             <LinearLayout
@@ -93,8 +93,7 @@
                 <TextView
                     android:id="@+id/view_recipe_text_view_ingredients_title"
                     style="@style/ThemeOverlay.StandardText"
-                    android:layout_centerVertical="true"
-                    android:text="Ingredients" />
+                    android:text="Ingredients PLACEHOLDER" />
 
                 <LinearLayout
                     android:id="@+id/view_recipe_linear_layout_ingredients_list"
@@ -105,7 +104,7 @@
 
                     <TextView
                         style="@style/ThemeOverlay.StandardText"
-                        android:text="No ingredients added." />
+                        android:text="No ingredients added. PLACEHOLDER" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -119,8 +118,7 @@
                 <TextView
                     android:id="@+id/view_recipe_text_view_steps_title"
                     style="@style/ThemeOverlay.StandardText"
-                    android:layout_centerVertical="true"
-                    android:text="Steps" />
+                    android:text="Steps PLACEHOLDER" />
 
                 <LinearLayout
                     android:id="@+id/view_recipe_linear_layout_steps_list"
@@ -131,7 +129,7 @@
 
                     <TextView
                         style="@style/ThemeOverlay.StandardText"
-                        android:text="No steps added." />
+                        android:text="No steps added. PLACEHOLDER" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
