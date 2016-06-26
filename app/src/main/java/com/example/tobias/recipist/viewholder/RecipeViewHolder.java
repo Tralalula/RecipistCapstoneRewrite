@@ -22,10 +22,10 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     public RecipeViewHolder(View itemView) {
         super(itemView);
 
-        mRecipeTitle = (TextView) itemView.findViewById(R.id.recipe_title);
-        mRecipeThumbnail = (ImageView) itemView.findViewById(R.id.recipe_thumbnail);
-        mRecipeProgress = (TextView) itemView.findViewById(R.id.recipe_progress);
-        mRecipeTime = (TextView) itemView.findViewById(R.id.recipe_time);
+        mRecipeTitle = (TextView) itemView.findViewById(R.id.recipe_item_text_view_title);
+        mRecipeThumbnail = (ImageView) itemView.findViewById(R.id.recipe_item_image_view_thumbnail);
+        mRecipeProgress = (TextView) itemView.findViewById(R.id.recipe_item_text_view_progress);
+        mRecipeTime = (TextView) itemView.findViewById(R.id.recipe_item_text_view_time);
     }
 
     public void bindToRecipe(Context context, Recipe recipe) {
