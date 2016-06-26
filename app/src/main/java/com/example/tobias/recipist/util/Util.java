@@ -2,7 +2,10 @@ package com.example.tobias.recipist.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +15,16 @@ import android.widget.TextView;
 
 import com.example.tobias.recipist.R;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 /**
  * Created by Tobias on 25-06-2016.
  */
 public class Util {
+    public static final String TAG = Util.class.getSimpleName();
+
     public static final int TOOLBAR_NAVIGATION_ICON_CLICK_ID = 16908332;
 
     public static final int DRAWABLE_POSITION_LEFT = 0;

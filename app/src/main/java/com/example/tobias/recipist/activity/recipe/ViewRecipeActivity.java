@@ -48,6 +48,10 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     public static final String KEY_TYPE = TAG + "TYPE";
     public static final String KEY_RECIPE_OFFLINE_ID = TAG + "RECIPE OFFLINE ID";
 
+    private static final int KEY_RECIPE_LOADER = 0;
+    private static final int KEY_INGREDIENTS_LOADER = 1;
+    private static final int KEY_STEPS_LOADER = 2;
+
     @BindView(R.id.view_recipe_image_view_image) ImageView mPhotoImgVw;
     @BindView(R.id.view_recipe_text_view_title) TextView mTitleTxtVw;
     @BindView(R.id.view_recipe_text_view_progress) TextView mProgressTxtVw;
@@ -61,6 +65,9 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     private ValueEventListener mRecipeListener;
     private String mRecipeFirebaseKey;
     private Recipe mRecipe;
+
+    private ArrayList<Ingredients.Ingredient> mIngredients;
+    private ArrayList<Steps.Step> mSteps;
 
     private String mCurrentType;
 
@@ -85,7 +92,9 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
         if (Objects.equals(mCurrentType, TYPE_ONLINE)) {
             mRecipeRef = FirebaseUtil.getRecipesRef().child(mRecipeFirebaseKey);
         } else if (Objects.equals(mCurrentType, TYPE_OFFLINE)) {
-            getSupportLoaderManager().initLoader(0, null, this);
+            getSupportLoaderManager().initLoader(KEY_RECIPE_LOADER, null, this);
+            getSupportLoaderManager().initLoader(KEY_INGREDIENTS_LOADER, null, this);
+            getSupportLoaderManager().initLoader(KEY_STEPS_LOADER, null, this);
             mRecipeId = (long) data.getIntExtra(KEY_RECIPE_OFFLINE_ID, -1);
         }
 
@@ -162,6 +171,11 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     }
 
     private void editRecipe() {
+        if (mCurrentType.equals(TYPE_OFFLINE)) {
+            mRecipe.ingredients = mIngredients;
+            mRecipe.steps = mSteps;
+        }
+
         Intent data = new Intent(ViewRecipeActivity.this, CreateRecipeActivity.class);
         data.putExtra(CreateRecipeActivity.KEY_EDIT_RECIPE, mRecipe);
         data.putExtra(CreateRecipeActivity.KEY_RECIPE_FIREBASE_KEY, mRecipeFirebaseKey);
@@ -181,9 +195,37 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
             mProgressTxtVw.setText(progress);
             mTimeTxtVw.setText(mCursor.getString(Recipe.COL_TIME));
             mServingsTxtVw.setText(mCursor.getString(Recipe.COL_SERVINGS));
+
+            mRecipe = new Recipe(mCursor);
             mCursor.close();
             mCursor = null;
         }
+    }
+
+    private void handleOfflineIngredients() {
+        ArrayList<Ingredients.Ingredient> ingredients = new ArrayList<>();
+        do {
+            ingredients.add(new Ingredients.Ingredient(mCursor));
+        } while (mCursor.moveToNext());
+
+        handleIngredients(mIngredientsLinLt, ingredients);
+        mIngredients = ingredients;
+
+        mCursor.close();
+        mCursor = null;
+    }
+
+    private void handleOfflineSteps() {
+        ArrayList<Steps.Step> steps = new ArrayList<>();
+        do {
+            steps.add(new Steps.Step(mCursor));
+        } while (mCursor.moveToNext());
+
+        handleSteps(mStepsLinLt, steps);
+        mSteps = steps;
+
+        mCursor.close();
+        mCursor = null;
     }
 
     private void handleIngredients(LinearLayout linearLayout, ArrayList<Ingredients.Ingredient> ingredients) {
@@ -232,25 +274,62 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String selection = RecipistContract.RecipeEntry.COLUMN_FIREBASE_KEY + "=?";
         String[] selectionArgs = {mRecipeFirebaseKey};
 
-        return new CursorLoader(
-                this,
-                RecipistContract.RecipeEntry.CONTENT_URI,
-                null,
-                selection,
-                selectionArgs,
-                null
-        );
+        switch (id) {
+            case KEY_RECIPE_LOADER:
+                String recipeSelection = RecipistContract.RecipeEntry.COLUMN_FIREBASE_KEY + "=?";
+                return new CursorLoader(
+                        this,
+                        RecipistContract.RecipeEntry.CONTENT_URI,
+                        null,
+                        recipeSelection,
+                        selectionArgs,
+                        null
+                );
+            case KEY_INGREDIENTS_LOADER:
+                String ingredientsSelection = RecipistContract.IngredientEntry.COLUMN_RECIPE_FIREBASE_KEY + "=?";
+                return new CursorLoader(
+                        this,
+                        RecipistContract.IngredientEntry.CONTENT_URI,
+                        null,
+                        ingredientsSelection,
+                        selectionArgs,
+                        null
+                );
+            case KEY_STEPS_LOADER:
+                String stepsSelection = RecipistContract.StepEntry.COLUMN_RECIPE_FIREBASE_KEY + "=?";
+                return new CursorLoader(
+                        this,
+                        RecipistContract.StepEntry.CONTENT_URI,
+                        null,
+                        stepsSelection,
+                        selectionArgs,
+                        null
+                );
+        }
+
+        return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursor = data;
-
-        if (mCursor != null && mCursor.moveToFirst()) {
-            handleOfflineBinding();
+        switch (loader.getId()) {
+            case KEY_RECIPE_LOADER:
+                if (mCursor != null && mCursor.moveToFirst()) {
+                    handleOfflineBinding();
+                }
+                break;
+            case KEY_INGREDIENTS_LOADER:
+                if (mCursor != null && mCursor.moveToFirst()) {
+                    handleOfflineIngredients();
+                }
+                break;
+            case KEY_STEPS_LOADER:
+                if (mCursor != null && mCursor.moveToFirst()) {
+                    handleOfflineSteps();
+                }
         }
     }
 
