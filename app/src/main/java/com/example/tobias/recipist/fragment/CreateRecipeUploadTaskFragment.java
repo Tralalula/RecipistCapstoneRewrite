@@ -77,6 +77,32 @@ public class CreateRecipeUploadTaskFragment extends Fragment {
         task.execute(uri);
     }
 
+    public void uploadRecipe(String fullsizeUrl, String fullSizeRef,
+                             String thumbnailUrl, String thumbnailRef,
+                             String title, int progress, String time, String servings,
+                             ArrayList<Ingredients.Ingredient> ingredients,
+                             ArrayList<Steps.Step> steps,
+                             boolean editing, String recipeFirebaseKeyForEditing) {
+        UploadRecipeTask task = new UploadRecipeTask(
+                mContext,
+                mCallback,
+                fullsizeUrl,
+                fullSizeRef,
+                thumbnailUrl,
+                thumbnailRef,
+                title,
+                progress,
+                time,
+                servings,
+                ingredients,
+                steps,
+                editing,
+                recipeFirebaseKeyForEditing
+        );
+
+        task.execute();
+    }
+
     public void uploadRecipe(Bitmap bitmap, String inBitmapPath,
                              Bitmap thumbnail, String inThumbnailPath,
                              String inFileName,

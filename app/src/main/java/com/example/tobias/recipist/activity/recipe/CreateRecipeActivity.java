@@ -65,6 +65,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     public static final String KEY_THUMBNAIL_BITMAP = "THUMBNAIL BITMAP";
     public static final String KEY_SAVE_INGREDIENTS = "SAVE INGREDIENTS";
     public static final String KEY_SAVE_STEPS = "SAVE STEPS";
+    public static final String KEY_EDITING = TAG + "EDITING";
 
     private static final String[] cameraPermissions = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -95,8 +96,11 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private Uri mFileUri;
     private Bitmap mResizedBitmap;
     private Bitmap mThumbnailBitmap;
+    private boolean mNewImage;
 
     private CreateRecipeUploadTaskFragment mUploadTaskFragment;
+
+    private Recipe mOldRecipe;
 
     private boolean mEditing;
     private String mRecipeFirebaseKey;
@@ -125,6 +129,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         Recipe recipe = data.getParcelableExtra(KEY_EDIT_RECIPE);
         mRecipeFirebaseKey = data.getStringExtra(KEY_RECIPE_FIREBASE_KEY);
         if (recipe != null && mRecipeFirebaseKey != null) {
+            mOldRecipe = recipe;
             mEditing = true;
             editRecipe(recipe);
         }
@@ -176,6 +181,8 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         if (!Util.isNullOrEmpty(time)) mTimeEditText.setText(time);
         if (!Util.isNullOrEmpty(servings)) mServingsEditText.setText(servings);
 
+//        mResizedBitmap
+
         updateIngredients();
         updateSteps();
     }
@@ -184,6 +191,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
+            mEditing = savedInstanceState.getBoolean(KEY_EDITING);
             mFileUri = savedInstanceState.getParcelable(KEY_FILE_URI);
             mResizedBitmap = savedInstanceState.getParcelable(KEY_RESIZED_BITMAP);
             mThumbnailBitmap = savedInstanceState.getParcelable(KEY_THUMBNAIL_BITMAP);
@@ -198,13 +206,13 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(KEY_EDITING, mEditing);
         outState.putParcelable(KEY_FILE_URI, mFileUri);
         outState.putParcelable(KEY_RESIZED_BITMAP, mResizedBitmap);
         outState.putParcelable(KEY_THUMBNAIL_BITMAP, mThumbnailBitmap);
         outState.putParcelableArrayList(KEY_SAVE_INGREDIENTS, mIngredients);
         outState.putParcelableArrayList(KEY_SAVE_STEPS, mSteps);
         super.onSaveInstanceState(outState);
-//        mPhotoImageView.setImageBitmap(mResizedBitmap);
     }
 
     @Override
@@ -341,7 +349,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     }
 
     private void submitRecipe() {
-        if (mResizedBitmap == null) {
+        if (mResizedBitmap == null && !mEditing) {
             Toast.makeText(CreateRecipeActivity.this,
                     "Select an image first.",
                     Toast.LENGTH_SHORT).show();
@@ -351,32 +359,48 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         showProgressDialog();
         mSubmitFab.setEnabled(true);
 
-        Long timestamp = System.currentTimeMillis();
-
-        String bitmapPath = "/" + FirebaseUtil.getCurrentUserId() + "/full/" + timestamp.toString() + "/";
-        String thumbnailPath = "/" + FirebaseUtil.getCurrentUserId() + "/thumb/" + timestamp.toString() + "/";
-
         String title = mTitleEditText.getText().toString();
         int progress = 0;
         if (mProgressSwitch.isChecked()) progress = 1;
         String time = mTimeEditText.getText().toString();
         String servings = mServingsEditText.getText().toString();
 
-        mUploadTaskFragment.uploadRecipe(
-                mResizedBitmap,
-                bitmapPath,
-                mThumbnailBitmap,
-                thumbnailPath,
-                mFileUri.getLastPathSegment(),
-                title,
-                progress,
-                time,
-                servings,
-                mIngredients,
-                mSteps,
-                mEditing,
-                mRecipeFirebaseKey
-        );
+        if (mEditing && !mNewImage) {
+            mUploadTaskFragment.uploadRecipe(
+                    mOldRecipe.fullSizeImageUrl,
+                    mOldRecipe.fullSizeImageStorageUrl,
+                    mOldRecipe.thumbnailImageUrl,
+                    mOldRecipe.thumbnailImageStorageUrl,
+                    title,
+                    progress,
+                    time,
+                    servings,
+                    mIngredients,
+                    mSteps,
+                    mEditing,
+                    mRecipeFirebaseKey);
+        } else {
+            Long timestamp = System.currentTimeMillis();
+
+            String bitmapPath = "/" + FirebaseUtil.getCurrentUserId() + "/full/" + timestamp.toString() + "/";
+            String thumbnailPath = "/" + FirebaseUtil.getCurrentUserId() + "/thumb/" + timestamp.toString() + "/";
+
+            mUploadTaskFragment.uploadRecipe(
+                    mResizedBitmap,
+                    bitmapPath,
+                    mThumbnailBitmap,
+                    thumbnailPath,
+                    mFileUri.getLastPathSegment(),
+                    title,
+                    progress,
+                    time,
+                    servings,
+                    mIngredients,
+                    mSteps,
+                    mEditing,
+                    mRecipeFirebaseKey
+            );
+        }
     }
 
     private void editIngredients() {
@@ -413,6 +437,8 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         if (mThumbnailBitmap != null && mResizedBitmap != null) {
             mSubmitFab.setEnabled(true);
         }
+
+        mNewImage = true;
     }
 
     @Override
