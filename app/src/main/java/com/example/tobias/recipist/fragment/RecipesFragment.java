@@ -120,6 +120,7 @@ public class RecipesFragment extends Fragment {
                         Log.d(TAG, "handleOverviewLayout: populateViewHolder: onClick: recipeKey: " + recipeKey);
                         Intent data = new Intent(getActivity(), ViewRecipeActivity.class);
                         data.putExtra(ViewRecipeActivity.KEY_RECIPE_FIREBASE_KEY, recipeKey);
+                        data.putExtra(ViewRecipeActivity.KEY_TYPE, ViewRecipeActivity.TYPE_ONLINE);
                         startActivity(data);
                     }
                 });
@@ -147,6 +148,7 @@ public class RecipesFragment extends Fragment {
                             Log.d(TAG, "handleOverviewLayout: populateViewHolder: onClick: recipeKey: " + recipeKey);
                             Intent data = new Intent(getActivity(), ViewRecipeActivity.class);
                             data.putExtra(ViewRecipeActivity.KEY_RECIPE_FIREBASE_KEY, recipeKey);
+                            data.putExtra(ViewRecipeActivity.KEY_TYPE, ViewRecipeActivity.TYPE_ONLINE);
                             startActivity(data);
                         }
                     });
