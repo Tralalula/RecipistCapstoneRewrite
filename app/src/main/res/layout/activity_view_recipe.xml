@@ -7,7 +7,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/view_recipe_app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="192dp"
+        android:layout_height="@dimen/vc_recipe_collapsing_app_bar_layout_height"
         android:background="?colorPrimary">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutAppearance"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="72dp"
+            app:expandedTitleMarginStart="@dimen/vc_recipe_collapsing_toolbar_layout_expanded_title_margin_start"
             app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutAppearance"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:contentInsetStart="72dp"
+                app:contentInsetStart="@dimen/vc_recipe_toolbar_content_inset_start"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_left_alt_24dp" />
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -53,34 +53,35 @@
 
             <TextView
                 android:id="@+id/view_recipe_text_view_title"
-                style="@style/ThemeOverlay.HeadingText"
-                android:layout_alignParentStart="true"
-                android:text="Title PLACEHOLDER" />
+                style="@style/ThemeOverlay.Heading2Text"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:id="@+id/view_recipe_text_view_progress"
                 style="@style/ThemeOverlay.StandardText"
                 android:layout_alignParentEnd="true"
-                android:text="Progress PLACEHOLDER" />
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/view_recipe_linear_layout_time_and_servings_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/view_recipe_text_view_title"
-                android:layout_marginBottom="@dimen/small_margin"
+                android:layout_below="@id/view_recipe_text_view_title"
+                android:layout_marginBottom="@dimen/standard_margin"
                 android:layout_marginTop="@dimen/micro_margin"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/view_recipe_text_view_time"
-                    style="@style/ThemeOverlay.StandardEditText"
-                    android:text="Time PLACEHOLDER" />
+                    style="@style/ThemeOverlay.StandardText"
+                    android:drawableStart="@drawable/ic_timer_24dp" />
 
                 <TextView
                     android:id="@+id/view_recipe_text_view_servings"
-                    style="@style/ThemeOverlay.StandardEditText"
-                    android:text="Servings PLACEHOLDER" />
+                    style="@style/ThemeOverlay.StandardText"
+                    android:drawableStart="@drawable/ic_account_24dp"
+                    android:paddingEnd="@dimen/small_padding"
+                    android:paddingStart="@dimen/small_padding" />
             </LinearLayout>
 
             <LinearLayout
@@ -91,21 +92,16 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/view_recipe_text_view_ingredients_title"
-                    style="@style/ThemeOverlay.StandardText"
-                    android:text="Ingredients" />
+                    android:id="@+id/create_recipe_text_view_ingredients_title"
+                    style="@style/ThemeOverlay.Heading2Text"
+                    android:text="@string/vc_recipe_ingredients_title" />
 
                 <LinearLayout
                     android:id="@+id/view_recipe_linear_layout_ingredients_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/mini_padding">
-
-                    <TextView
-                        style="@style/ThemeOverlay.StandardText"
-                        android:text="No ingredients added. PLACEHOLDER" />
-                </LinearLayout>
+                    android:layout_marginBottom="@dimen/standard_margin"
+                    android:orientation="vertical" />
             </LinearLayout>
 
             <LinearLayout
@@ -116,21 +112,15 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/view_recipe_text_view_steps_title"
-                    style="@style/ThemeOverlay.StandardText"
-                    android:text="Steps" />
+                    android:id="@+id/create_recipe_text_view_steps_title"
+                    style="@style/ThemeOverlay.Heading2Text"
+                    android:text="@string/vc_recipe_activity_steps_title" />
 
                 <LinearLayout
                     android:id="@+id/view_recipe_linear_layout_steps_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/mini_padding">
-
-                    <TextView
-                        style="@style/ThemeOverlay.StandardText"
-                        android:text="No steps added. PLACEHOLDER" />
-                </LinearLayout>
+                    android:orientation="vertical" />
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
@@ -141,6 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/standard_margin"
-        android:src="@drawable/ic_complete_alt_24dp" />
+        android:src="@drawable/ic_pencil_24dp"
+        android:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -3,7 +3,7 @@
     android:id="@+id/google_sign_in_linear_layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/primary_color"
     android:fitsSystemWindows="true"
     tools:context=".activity.auth.GoogleSignInActivity">
 
@@ -12,7 +12,7 @@
         style="@style/ThemeOverlay.HeadingText"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/standard_margin"
-        android:text="@string/google_sign_in_activity_title" />
+        android:text="@string/google_sign_in_title" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/google_sign_in_sign_in_button"

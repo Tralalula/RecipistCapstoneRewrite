@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.auth.GoogleSignInActivity;
@@ -14,6 +16,7 @@ import com.example.tobias.recipist.fragment.LocalRecipesFragment;
 import com.example.tobias.recipist.fragment.RecipesFragment;
 import com.example.tobias.recipist.task.FetchMyRecipesTask;
 import com.example.tobias.recipist.util.FirebaseUtil;
+import com.example.tobias.recipist.util.Util;
 
 public class MainActivity extends BaseActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -48,12 +51,34 @@ public class MainActivity extends BaseActivity {
 
 //        new FetchMyRecipesTask(this).execute();
 //
-        if (FirebaseUtil.getCurrentUser() != null) {
-            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
-            startActivity(intent);
+//        if (FirebaseUtil.getCurrentUser() != null) {
+//            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
+//            startActivity(intent);
+//        } else {
+//            Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
+//            startActivity(intent);
+//        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_action_new_recipe:
+                newRecipe();
+                return true;
         }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void newRecipe() {
+        Intent data = new Intent(MainActivity.this, CreateRecipeActivity.class);
+        startActivity(data);
     }
 }

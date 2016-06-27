@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -43,6 +44,15 @@ public class Util {
     }
 
     public static TextView setupTextView(Context context, ViewGroup.LayoutParams layoutParams, String text, int textColor) {
+        TextView textView = new TextView(context);
+        textView.setLayoutParams(layoutParams);
+        textView.setText(text);
+        textView.setTextColor(textColor);
+
+        return textView;
+    }
+
+    public static TextView setupTextView(Context context, ViewGroup.LayoutParams layoutParams, Spanned text, int textColor) {
         TextView textView = new TextView(context);
         textView.setLayoutParams(layoutParams);
         textView.setText(text);

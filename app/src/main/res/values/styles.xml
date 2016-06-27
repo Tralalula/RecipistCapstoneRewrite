@@ -3,30 +3,25 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/textPrimary</item>
-        <item name="android:textColorSecondary">@color/textSecondary</item>
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent_color</item>
+        <item name="android:textColorPrimary">@color/text_primary_color</item>
+        <item name="android:textColorSecondary">@color/text_secondary_color</item>
     </style>
 
-    <style name="AppTheme.Fullscreen">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
-    </style>
-
-    <style name="ThemeOverlay.Button" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="colorButtonNormal">@color/colorAccent</item>
-        <item name="android:layout_marginRight">@dimen/mini_margin</item>
-        <item name="android:layout_marginLeft">@dimen/mini_margin</item>
-        <item name="android:textColor">@android:color/white</item>
+    <style name="ThemeOverlay.EditButton" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:textColor">@color/text_primary_color</item>
+        <item name="android:text">@string/create_recipe_edit_button_text</item>
+        <item name="android:textSize">10sp</item>
     </style>
 
     <style name="ThemeOverlay.StandardText" parent="AppTheme">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/standard_text_size</item>
-        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:textColor">@color/text_primary_color</item>
     </style>
 
     <style name="ThemeOverlay.HeadingText" parent="AppTheme">
@@ -37,39 +32,52 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="ThemeOverlay.StandardEditText" parent="AppTheme">
-        <item name="android:inputType">text</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">@dimen/medium_small_text_size</item>
+    <style name="ThemeOverlay.Heading2Text" parent="AppTheme">
+        <item name="android:textColor">@color/text_primary_color</item>
+        <item name="android:textSize">@dimen/medium_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+
+    <style name="ThemeOverlay.EditText" parent="AppTheme">
+        <item name="android:inputType">text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:maxLength">50</item>
+        <item name="android:textColor">@color/text_primary_color</item>
+        <item name="android:textSize">@dimen/standard_text_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ThemeOverlay.Heading2EditText" parent="ThemeOverlay.EditText">
+        <item name="android:textSize">@dimen/medium_text_size</item>
+    </style>
+
+    <style name="ThemeOverlay.TimeAndServingsEditText" parent="ThemeOverlay.EditText">
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">5</item>
+    </style>
+
     <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="tabIndicatorColor">@color/accent_color</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabPaddingStart">@dimen/small_padding</item>
         <item name="tabPaddingEnd">@dimen/small_padding</item>
         <item name="tabBackground">?attr/selectableItemBackground</item>
         <item name="tabTextAppearance">@style/TabTextAppearance</item>
-        <item name="tabSelectedTextColor">@color/textPrimary</item>
+        <item name="tabSelectedTextColor">#FFFFFFFF</item>
     </style>
 
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">@dimen/standard_text_size</item>
-        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textColor">#DDFFFFFF</item>
         <item name="textAllCaps">true</item>
     </style>
 
     <style name="CollapsingToolbarLayoutAppearance">
-        <item name="android:textSize">@dimen/medium_text_size</item>
-        <item name="android:textColor">#FFFFFFFF</item>
-    </style>
-
-    <style name="DetailsToolbar">
-        <item name="android:textSize">@dimen/medium_text_size</item>
-        <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:textSize">@dimen/large_text_size</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

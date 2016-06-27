@@ -7,7 +7,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/create_recipe_app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="192dp"
+        android:layout_height="@dimen/vc_recipe_collapsing_app_bar_layout_height"
         android:background="?colorPrimary">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             app:collapsedTitleTextAppearance="@style/CollapsingToolbarLayoutAppearance"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="72dp"
+            app:expandedTitleMarginStart="@dimen/vc_recipe_collapsing_toolbar_layout_expanded_title_margin_start"
             app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutAppearance"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:contentInsetStart="72dp"
+                app:contentInsetStart="@dimen/vc_recipe_toolbar_content_inset_start"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_left_alt_24dp" />
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -54,38 +54,41 @@
 
             <EditText
                 android:id="@+id/create_recipe_edit_text_title"
-                style="@style/ThemeOverlay.StandardEditText"
+                style="@style/ThemeOverlay.Heading2EditText"
                 android:layout_alignParentStart="true"
-                android:hint="Title" />
+                android:hint="@string/create_recipe_edit_text_title_hint" />
 
-            <Switch
-                android:id="@+id/create_recipe_switch_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="Progress"
-                android:textColor="@color/textSecondary"
-                android:textSize="@dimen/standard_small_text_size" />
-
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/create_recipe_linear_layout_time_and_servings_container"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/create_recipe_edit_text_title"
-                android:layout_marginBottom="@dimen/small_margin"
-                android:layout_marginTop="@dimen/micro_margin"
-                android:orientation="horizontal">
+                android:layout_marginBottom="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/micro_margin">
 
                 <EditText
                     android:id="@+id/create_recipe_edit_text_time"
-                    style="@style/ThemeOverlay.StandardEditText"
-                    android:hint="Time" />
+                    style="@style/ThemeOverlay.TimeAndServingsEditText"
+                    android:drawableStart="@drawable/ic_timer_24dp"
+                    android:hint="@string/create_recipe_edit_text_time_hint" />
 
                 <EditText
                     android:id="@+id/create_recipe_edit_text_servings"
-                    style="@style/ThemeOverlay.StandardEditText"
-                    android:hint="Servings" />
-            </LinearLayout>
+                    style="@style/ThemeOverlay.TimeAndServingsEditText"
+                    android:layout_toEndOf="@id/create_recipe_edit_text_time"
+                    android:digits="0123456789-"
+                    android:drawableStart="@drawable/ic_account_24dp"
+                    android:hint="@string/create_recipe_edit_text_servings_hint" />
+
+                <Switch
+                    android:id="@+id/create_recipe_switch_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/create_recipe_switch_progress_text"
+                    android:textColor="@color/text_secondary_color"
+                    android:textSize="@dimen/standard_text_size" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/create_recipe_linear_layout_ingredients_container"
@@ -100,37 +103,22 @@
 
                     <TextView
                         android:id="@+id/create_recipe_text_view_ingredients_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Ingredients"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="@dimen/standard_text_size" />
+                        style="@style/ThemeOverlay.Heading2Text"
+                        android:text="@string/vc_recipe_ingredients_title" />
 
-                    <android.support.v7.widget.AppCompatButton
+                    <Button
                         android:id="@+id/create_recipe_button_edit_ingredients"
-                        android:layout_width="64dp"
-                        android:layout_height="32dp"
-                        android:layout_alignParentEnd="true"
-                        android:text="Edit"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="10sp" />
+                        style="@style/ThemeOverlay.EditButton"
+                        android:layout_width="@dimen/create_recipe_button_edit_ingredients_width"
+                        android:layout_height="@dimen/create_recipe_button_edit_ingredients_height" />
                 </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/create_recipe_linear_layout_ingredients_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/mini_padding">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No ingredients added."
-                        android:textColor="@color/textSecondary"
-                        android:textSize="@dimen/standard_small_text_size" />
-                </LinearLayout>
+                    android:layout_marginBottom="@dimen/standard_margin"
+                    android:orientation="vertical" />
             </LinearLayout>
 
             <LinearLayout
@@ -146,37 +134,22 @@
 
                     <TextView
                         android:id="@+id/create_recipe_text_view_steps_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Steps"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="@dimen/standard_text_size" />
+                        style="@style/ThemeOverlay.Heading2Text"
+                        android:text="@string/vc_recipe_activity_steps_title" />
 
-                    <android.support.v7.widget.AppCompatButton
+                    <Button
                         android:id="@+id/create_recipe_button_edit_steps"
-                        android:layout_width="64dp"
-                        android:layout_height="32dp"
-                        android:layout_alignParentEnd="true"
-                        android:text="Edit"
-                        android:textColor="@color/textPrimary"
-                        android:textSize="10sp" />
+                        style="@style/ThemeOverlay.EditButton"
+                        android:layout_width="@dimen/create_recipe_button_edit_ingredients_width"
+                        android:layout_height="@dimen/create_recipe_button_edit_ingredients_height" />
                 </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/create_recipe_linear_layout_steps_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/mini_padding">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No steps added."
-                        android:textColor="@color/textSecondary"
-                        android:textSize="@dimen/standard_small_text_size" />
-                </LinearLayout>
+                    android:layout_marginBottom="@dimen/vc_recipe_margin_to_avoid_fab_collision"
+                    android:orientation="vertical" />
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

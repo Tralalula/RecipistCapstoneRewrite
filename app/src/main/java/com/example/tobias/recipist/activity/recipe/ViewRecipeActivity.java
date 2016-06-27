@@ -5,12 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,6 +62,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     private static final int KEY_INGREDIENTS_LOADER = 1;
     private static final int KEY_STEPS_LOADER = 2;
 
+    @BindView(R.id.view_recipe_collapsing_toolbar_layout) CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.view_recipe_toolbar) Toolbar mToolbar;
     @BindView(R.id.view_recipe_image_view_image) ImageView mPhotoImgVw;
     @BindView(R.id.view_recipe_text_view_title) TextView mTitleTxtVw;
@@ -82,7 +86,6 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     private Cursor mCursor;
     private long mRecipeId;
 
-    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +145,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
                     if (Util.isNullOrEmpty(time)) time = notSpecified;
                     if (Util.isNullOrEmpty(servings)) servings = notSpecified;
 
+                    mCollapsingToolbarLayout.setTitle(title);
                     mTitleTxtVw.setText(title);
                     mProgressTxtVw.setText(progress);
                     mTimeTxtVw.setText(time);
@@ -175,8 +179,9 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.view_recipe, menu);
-        mMenu = menu;
+        if (mCurrentType.equals(TYPE_OFFLINE)) {
+            getMenuInflater().inflate(R.menu.view_recipe, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -221,6 +226,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
                     .load(mCursor.getString(Recipe.COL_FULL_SIZE_IMAGE_URL))
                     .into(mPhotoImgVw);
 
+            mCollapsingToolbarLayout.setTitle(mCursor.getString(Recipe.COL_TITLE));
             mTitleTxtVw.setText(mCursor.getString(Recipe.COL_TITLE));
             String progress;
             if (mCursor.getInt(Recipe.COL_PROGRESS) == 0) progress = "In Progress";
@@ -232,6 +238,20 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
             mRecipe = new Recipe(mCursor);
             mCursor.close();
             mCursor = null;
+
+            mEditFab.setVisibility(View.VISIBLE);
+            mProgressTxtVw.setVisibility(View.VISIBLE);
+
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+
+            layoutParams.bottomMargin = (int) getResources().getDimension(
+                    R.dimen.vc_recipe_margin_to_avoid_fab_collision
+            );
+
+            mStepsLinLt.setLayoutParams(layoutParams);
         }
     }
 
@@ -273,14 +293,18 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    @SuppressWarnings("deprecation")
     private void handleSteps(LinearLayout linearLayout, ArrayList<Steps.Step> steps) {
         linearLayout.removeAllViews();
 
         if (steps == null || steps.isEmpty()) {
             addEmptyTextViewToLinearLayout(mStepsLinLt);
         } else {
-            for (Steps.Step step : steps) {
-                addTextViewToLinearLayout(mStepsLinLt, step.method);
+            for (int i = 0; i < steps.size(); i++) {
+                String text = "<strong>" + (i + 1) + ".</strong> " + steps.get(i).method;
+                if (i != steps.size() - 1) text += "<br>";
+
+                addTextViewToLinearLayout(mStepsLinLt, Html.fromHtml(text));
             }
         }
     }
@@ -294,14 +318,29 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
                 this,
                 layoutParams,
                 text,
-                getResources().getColor(R.color.textSecondary)
+                getResources().getColor(R.color.text_secondary_color)
+        );
+
+        Util.addView(linearLayout, textView);
+    }
+
+    private void addTextViewToLinearLayout(LinearLayout linearLayout, Spanned text) {
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextView textView = Util.setupTextView(
+                this,
+                layoutParams,
+                text,
+                getResources().getColor(R.color.text_secondary_color)
         );
 
         Util.addView(linearLayout, textView);
     }
 
     private void addEmptyTextViewToLinearLayout(LinearLayout linearLayout) {
-        addTextViewToLinearLayout(linearLayout, "");
+        addTextViewToLinearLayout(linearLayout, "Nothing here yet..");
     }
 
 

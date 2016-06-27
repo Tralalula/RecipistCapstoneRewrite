@@ -21,6 +21,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -297,6 +298,17 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                 addToLinearLayout(this, mStepsLinearLayout, step.method, Typeface.NORMAL);
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case Util.TOOLBAR_NAVIGATION_ICON_CLICK_ID:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void addToLinearLayout(Context context, LinearLayout linearLayout, String text, int typeface) {

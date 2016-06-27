@@ -1,17 +1,30 @@
 <resources>
-    <string name="app_name">Recipist</string>
-    <string name="content_authority">com.example.tobias.recipist</string>
+    <string name="app_name" translatable="false">Recipist</string>
+    <string name="content_authority" translatable="false">com.example.tobias.recipist</string>
 
-    <!-- BaseActivity -->
-    <string name="base_activity_progress_dialog_loading" translatable="true">Loading...</string>
+    <!-- Base start -->
+    <string name="base_progress_dialog_loading" translatable="true">Loading...</string>
+    <!-- Base end -->
 
-    <!-- GoogleSignInActivity -->
-    <string name="google_sign_in_activity_title">@string/app_name</string>
-    <string name="google_sign_in_activity_firebase_status_fmt" translatable="true">Firebase User: %s</string>
-    <string name="google_sign_in_activity_status_fmt" translatable="true">Google User: %s</string>
-    <string name="google_sign_in_activity_signed_out" translatable="true">Signed out</string>
+    <!-- GoogleSignIn start -->
+    <string name="google_sign_in_title">@string/app_name</string>
+    <!-- GoogleSignIn end -->
 
-    <!-- Error -->
+    <!-- View/CreateRecipe start -->
+    <string name="vc_recipe_ingredients_title" translatable="true">Ingredients</string>
+    <string name="vc_recipe_activity_steps_title" translatable="true">Steps</string>
+    <!-- View/CreateRecipe end -->
+
+    <!-- CreateRecipe start -->
+    <string name="create_recipe_edit_button_text" translatable="true">Edit</string>
+    <string name="create_recipe_edit_text_title_hint" translatable="true">Chocolate Fondant and Crème Anglaise</string>
+    <string name="create_recipe_switch_progress_text" translatable="true">Publish</string>
+    <string name="create_recipe_edit_text_time_hint" translatable="true">45 (mins)</string>
+    <string name="create_recipe_edit_text_servings_hint" translatable="true">4-6</string>
+    <!-- CreateRecipe end -->
+
+    <!-- Error start -->
     <string name="error_google_play_services_error" translatable="true">Google Play Services error.</string>
     <string name="error_authentication_failed" translatable="true">Authentication failed.</string>
+    <!-- Error end -->
 </resources>
