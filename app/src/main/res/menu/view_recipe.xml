@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.recipe.ViewRecipeActivity">
+    <item
+        android:id="@+id/view_recipe_action_remove"
+        android:icon="@drawable/ic_remove_24dp"
+        android:orderInCategory="100"
+        android:title="Remove"
+        app:showAsAction="always" />
+</menu>

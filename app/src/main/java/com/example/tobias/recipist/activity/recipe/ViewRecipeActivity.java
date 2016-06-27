@@ -1,5 +1,7 @@
 package com.example.tobias.recipist.activity.recipe;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -7,7 +9,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -52,6 +58,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     private static final int KEY_INGREDIENTS_LOADER = 1;
     private static final int KEY_STEPS_LOADER = 2;
 
+    @BindView(R.id.view_recipe_toolbar) Toolbar mToolbar;
     @BindView(R.id.view_recipe_image_view_image) ImageView mPhotoImgVw;
     @BindView(R.id.view_recipe_text_view_title) TextView mTitleTxtVw;
     @BindView(R.id.view_recipe_text_view_progress) TextView mProgressTxtVw;
@@ -74,11 +81,15 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     private Cursor mCursor;
     private long mRecipeId;
 
+    private Menu mMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recipe);
         ButterKnife.bind(this);
+
+        setSupportActionBar(mToolbar);
 
         Intent data = getIntent();
         if (data == null) {
@@ -159,6 +170,27 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
         super.onStop();
 
         if (mRecipeListener != null) mRecipeRef.removeEventListener(mRecipeListener);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.view_recipe, menu);
+        mMenu = menu;
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.view_recipe_action_remove:
+                removeRecipe(this).show();
+                return true;
+            case Util.TOOLBAR_NAVIGATION_ICON_CLICK_ID:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -336,5 +368,32 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mCursor = null;
+    }
+
+    private AlertDialog removeRecipe(Context context) {
+        AlertDialog removeRecipeDialogBox = new AlertDialog.Builder(context)
+                .setTitle("Remove Recipe")
+                .setMessage("Are you sure you want to remove the recipe \"" + mRecipe.title + "\" ?")
+                .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        deleteRecipe();
+                        finish();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create();
+
+        return removeRecipeDialogBox;
+    }
+
+    private void deleteRecipe() {
+
     }
 }
