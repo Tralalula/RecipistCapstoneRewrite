@@ -1,5 +1,6 @@
 package com.example.tobias.recipist.widget;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,6 +11,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.tobias.recipist.R;
+import com.example.tobias.recipist.activity.recipe.ViewRecipeActivity;
 import com.example.tobias.recipist.data.RecipistContract;
 import com.example.tobias.recipist.model.Recipe;
 import com.squareup.picasso.Picasso;
@@ -91,6 +93,13 @@ public class DataProviderWidget implements RemoteViewsService.RemoteViewsFactory
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Intent launchIntent = new Intent(mContext, ViewRecipeActivity.class);
+        launchIntent.putExtra(ViewRecipeActivity.KEY_RECIPE_FIREBASE_KEY, mCursor.getString(Recipe.COL_FIREBASE_KEY));
+        launchIntent.putExtra(ViewRecipeActivity.KEY_RECIPE_OFFLINE_ID, mCursor.getInt(Recipe.COL_ID));
+        launchIntent.putExtra(ViewRecipeActivity.KEY_TYPE, ViewRecipeActivity.TYPE_OFFLINE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, i, launchIntent, 0);
+        remoteViews.setOnClickPendingIntent(R.id.recipe_item_relative_layout_root_container, pendingIntent);
 
         return remoteViews;
     }
