@@ -124,4 +124,39 @@ public class RecipistDbHandler {
         );
     }
 
+    public boolean deleteRecipe(String firebaseKey) {
+        Cursor cursor = recipeExistsInDb(firebaseKey);
+        if (!cursor.moveToFirst()) return false;
+
+        String selection = RecipistContract.RecipeEntry.COLUMN_FIREBASE_KEY + "=?";
+        String[] selectionArgs = {firebaseKey};
+
+        // Delete recipe
+        mContext.getContentResolver().delete(
+                RecipistContract.RecipeEntry.CONTENT_URI,
+                selection,
+                selectionArgs
+        );
+
+        // Delete the ingredients associated with the recipe
+        String ingredientsSelection = RecipistContract.IngredientEntry.COLUMN_RECIPE_FIREBASE_KEY + "=?";
+        mContext.getContentResolver().delete(
+                RecipistContract.IngredientEntry.CONTENT_URI,
+                ingredientsSelection,
+                selectionArgs
+        );
+
+        // Delete the steps associated with the recipe
+        String stepsSelection = RecipistContract.StepEntry.COLUMN_RECIPE_FIREBASE_KEY + "=?";
+        mContext.getContentResolver().delete(
+                RecipistContract.StepEntry.CONTENT_URI,
+                stepsSelection,
+                selectionArgs
+        );
+
+        cursor.close();
+
+        return true;
+    }
+
 }

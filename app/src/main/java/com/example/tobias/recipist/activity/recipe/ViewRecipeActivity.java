@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.BaseActivity;
 import com.example.tobias.recipist.data.RecipistContract;
+import com.example.tobias.recipist.data.RecipistDbHandler;
 import com.example.tobias.recipist.model.Ingredients;
 import com.example.tobias.recipist.model.Recipe;
 import com.example.tobias.recipist.model.Steps;
@@ -394,6 +395,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     }
 
     private void deleteRecipe() {
-
+        new RecipistDbHandler(this).deleteRecipe(mRecipeFirebaseKey);
+        FirebaseUtil.getRecipesRef().child(mRecipeFirebaseKey).setValue(null);
     }
 }
