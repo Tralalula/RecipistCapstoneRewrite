@@ -31,6 +31,7 @@
 
     <style name="ThemeOverlay.HeadingText" parent="AppTheme">
         <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/heading_standard_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

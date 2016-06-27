@@ -48,12 +48,12 @@ public class MainActivity extends BaseActivity {
 
 //        new FetchMyRecipesTask(this).execute();
 //
-//        if (FirebaseUtil.getCurrentUser() != null) {
-//            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
-//            startActivity(intent);
-//        } else {
-//            Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
-//            startActivity(intent);
-//        }
+        if (FirebaseUtil.getCurrentUser() != null) {
+            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
+            startActivity(intent);
+        }
     }
 }

@@ -43,18 +43,10 @@ public class GoogleSignInActivity extends BaseActivity implements GoogleApiClien
     // GoogleApiClient
     private GoogleApiClient mGoogleApiClient;
 
-    // TextView
-    private TextView mStatusTextView;
-    private TextView mDetailTextView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_sign_in);
-
-        // Views
-        mStatusTextView = (TextView) findViewById(R.id.google_sign_in_text_view_status);
-        mDetailTextView = (TextView) findViewById(R.id.google_sign_in_text_view_detail);
 
         // Button listeners
         findViewById(R.id.google_sign_in_sign_in_button).setOnClickListener(this);
@@ -181,14 +173,8 @@ public class GoogleSignInActivity extends BaseActivity implements GoogleApiClien
     private void updateUi(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            mStatusTextView.setText(getString(R.string.google_sign_in_activity_status_fmt, user.getEmail()));
-            mDetailTextView.setText(getString(R.string.google_sign_in_activity_firebase_status_fmt, user.getUid()));
-
             findViewById(R.id.google_sign_in_sign_in_button).setVisibility(View.GONE);
         } else {
-            mStatusTextView.setText(getString(R.string.google_sign_in_activity_signed_out));
-            mDetailTextView.setText(null);
-
             findViewById(R.id.google_sign_in_sign_in_button).setVisibility(View.VISIBLE);
         }
     }
