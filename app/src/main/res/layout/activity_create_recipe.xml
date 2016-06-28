@@ -25,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:contentDescription="@string/create_recipe_image_view_image_content_description"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_camera_alt_72dp"
                 android:transitionName="test"
@@ -69,6 +70,7 @@
                 <EditText
                     android:id="@+id/create_recipe_edit_text_time"
                     style="@style/ThemeOverlay.TimeAndServingsEditText"
+                    android:layout_alignParentStart="true"
                     android:drawableStart="@drawable/ic_timer_24dp"
                     android:hint="@string/create_recipe_edit_text_time_hint" />
 
@@ -81,11 +83,12 @@
                     android:hint="@string/create_recipe_edit_text_servings_hint" />
 
                 <Switch
-                    android:id="@+id/create_recipe_switch_progress"
+                    android:id="@+id/create_recipe_switch_publish"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="@string/create_recipe_switch_progress_text"
+                    android:layout_marginTop="@dimen/create_recipe_switch_publish_margin_top"
+                    android:text="@string/create_recipe_switch_publish_text"
                     android:textColor="@color/text_secondary_color"
                     android:textSize="@dimen/standard_text_size" />
             </RelativeLayout>

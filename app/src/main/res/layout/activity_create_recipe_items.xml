@@ -16,11 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            android:elevation="4dp"
+            android:elevation="@dimen/create_recipe_items_toolbar_elevation"
             android:gravity="start"
             app:navigationIcon="@drawable/ic_close_alt_24dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:titleTextColor="@color/text_primary_color" />
+            app:titleTextColor="@color/toolbar_title_color" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -34,17 +34,16 @@
                     android:id="@+id/create_recipe_items_drag_linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="26dp"
+                    android:layout_margin="@dimen/standard_margin"
                     android:orientation="vertical" />
 
-                <android.support.v7.widget.AppCompatButton
+                <Button
                     android:id="@+id/create_recipe_items_button_add_item"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/create_recipe_items_drag_linear_layout"
-                    android:layout_marginEnd="26dp"
-                    android:layout_marginStart="26dp"
-                    android:text="Add Ingredient"
+                    android:layout_marginEnd="@dimen/standard_margin"
+                    android:layout_marginStart="@dimen/standard_margin"
                     android:textColor="@color/text_primary_color"
                     android:textSize="@dimen/standard_text_size" />
 

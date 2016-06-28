@@ -15,13 +15,25 @@
     <string name="vc_recipe_activity_steps_title" translatable="true">Steps</string>
     <!-- View/CreateRecipe end -->
 
+    <!-- ViewRecipe start -->
+    <string name="view_recipe_image_view_image_content_description" translatable="true">Image of the recipe</string>
+    <!-- ViewRecipe end -->
+
     <!-- CreateRecipe start -->
+    <string name="create_recipe_image_view_image_content_description" translatable="true">Placeholder camera icon image, awaiting user choosing Recipe image</string>
     <string name="create_recipe_edit_button_text" translatable="true">Edit</string>
     <string name="create_recipe_edit_text_title_hint" translatable="true">Chocolate Fondant and Crème Anglaise</string>
-    <string name="create_recipe_switch_progress_text" translatable="true">Publish</string>
+    <string name="create_recipe_switch_publish_text" translatable="true">Publish</string>
     <string name="create_recipe_edit_text_time_hint" translatable="true">45 (mins)</string>
     <string name="create_recipe_edit_text_servings_hint" translatable="true">4-6</string>
     <!-- CreateRecipe end -->
+
+    <!-- CreateRecipeItems start -->
+    <string name="create_recipe_items_button_add_item_text_add_ingredients" translatable="true">Add Ingredient</string>
+    <string name="create_recipe_items_button_add_item_text_add_steps" translatable="true">Add Step</string>
+    <string name="create_recipe_items_edit_text_new_ingredient_hint" translatable="true">3 tbsp of peanut oil.</string>
+    <string name="create_recipe_items_edit_text_new_step_hint" translatable="true">Heat oil till flash point.</string>
+    <!-- CreateRecipeItems end -->
 
     <!-- Error start -->
     <string name="error_google_play_services_error" translatable="true">Google Play Services error.</string>

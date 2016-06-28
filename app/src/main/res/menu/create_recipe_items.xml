@@ -4,7 +4,7 @@
     tools:context=".activity.recipe.CreateRecipeItemsActivity">
     <item
         android:id="@+id/create_recipe_items_action_sort"
-        android:icon="@drawable/ic_sort_black_24dp"
+        android:icon="@drawable/ic_sort_white_24dp"
         android:orderInCategory="100"
         android:title="Sort"
         app:showAsAction="always" />

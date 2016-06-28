@@ -41,9 +41,9 @@
 
 
     <style name="ThemeOverlay.EditText" parent="AppTheme">
-        <item name="android:inputType">text</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:maxLength">50</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:maxLength">70</item>
         <item name="android:textColor">@color/text_primary_color</item>
         <item name="android:textSize">@dimen/standard_text_size</item>
         <item name="android:layout_width">wrap_content</item>

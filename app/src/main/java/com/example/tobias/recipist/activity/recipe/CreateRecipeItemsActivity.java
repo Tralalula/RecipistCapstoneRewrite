@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -210,6 +211,8 @@ public class CreateRecipeItemsActivity extends BaseActivity implements View.OnCl
         } else {
             addEmptyEditTextToDragLinearLayout();
         }
+
+        mAddItemBtn.setText(getString(R.string.create_recipe_items_button_add_item_text_add_ingredients));
     }
 
     private void setupSteps(ArrayList<Steps.Step> steps) {
@@ -222,6 +225,8 @@ public class CreateRecipeItemsActivity extends BaseActivity implements View.OnCl
         } else {
             addEmptyEditTextToDragLinearLayout();
         }
+
+        mAddItemBtn.setText(getString(R.string.create_recipe_items_button_add_item_text_add_steps));
     }
 
     private void handleItems() {
@@ -244,7 +249,7 @@ public class CreateRecipeItemsActivity extends BaseActivity implements View.OnCl
         if (mSorting) {
             mMenu.getItem(0).setIcon(getDrawable(R.drawable.ic_check_white_24dp));
         } else {
-            mMenu.getItem(0).setIcon(getDrawable(R.drawable.ic_sort_black_24dp));
+            mMenu.getItem(0).setIcon(getDrawable(R.drawable.ic_sort_white_24dp));
         }
     }
 
@@ -253,13 +258,20 @@ public class CreateRecipeItemsActivity extends BaseActivity implements View.OnCl
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
+        String hint;
+        if (mCurrentType.equals(TYPE_INGREDIENTS)) {
+            hint = getString(R.string.create_recipe_items_edit_text_new_ingredient_hint);
+        } else {
+            hint = getString(R.string.create_recipe_items_edit_text_new_step_hint);
+        }
+
         EditText editText = Util.setupEditText(
                 this,
                 layoutParams,
                 text,
-                1,
-                InputType.TYPE_CLASS_TEXT,
-                mCurrentType
+                5,
+                InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE,
+                hint
         );
 
         Util.addView(mItemsDll, editText);

@@ -36,7 +36,12 @@
     <!-- CreateRecipe start -->
     <dimen name="create_recipe_button_edit_ingredients_width">64dp</dimen>
     <dimen name="create_recipe_button_edit_ingredients_height">32dp</dimen>
+    <dimen name="create_recipe_switch_publish_margin_top">7dp</dimen>
     <!-- CreateRecipe end -->
+
+    <!-- CreateRecipeItems start -->
+    <dimen name="create_recipe_items_toolbar_elevation">4dp</dimen>
+    <!-- CreateRecipeItems end -->
 
     <!-- Widget start -->
     <dimen name="widget_min_width">200dp</dimen>

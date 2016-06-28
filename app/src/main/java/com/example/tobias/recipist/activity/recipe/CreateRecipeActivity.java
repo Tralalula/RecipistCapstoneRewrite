@@ -82,7 +82,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     @BindView(R.id.create_recipe_toolbar) Toolbar mToolbar;
     @BindView(R.id.create_recipe_image_view_image) ImageView mPhotoImageView;
     @BindView(R.id.create_recipe_edit_text_title) EditText mTitleEditText;
-    @BindView(R.id.create_recipe_switch_progress) Switch mProgressSwitch;
+    @BindView(R.id.create_recipe_switch_publish) Switch mProgressSwitch;
     @BindView(R.id.create_recipe_edit_text_time) EditText mTimeEditText;
     @BindView(R.id.create_recipe_edit_text_servings) EditText mServingsEditText;
     @BindView(R.id.create_recipe_button_edit_ingredients) Button mEditIngredientsBtn;
