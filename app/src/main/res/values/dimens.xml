@@ -44,7 +44,7 @@
     <!-- CreateRecipeItems end -->
 
     <!-- Widget start -->
-    <dimen name="widget_min_width">200dp</dimen>
+    <dimen name="widget_min_width">300dp</dimen>
     <dimen name="widget_min_height">100dp</dimen>
     <!-- Widget end -->
 </resources>

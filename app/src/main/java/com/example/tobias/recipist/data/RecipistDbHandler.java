@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.tobias.recipist.model.Ingredients;
 import com.example.tobias.recipist.model.Recipe;
 import com.example.tobias.recipist.model.Steps;
+import com.example.tobias.recipist.widget.ProviderWidget;
 
 import java.util.List;
 

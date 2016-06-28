@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/recipe_item_card_view_root_container"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_item_relative_layout_root_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/mini_margin"
@@ -18,7 +18,7 @@
         android:padding="@dimen/mini_padding">
 
         <ImageView
-            android:id="@+id/recipe_item_image_view_thumbnail"
+            android:id="@+id/widget_item_image_view_thumbnail"
             android:layout_width="100dp"
             android:layout_height="80dp"
             android:scaleType="fitXY" />
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/recipe_item_text_view_title"
+                android:id="@+id/widget_item_text_view_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="@dimen/small_padding"
@@ -41,10 +41,10 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/recipe_item_text_view_title">
+                android:layout_below="@+id/widget_item_text_view_title">
 
                 <TextView
-                    android:id="@+id/recipe_item_text_view_time"
+                    android:id="@+id/widget_item_text_view_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_timer_24dp"
@@ -54,10 +54,10 @@
                     android:textSize="@dimen/standard_text_size" />
 
                 <TextView
-                    android:id="@+id/recipe_item_text_view_publish"
+                    android:id="@+id/widget_item_text_view_publish"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/recipe_item_text_view_time"
+                    android:layout_toEndOf="@+id/widget_item_text_view_time"
                     android:drawableStart="@drawable/ic_account_24dp"
                     android:paddingEnd="@dimen/small_padding"
                     android:paddingStart="@dimen/small_padding"
@@ -67,4 +67,4 @@
 
         </RelativeLayout>
     </LinearLayout>
-</android.support.v7.widget.CardView>
+</RelativeLayout>

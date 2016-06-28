@@ -1,5 +1,6 @@
 package com.example.tobias.recipist.widget;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -17,8 +18,13 @@ import com.example.tobias.recipist.activity.MainActivity;
  * Created by Tobias on 26-06-2016.
  */
 public class ProviderWidget extends AppWidgetProvider {
+    private static int[] sAppWidgetIds;
+    private static AppWidgetManager sAppWidgetManager;
+
     private static final String ACTION_REFRESH = "com.example.tobias.recipist.widget.REFRESH";
 
+    @SuppressLint("NewApi")
+    @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
             RemoteViews views = initViews(context, appWidgetManager, appWidgetId);
@@ -29,7 +35,8 @@ public class ProviderWidget extends AppWidgetProvider {
     }
 
     @SuppressWarnings("deprecation")
-    private RemoteViews initViews(Context context, AppWidgetManager manager, int widgetId) {
+    @SuppressLint("NewApi")
+    private static RemoteViews initViews(Context context, AppWidgetManager manager, int widgetId) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_main);
 
         Intent data = new Intent(context, ServiceWidget.class);
@@ -46,6 +53,7 @@ public class ProviderWidget extends AppWidgetProvider {
         return views;
     }
 
+    @Override
     public void onReceive(@NonNull Context context, @NonNull Intent intent) {
         super.onReceive(context, intent);
         if (ACTION_REFRESH.equals(intent.getAction())) {
