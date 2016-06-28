@@ -60,7 +60,6 @@ public class LocalRecipesAdapter extends RecyclerView.Adapter<RecipeViewHolder> 
             public void onClick(View view) {
                 Intent data = new Intent(mContext, ViewRecipeActivity.class);
                 data.putExtra(ViewRecipeActivity.KEY_RECIPE_FIREBASE_KEY, firebaseKeys.get(holder.getAdapterPosition()));
-                data.putExtra(ViewRecipeActivity.KEY_RECIPE_OFFLINE_ID, recipeIds.get(holder.getAdapterPosition()));
                 data.putExtra(ViewRecipeActivity.KEY_TYPE, ViewRecipeActivity.TYPE_OFFLINE);
                 mContext.startActivity(data);
             }

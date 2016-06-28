@@ -1,4 +1,6 @@
 <resources>
+    <dimen name="margin_to_push_layout">0dp</dimen>
+
     <!-- Common margin sizes start -->
     <dimen name="micro_margin">2dp</dimen>
     <dimen name="mini_margin">4dp</dimen>
@@ -42,6 +44,10 @@
     <!-- CreateRecipeItems start -->
     <dimen name="create_recipe_items_toolbar_elevation">4dp</dimen>
     <!-- CreateRecipeItems end -->
+
+    <!-- RecipeItem start -->
+    <dimen name="recipe_item_card_view_root_container_horizontal_margin">@dimen/small_margin</dimen>
+    <!-- RecipeItem end -->
 
     <!-- Widget start -->
     <dimen name="widget_min_width">300dp</dimen>

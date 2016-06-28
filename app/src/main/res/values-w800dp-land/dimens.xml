@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_to_push_layout">192dp</dimen>
+
+    <!-- RecipeItem start -->
+    <dimen name="recipe_item_card_view_root_container_horizontal_margin">
+        @dimen/margin_to_push_layout
+    </dimen>
+    <!-- RecipeItem end -->
+</resources>

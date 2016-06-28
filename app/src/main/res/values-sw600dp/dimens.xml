@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- View/CreateRecipe start -->
+    <dimen name="vc_recipe_collapsing_app_bar_layout_height">288dp</dimen>
+    <dimen name="vc_recipe_collapsing_toolbar_layout_expanded_title_margin_start">108dp</dimen>
+    <dimen name="vc_recipe_toolbar_content_inset_start">108dp</dimen>
+    <!-- View/CreateRecipe end -->
+</resources>

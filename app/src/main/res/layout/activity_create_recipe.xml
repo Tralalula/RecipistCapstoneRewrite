@@ -45,6 +45,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_to_push_layout"
+        android:layout_marginStart="@dimen/margin_to_push_layout"
         android:nestedScrollingEnabled="true"
         android:padding="@dimen/small_padding"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -77,13 +79,13 @@
                     android:nextFocusDown="@+id/create_recipe_edit_text_servings" />
 
                 <EditText
-                    android:imeOptions="actionDone"
                     android:id="@+id/create_recipe_edit_text_servings"
                     style="@style/ThemeOverlay.TimeAndServingsEditText"
                     android:layout_toEndOf="@id/create_recipe_edit_text_time"
                     android:digits="0123456789-"
                     android:drawableStart="@drawable/ic_account_24dp"
-                    android:hint="@string/create_recipe_edit_text_servings_hint" />
+                    android:hint="@string/create_recipe_edit_text_servings_hint"
+                    android:imeOptions="actionDone" />
 
                 <Switch
                     android:id="@+id/create_recipe_switch_publish"

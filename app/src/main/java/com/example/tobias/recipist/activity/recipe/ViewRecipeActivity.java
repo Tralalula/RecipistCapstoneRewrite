@@ -84,7 +84,6 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     private String mCurrentType;
 
     private Cursor mCursor;
-    private long mRecipeId;
 
 
     @Override
@@ -110,7 +109,6 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
             getSupportLoaderManager().initLoader(KEY_RECIPE_LOADER, null, this);
             getSupportLoaderManager().initLoader(KEY_INGREDIENTS_LOADER, null, this);
             getSupportLoaderManager().initLoader(KEY_STEPS_LOADER, null, this);
-            mRecipeId = (long) data.getIntExtra(KEY_RECIPE_OFFLINE_ID, -1);
         }
 
         // Set click listeners.
@@ -232,8 +230,6 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
             mServingsTxtVw.setText(mCursor.getString(Recipe.COL_SERVINGS));
 
             mRecipe = new Recipe(mCursor);
-            mCursor.close();
-            mCursor = null;
 
             mEditFab.setVisibility(View.VISIBLE);
             mPublishTxtVw.setVisibility(View.VISIBLE);
@@ -252,29 +248,27 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     }
 
     private void handleOfflineIngredients() {
-        ArrayList<Ingredients.Ingredient> ingredients = new ArrayList<>();
-        do {
-            ingredients.add(new Ingredients.Ingredient(mCursor));
-        } while (mCursor.moveToNext());
+        if (mCursor != null) {
+            ArrayList<Ingredients.Ingredient> ingredients = new ArrayList<>();
+            do {
+                ingredients.add(new Ingredients.Ingredient(mCursor));
+            } while (mCursor.moveToNext());
 
-        handleIngredients(mIngredientsLinLt, ingredients);
-        mIngredients = ingredients;
-
-        mCursor.close();
-        mCursor = null;
+            handleIngredients(mIngredientsLinLt, ingredients);
+            mIngredients = ingredients;
+        }
     }
 
     private void handleOfflineSteps() {
-        ArrayList<Steps.Step> steps = new ArrayList<>();
-        do {
-            steps.add(new Steps.Step(mCursor));
-        } while (mCursor.moveToNext());
+        if (mCursor != null) {
+            ArrayList<Steps.Step> steps = new ArrayList<>();
+            do {
+                steps.add(new Steps.Step(mCursor));
+            } while (mCursor.moveToNext());
 
-        handleSteps(mStepsLinLt, steps);
-        mSteps = steps;
-
-        mCursor.close();
-        mCursor = null;
+            handleSteps(mStepsLinLt, steps);
+            mSteps = steps;
+        }
     }
 
     private void handleIngredients(LinearLayout linearLayout, ArrayList<Ingredients.Ingredient> ingredients) {
@@ -395,6 +389,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
                 }
                 break;
             case KEY_STEPS_LOADER:
+                System.out.println("WTF");
                 if (mCursor != null && mCursor.moveToFirst()) {
                     handleOfflineSteps();
                 }

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/mini_margin"
-    android:layout_marginEnd="@dimen/small_margin"
-    android:layout_marginStart="@dimen/small_margin"
+    android:layout_marginEnd="@dimen/recipe_item_card_view_root_container_horizontal_margin"
+    android:layout_marginStart="@dimen/recipe_item_card_view_root_container_horizontal_margin"
     android:layout_marginTop="@dimen/mini_margin"
     android:clickable="true"
     android:focusable="true"
@@ -31,10 +31,10 @@
                 android:id="@+id/recipe_item_text_view_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingEnd="@dimen/small_padding"
-                android:paddingStart="@dimen/small_padding"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:paddingEnd="@dimen/small_padding"
+                android:paddingStart="@dimen/small_padding"
                 android:textColor="@color/text_primary_color"
                 android:textSize="@dimen/medium_text_size" />
 
