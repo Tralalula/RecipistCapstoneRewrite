@@ -10,6 +10,7 @@ import com.google.firebase.database.Query;
 public class PublicFirebaseRecipesFragment extends FirebaseRecipeFragment {
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
-        return FirebaseUtil.getPublicRecipesQuery();
+//        return FirebaseUtil.getPublicRecipesQuery();  // TODO: Fix so this can be used without the app crashing..
+        return FirebaseUtil.getRecipesRef();
     }
 }

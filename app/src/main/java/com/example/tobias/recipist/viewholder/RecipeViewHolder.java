@@ -31,12 +31,12 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
     public void bindToRecipe(Context context, Recipe recipe) {
         String title = recipe.title;
         String thumbnailUrl = recipe.thumbnailImageUrl;
-        String progress = String.valueOf(recipe.publish);
+        String publish = String.valueOf(recipe.publish);
         String time = recipe.time;
 
         mRecipeTitle.setText(title);
         Picasso.with(context).load(thumbnailUrl).into(mRecipeThumbnail);
-        mRecipePublish.setText(progress);
+        mRecipePublish.setText(publish);
         mRecipeTime.setText(time);
     }
 }

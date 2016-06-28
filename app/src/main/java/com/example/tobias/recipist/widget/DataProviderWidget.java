@@ -71,6 +71,7 @@ public class DataProviderWidget implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public RemoteViews getViewAt(int i) {
+//        System.out.println("Widget mCursor = " + mCursor);
         if (i == AdapterView.INVALID_POSITION || mCursor == null || !mCursor.moveToPosition(i)) {
             return null;
         }
@@ -78,13 +79,13 @@ public class DataProviderWidget implements RemoteViewsService.RemoteViewsFactory
         RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.recipe_item);
 
         String title = mCursor.getString(Recipe.COL_TITLE);
-        String progress;
-        if (mCursor.getInt(Recipe.COL_PUBLISH) == 0) progress = "In Progress";
-        else progress = "Completed";
+        String publish;
+        if (mCursor.getInt(Recipe.COL_PUBLISH) == 0) publish = "In Progress";
+        else publish = "Completed";
         String time = mCursor.getString(Recipe.COL_TIME);
 
         remoteViews.setTextViewText(R.id.recipe_item_text_view_title, title);
-        remoteViews.setTextViewText(R.id.recipe_item_text_view_publish, progress);
+        remoteViews.setTextViewText(R.id.recipe_item_text_view_publish, publish);
         remoteViews.setTextViewText(R.id.recipe_item_text_view_time, time);
 
         try {
