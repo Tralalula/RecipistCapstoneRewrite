@@ -17,6 +17,7 @@ import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.recipe.ViewRecipeActivity;
 import com.example.tobias.recipist.data.RecipistContract;
 import com.example.tobias.recipist.model.Recipe;
+import com.example.tobias.recipist.util.Util;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -86,7 +87,7 @@ public class DataProviderWidget implements RemoteViewsService.RemoteViewsFactory
         Log.e("DataProviderWdiget", "mCursor.getString(Recipe.COL_TITLE) = " + mCursor.getString(Recipe.COL_TITLE));
         remoteViews.setTextViewText(R.id.widget_item_text_view_title, mCursor.getString(Recipe.COL_TITLE));
         remoteViews.setTextViewText(R.id.widget_item_text_view_publish, String.valueOf(mCursor.getString(Recipe.COL_PUBLISH)));
-        remoteViews.setTextViewText(R.id.widget_item_text_view_time, mCursor.getString(Recipe.COL_TIME));
+        remoteViews.setTextViewText(R.id.widget_item_text_view_time, Util.formatTime(Integer.parseInt(mCursor.getString(Recipe.COL_TIME))));
 
         try {
             Bitmap thumbnail = Picasso.with(mContext).load(mCursor.getString(Recipe.COL_THUMBNAIL_URL)).get();
