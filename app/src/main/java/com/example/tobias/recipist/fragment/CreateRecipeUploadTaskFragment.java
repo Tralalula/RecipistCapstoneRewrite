@@ -79,7 +79,7 @@ public class CreateRecipeUploadTaskFragment extends Fragment {
 
     public void uploadRecipe(String fullsizeUrl, String fullSizeRef,
                              String thumbnailUrl, String thumbnailRef,
-                             String title, int progress, String time, String servings,
+                             String title, int publish, String time, String servings,
                              ArrayList<Ingredients.Ingredient> ingredients,
                              ArrayList<Steps.Step> steps,
                              boolean editing, String recipeFirebaseKeyForEditing) {
@@ -91,7 +91,7 @@ public class CreateRecipeUploadTaskFragment extends Fragment {
                 thumbnailUrl,
                 thumbnailRef,
                 title,
-                progress,
+                publish,
                 time,
                 servings,
                 ingredients,
@@ -106,7 +106,7 @@ public class CreateRecipeUploadTaskFragment extends Fragment {
     public void uploadRecipe(Bitmap bitmap, String inBitmapPath,
                              Bitmap thumbnail, String inThumbnailPath,
                              String inFileName,
-                             String title, int progress, String time, String servings,
+                             String title, int publish, String time, String servings,
                              ArrayList<Ingredients.Ingredient> ingredients,
                              ArrayList<Steps.Step> steps,
                              boolean editing, String recipeFirebaseKeyForEditing) {
@@ -119,7 +119,7 @@ public class CreateRecipeUploadTaskFragment extends Fragment {
                 inThumbnailPath,
                 inFileName,
                 title,
-                progress,
+                publish,
                 time,
                 servings,
                 ingredients,

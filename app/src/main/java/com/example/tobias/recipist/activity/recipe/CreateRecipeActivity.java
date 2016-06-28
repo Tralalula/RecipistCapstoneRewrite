@@ -82,7 +82,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     @BindView(R.id.create_recipe_toolbar) Toolbar mToolbar;
     @BindView(R.id.create_recipe_image_view_image) ImageView mPhotoImageView;
     @BindView(R.id.create_recipe_edit_text_title) EditText mTitleEditText;
-    @BindView(R.id.create_recipe_switch_publish) Switch mProgressSwitch;
+    @BindView(R.id.create_recipe_switch_publish) Switch mPublishSwitch;
     @BindView(R.id.create_recipe_edit_text_time) EditText mTimeEditText;
     @BindView(R.id.create_recipe_edit_text_servings) EditText mServingsEditText;
     @BindView(R.id.create_recipe_button_edit_ingredients) Button mEditIngredientsBtn;
@@ -165,8 +165,8 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private void editRecipe(Recipe recipe) {
         String imageUrl = recipe.fullSizeImageUrl;
         String title = recipe.title;
-        boolean progress = false;
-        if (recipe.progress == 1) progress = true;
+        boolean publish = false;
+        if (recipe.publish == 1) publish = true;
         String time = recipe.time;
         String servings = recipe.servings;
 
@@ -178,7 +178,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                 .into(mPhotoImageView);
 
         if (!Util.isNullOrEmpty(title)) mTitleEditText.setText(title);
-        mProgressSwitch.setChecked(progress);
+        mPublishSwitch.setChecked(publish);
         if (!Util.isNullOrEmpty(time)) mTimeEditText.setText(time);
         if (!Util.isNullOrEmpty(servings)) mServingsEditText.setText(servings);
 
@@ -372,8 +372,8 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         mSubmitFab.setEnabled(true);
 
         String title = mTitleEditText.getText().toString();
-        int progress = 0;
-        if (mProgressSwitch.isChecked()) progress = 1;
+        int publish = 0;
+        if (mPublishSwitch.isChecked()) publish = 1;
         String time = mTimeEditText.getText().toString();
         String servings = mServingsEditText.getText().toString();
 
@@ -384,7 +384,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                     mOldRecipe.thumbnailImageUrl,
                     mOldRecipe.thumbnailImageStorageUrl,
                     title,
-                    progress,
+                    publish,
                     time,
                     servings,
                     mIngredients,
@@ -404,7 +404,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                     thumbnailPath,
                     mFileUri.getLastPathSegment(),
                     title,
-                    progress,
+                    publish,
                     time,
                     servings,
                     mIngredients,

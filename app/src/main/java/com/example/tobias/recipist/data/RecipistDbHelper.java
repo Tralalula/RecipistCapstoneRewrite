@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Tobias on 24-06-2016.
  */
 public class RecipistDbHelper extends SQLiteOpenHelper {
-    public static int DATABASE_VERSION = 3;
+    public static int DATABASE_VERSION = 4;
     public static String DATABASE_NAME = "recipist.db";
 
     public RecipistDbHelper(Context context) {
@@ -26,7 +26,7 @@ public class RecipistDbHelper extends SQLiteOpenHelper {
                 RecipistContract.RecipeEntry.COLUMN_THUMBNAIL_IMAGE_URL + " TEXT NOT NULL, " +
                 RecipistContract.RecipeEntry.COLUMN_THUMBNAIL_IMAGE_STORAGE_URL + " TEXT NOT NULL, " +
                 RecipistContract.RecipeEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
-                RecipistContract.RecipeEntry.COLUMN_PROGRESS + " INTEGER NOT NULL, " +
+                RecipistContract.RecipeEntry.COLUMN_PUBLISH + " INTEGER NOT NULL, " +
                 RecipistContract.RecipeEntry.COLUMN_TIME + " TEXT NOT NULL, " +
                 RecipistContract.RecipeEntry.COLUMN_SERVINGS + " TEXT NOT NULL, " +
                 RecipistContract.RecipeEntry.COLUMN_FIREBASE_KEY + " TEXT NOT NULL);";

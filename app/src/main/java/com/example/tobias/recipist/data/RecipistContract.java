@@ -25,7 +25,7 @@ public class RecipistContract {
         public static final String COLUMN_THUMBNAIL_IMAGE_URL = "thumbnail_image_url";
         public static final String COLUMN_THUMBNAIL_IMAGE_STORAGE_URL = "thumbnail_image_storage_url";
         public static final String COLUMN_TITLE = "title";
-        public static final String COLUMN_PROGRESS = "progress";
+        public static final String COLUMN_PUBLISH = "publish";
         public static final String COLUMN_TIME = "time";
         public static final String COLUMN_SERVINGS = "servings";
         public static final String COLUMN_FIREBASE_KEY = "firebase_key";

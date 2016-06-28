@@ -1,20 +1,15 @@
 package com.example.tobias.recipist.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.recipe.ViewRecipeActivity;
-import com.example.tobias.recipist.data.RecipistContract;
-import com.example.tobias.recipist.loader.RecipeLoader;
-import com.example.tobias.recipist.model.Ingredients;
 import com.example.tobias.recipist.model.Recipe;
 import com.example.tobias.recipist.viewholder.RecipeViewHolder;
 import com.squareup.picasso.Picasso;
@@ -53,7 +48,7 @@ public class LocalRecipesAdapter extends RecyclerView.Adapter<RecipeViewHolder> 
                 .into(holder.mRecipeThumbnail);
 
         holder.mRecipeTitle.setText(mCursor.getString(Recipe.COL_TITLE));
-        holder.mRecipeProgress.setText(String.valueOf(mCursor.getInt(Recipe.COL_PROGRESS)));
+        holder.mRecipePublish.setText(String.valueOf(mCursor.getInt(Recipe.COL_PUBLISH)));
         holder.mRecipeTime.setText(mCursor.getString(Recipe.COL_TIME));
 
         firebaseKeys.add(mCursor.getString(Recipe.COL_FIREBASE_KEY));

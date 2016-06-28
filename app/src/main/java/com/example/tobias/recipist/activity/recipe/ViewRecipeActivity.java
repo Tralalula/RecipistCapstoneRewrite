@@ -66,7 +66,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.view_recipe_toolbar) Toolbar mToolbar;
     @BindView(R.id.view_recipe_image_view_image) ImageView mPhotoImgVw;
     @BindView(R.id.view_recipe_text_view_title) TextView mTitleTxtVw;
-    @BindView(R.id.view_recipe_text_view_progress) TextView mProgressTxtVw;
+    @BindView(R.id.view_recipe_text_view_publish) TextView mPublishTxtVw;
     @BindView(R.id.view_recipe_text_view_time) TextView mTimeTxtVw;
     @BindView(R.id.view_recipe_text_view_servings) TextView mServingsTxtVw;
     @BindView(R.id.view_recipe_linear_layout_ingredients_list) LinearLayout mIngredientsLinLt;
@@ -128,9 +128,6 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
                     String notSpecified = "Not specified";
                     mRecipe = dataSnapshot.getValue(Recipe.class);
                     String title = mRecipe.title;
-                    String progress;
-                    if (mRecipe.progress == 0) progress = "In Progress";
-                    else progress = "Completed";
                     String time = mRecipe.time;
                     String servings = mRecipe.servings;
 
@@ -147,7 +144,6 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
 
                     mCollapsingToolbarLayout.setTitle(title);
                     mTitleTxtVw.setText(title);
-                    mProgressTxtVw.setText(progress);
                     mTimeTxtVw.setText(time);
                     mServingsTxtVw.setText(servings);
 
@@ -228,10 +224,10 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
 
             mCollapsingToolbarLayout.setTitle(mCursor.getString(Recipe.COL_TITLE));
             mTitleTxtVw.setText(mCursor.getString(Recipe.COL_TITLE));
-            String progress;
-            if (mCursor.getInt(Recipe.COL_PROGRESS) == 0) progress = "In Progress";
-            else progress = "Completed";
-            mProgressTxtVw.setText(progress);
+            String publish;
+            if (mCursor.getInt(Recipe.COL_PUBLISH) == 0) publish = "Private";
+            else publish = "Public";
+            mPublishTxtVw.setText(publish);
             mTimeTxtVw.setText(mCursor.getString(Recipe.COL_TIME));
             mServingsTxtVw.setText(mCursor.getString(Recipe.COL_SERVINGS));
 
@@ -240,7 +236,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
             mCursor = null;
 
             mEditFab.setVisibility(View.VISIBLE);
-            mProgressTxtVw.setVisibility(View.VISIBLE);
+            mPublishTxtVw.setVisibility(View.VISIBLE);
 
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,

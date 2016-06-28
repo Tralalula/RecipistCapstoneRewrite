@@ -35,7 +35,7 @@ public class RecipistDbHandler {
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_THUMBNAIL_URL], recipe.thumbnailImageUrl);
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_THUMBNAIL_STORAGE_URL], recipe.thumbnailImageStorageUrl);
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_TITLE], recipe.title);
-                recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_PROGRESS], recipe.progress);
+                recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_PUBLISH], recipe.publish);
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_TIME], recipe.time);
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_SERVINGS], recipe.servings);
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_FIREBASE_KEY], recipe.firebaseKey);
@@ -77,7 +77,7 @@ public class RecipistDbHandler {
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_THUMBNAIL_URL], recipe.thumbnailImageUrl);
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_THUMBNAIL_STORAGE_URL], recipe.thumbnailImageStorageUrl);
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_TITLE], recipe.title);
-                recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_PROGRESS], recipe.progress);
+                recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_PUBLISH], recipe.publish);
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_TIME], recipe.time);
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_SERVINGS], recipe.servings);
                 recipeValues.put(Recipe.RECIPE_COLUMNS[Recipe.COL_FIREBASE_KEY], recipe.firebaseKey);

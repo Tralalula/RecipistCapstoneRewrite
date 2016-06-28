@@ -55,7 +55,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
     private String mThumbnailRef;
 
     private String mTitle;
-    private int mProgress;
+    private int mPublish;
     private String mTime;
     private String mServings;
 
@@ -70,7 +70,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
     public UploadRecipeTask(Context context, TaskCallback callback,
                             String fullSizeUrl, String fullSizeRef,
                             String thumbnailUrl, String thumbnailRef,
-                            String title, int progress, String time, String servings,
+                            String title, int publish, String time, String servings,
                             ArrayList<Ingredients.Ingredient> ingredients,
                             ArrayList<Steps.Step> steps,
                             boolean editing, String firebaseKeyForEditing) {
@@ -83,7 +83,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
         mThumbnailRef = thumbnailRef;
 
         mTitle = title;
-        mProgress = progress;
+        mPublish = publish;
         mTime = time;
         mServings = servings;
 
@@ -99,7 +99,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
     public UploadRecipeTask(Context context, TaskCallback callback,
                             Bitmap bitmap, String inBitmapPath,
                             Bitmap thumbnail, String inThumbnailPath, String inFileName,
-                            String title, int progress, String time, String servings,
+                            String title, int publish, String time, String servings,
                             ArrayList<Ingredients.Ingredient> ingredients,
                             ArrayList<Steps.Step> steps,
                             boolean editing, String firebaseKeyForEditing) {
@@ -114,7 +114,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
         mThumbnailPath = inThumbnailPath;
 
         mTitle = title;
-        mProgress = progress;
+        mPublish = publish;
         mTime = time;
         mServings = servings;
 
@@ -181,7 +181,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                                     thumbnailUrl.toString(),
                                     thumbnailRef.toString(),
                                     mTitle,
-                                    mProgress,
+                                    mPublish,
                                     mTime,
                                     mServings,
                                     mIngredients,
@@ -251,7 +251,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                     mThumbnailUrl,
                     mThumbnailRef,
                     mTitle,
-                    mProgress,
+                    mPublish,
                     mTime,
                     mServings,
                     mIngredients,

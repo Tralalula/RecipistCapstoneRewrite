@@ -79,12 +79,12 @@ public class DataProviderWidget implements RemoteViewsService.RemoteViewsFactory
 
         String title = mCursor.getString(Recipe.COL_TITLE);
         String progress;
-        if (mCursor.getInt(Recipe.COL_PROGRESS) == 0) progress = "In Progress";
+        if (mCursor.getInt(Recipe.COL_PUBLISH) == 0) progress = "In Progress";
         else progress = "Completed";
         String time = mCursor.getString(Recipe.COL_TIME);
 
         remoteViews.setTextViewText(R.id.recipe_item_text_view_title, title);
-        remoteViews.setTextViewText(R.id.recipe_item_text_view_progress, progress);
+        remoteViews.setTextViewText(R.id.recipe_item_text_view_publish, progress);
         remoteViews.setTextViewText(R.id.recipe_item_text_view_time, time);
 
         try {

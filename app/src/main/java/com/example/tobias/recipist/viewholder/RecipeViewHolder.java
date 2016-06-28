@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 public class RecipeViewHolder extends RecyclerView.ViewHolder {
     public TextView mRecipeTitle;
     public ImageView mRecipeThumbnail;
-    public TextView mRecipeProgress;
+    public TextView mRecipePublish;
     public TextView mRecipeTime;
 
     public RecipeViewHolder(View itemView) {
@@ -24,19 +24,19 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
 
         mRecipeTitle = (TextView) itemView.findViewById(R.id.recipe_item_text_view_title);
         mRecipeThumbnail = (ImageView) itemView.findViewById(R.id.recipe_item_image_view_thumbnail);
-        mRecipeProgress = (TextView) itemView.findViewById(R.id.recipe_item_text_view_progress);
+        mRecipePublish = (TextView) itemView.findViewById(R.id.recipe_item_text_view_publish);
         mRecipeTime = (TextView) itemView.findViewById(R.id.recipe_item_text_view_time);
     }
 
     public void bindToRecipe(Context context, Recipe recipe) {
         String title = recipe.title;
         String thumbnailUrl = recipe.thumbnailImageUrl;
-        String progress = String.valueOf(recipe.progress);
+        String progress = String.valueOf(recipe.publish);
         String time = recipe.time;
 
         mRecipeTitle.setText(title);
         Picasso.with(context).load(thumbnailUrl).into(mRecipeThumbnail);
-        mRecipeProgress.setText(progress);
+        mRecipePublish.setText(progress);
         mRecipeTime.setText(time);
     }
 }

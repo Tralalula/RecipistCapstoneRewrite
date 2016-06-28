@@ -22,7 +22,7 @@ public class Recipe implements Parcelable {
             RecipistContract.RecipeEntry.COLUMN_THUMBNAIL_IMAGE_URL,
             RecipistContract.RecipeEntry.COLUMN_THUMBNAIL_IMAGE_STORAGE_URL,
             RecipistContract.RecipeEntry.COLUMN_TITLE,
-            RecipistContract.RecipeEntry.COLUMN_PROGRESS,
+            RecipistContract.RecipeEntry.COLUMN_PUBLISH,
             RecipistContract.RecipeEntry.COLUMN_TIME,
             RecipistContract.RecipeEntry.COLUMN_SERVINGS,
             RecipistContract.RecipeEntry.COLUMN_FIREBASE_KEY
@@ -35,7 +35,7 @@ public class Recipe implements Parcelable {
     public static final int COL_THUMBNAIL_URL = 4;
     public static final int COL_THUMBNAIL_STORAGE_URL = 5;
     public static final int COL_TITLE = 6;
-    public static final int COL_PROGRESS = 7;
+    public static final int COL_PUBLISH = 7;
     public static final int COL_TIME = 8;
     public static final int COL_SERVINGS = 9;
     public static final int COL_FIREBASE_KEY = 10;
@@ -49,7 +49,7 @@ public class Recipe implements Parcelable {
     public String thumbnailImageStorageUrl;
 
     public String title;
-    public int progress;
+    public int publish;
     public String time;
     public String servings;
 
@@ -66,7 +66,7 @@ public class Recipe implements Parcelable {
     public Recipe(Author author,
                   String fullSizeImageUrl, String fullSizeImageStorageUrl,
                   String thumbnailImageUrl, String thumbnailImageStorageUrl,
-                  String title, int progress, String time, String servings,
+                  String title, int publish, String time, String servings,
                   ArrayList<Ingredients.Ingredient> ingredients, ArrayList<Steps.Step> steps,
                   String firebaseKey) {
         this.author = author;
@@ -76,7 +76,7 @@ public class Recipe implements Parcelable {
         this.thumbnailImageUrl = thumbnailImageUrl;
         this.thumbnailImageStorageUrl = thumbnailImageStorageUrl;
         this.title = title;
-        this.progress = progress;
+        this.publish = publish;
         this.time = time;
         this.servings = servings;
         this.ingredients = ingredients;
@@ -91,7 +91,7 @@ public class Recipe implements Parcelable {
         thumbnailImageUrl = cursor.getString(COL_THUMBNAIL_URL);
         thumbnailImageStorageUrl = cursor.getString(COL_THUMBNAIL_STORAGE_URL);
         title = cursor.getString(COL_TITLE);
-        progress = cursor.getInt(COL_PROGRESS);
+        publish = cursor.getInt(COL_PUBLISH);
         time = cursor.getString(COL_TIME);
         servings = cursor.getString(COL_SERVINGS);
         firebaseKey = cursor.getString(COL_FIREBASE_KEY);
@@ -105,7 +105,7 @@ public class Recipe implements Parcelable {
         thumbnailImageUrl = in.readString();
         thumbnailImageStorageUrl = in.readString();
         title = in.readString();
-        progress = in.readInt();
+        publish = in.readInt();
         time = in.readString();
         servings = in.readString();
         ingredients = in.createTypedArrayList(Ingredients.Ingredient.CREATOR);
@@ -122,7 +122,7 @@ public class Recipe implements Parcelable {
         dest.writeString(thumbnailImageUrl);
         dest.writeString(thumbnailImageStorageUrl);
         dest.writeString(title);
-        dest.writeInt(progress);
+        dest.writeInt(publish);
         dest.writeString(time);
         dest.writeString(servings);
         dest.writeTypedList(ingredients);
