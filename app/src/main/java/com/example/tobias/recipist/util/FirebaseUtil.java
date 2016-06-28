@@ -16,6 +16,7 @@ public class FirebaseUtil {
     private static String RECIPES = "recipes";
     private static String USERS = "users";
     private static String AUTHOR_UID = "authorUid";
+    private static String PUBLISH = "publish";
 
     private static FirebaseDatabase mDatabase;
     private static FirebaseAuth mAuth;
@@ -26,7 +27,7 @@ public class FirebaseUtil {
     }
 
     public static FirebaseUser getCurrentUser() {
-         return getAuth().getCurrentUser();
+        return getAuth().getCurrentUser();
     }
 
     public static String getCurrentUserId() {
@@ -45,7 +46,8 @@ public class FirebaseUtil {
 
     public static Author getAuthor() {
         FirebaseUser author = getCurrentUser();
-        if (author != null) return new Author(author.getEmail(), author.getDisplayName(), author.getUid());
+        if (author != null)
+            return new Author(author.getEmail(), author.getDisplayName(), author.getUid());
         return null;
     }
 
@@ -72,5 +74,9 @@ public class FirebaseUtil {
 
     public static Query getUsersRecipesQuery() {
         return getRecipesRef().orderByChild(AUTHOR_UID).equalTo(getCurrentUserId());
+    }
+
+    public static Query getPublicRecipesQuery() {
+        return getRecipesRef().orderByChild(PUBLISH).equalTo(1);
     }
 }

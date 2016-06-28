@@ -103,7 +103,7 @@ public class RecipesFragment extends Fragment {
     }
 
     private void handleOverviewLayout() {
-        Query recipesQuery = FirebaseUtil.getRecipesRef();
+        Query recipesQuery = FirebaseUtil.getPublicRecipesQuery();
 
         System.out.println("QUERY QUERY 1 " + recipesQuery.toString());
 
