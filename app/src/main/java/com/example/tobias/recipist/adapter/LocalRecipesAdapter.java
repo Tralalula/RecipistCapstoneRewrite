@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.recipe.ViewRecipeActivity;
 import com.example.tobias.recipist.model.Recipe;
+import com.example.tobias.recipist.util.Util;
 import com.example.tobias.recipist.viewholder.RecipeViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -49,7 +50,7 @@ public class LocalRecipesAdapter extends RecyclerView.Adapter<RecipeViewHolder> 
 
         holder.mRecipeTitle.setText(mCursor.getString(Recipe.COL_TITLE));
         holder.mRecipePublish.setText(String.valueOf(mCursor.getInt(Recipe.COL_PUBLISH)));
-        holder.mRecipeTime.setText(mCursor.getString(Recipe.COL_TIME));
+        holder.mRecipeTime.setText(Util.formatTime(Integer.parseInt(mCursor.getString(Recipe.COL_TIME))));
 
         firebaseKeys.add(mCursor.getString(Recipe.COL_FIREBASE_KEY));
         recipeIds.add(mCursor.getInt(Recipe.COL_ID));

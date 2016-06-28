@@ -91,4 +91,18 @@ public class Util {
     public static boolean isNullOrEmpty(String string) {
         return (string == null || TextUtils.isEmpty(string));
     }
+
+    public static String formatTime(int timeInMinutes) {
+        int days = timeInMinutes / 1440;
+        timeInMinutes -= (days * 1440);
+        int hours = timeInMinutes / 60;
+        int minutes = timeInMinutes % 60;
+
+        String formattedTime = "";
+        if (days > 0) formattedTime += days + "d";
+        if (hours > 0) formattedTime += hours + "h";
+        if (minutes > 0) formattedTime += minutes + "m";
+
+        return formattedTime;
+    }
 }

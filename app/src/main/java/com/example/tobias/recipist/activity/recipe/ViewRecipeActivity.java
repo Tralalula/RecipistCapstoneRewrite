@@ -144,7 +144,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
 
                     mCollapsingToolbarLayout.setTitle(title);
                     mTitleTxtVw.setText(title);
-                    mTimeTxtVw.setText(time);
+                    mTimeTxtVw.setText(Util.formatTime(Integer.parseInt(time)));
                     mServingsTxtVw.setText(servings);
 
                     handleIngredients(mIngredientsLinLt, ingredients);
@@ -228,7 +228,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
             if (mCursor.getInt(Recipe.COL_PUBLISH) == 0) publish = "Private";
             else publish = "Public";
             mPublishTxtVw.setText(publish);
-            mTimeTxtVw.setText(mCursor.getString(Recipe.COL_TIME));
+            mTimeTxtVw.setText(Util.formatTime(Integer.parseInt(mCursor.getString(Recipe.COL_TIME))));
             mServingsTxtVw.setText(mCursor.getString(Recipe.COL_SERVINGS));
 
             mRecipe = new Recipe(mCursor);
