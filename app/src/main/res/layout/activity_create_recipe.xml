@@ -57,7 +57,8 @@
                 android:id="@+id/create_recipe_edit_text_title"
                 style="@style/ThemeOverlay.Heading2EditText"
                 android:layout_alignParentStart="true"
-                android:hint="@string/create_recipe_edit_text_title_hint" />
+                android:hint="@string/create_recipe_edit_text_title_hint"
+                android:nextFocusDown="@+id/create_recipe_edit_text_time" />
 
             <RelativeLayout
                 android:id="@+id/create_recipe_linear_layout_time_and_servings_container"
@@ -72,9 +73,11 @@
                     style="@style/ThemeOverlay.TimeAndServingsEditText"
                     android:layout_alignParentStart="true"
                     android:drawableStart="@drawable/ic_timer_24dp"
-                    android:hint="@string/create_recipe_edit_text_time_hint" />
+                    android:hint="@string/create_recipe_edit_text_time_hint"
+                    android:nextFocusDown="@+id/create_recipe_edit_text_servings" />
 
                 <EditText
+                    android:imeOptions="actionDone"
                     android:id="@+id/create_recipe_edit_text_servings"
                     style="@style/ThemeOverlay.TimeAndServingsEditText"
                     android:layout_toEndOf="@id/create_recipe_edit_text_time"
