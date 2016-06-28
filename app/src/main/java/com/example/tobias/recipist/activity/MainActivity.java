@@ -9,14 +9,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.tobias.recipist.R;
-import com.example.tobias.recipist.activity.auth.GoogleSignInActivity;
 import com.example.tobias.recipist.activity.recipe.CreateRecipeActivity;
 import com.example.tobias.recipist.adapter.MainPageAdapter;
 import com.example.tobias.recipist.fragment.LocalRecipesFragment;
-import com.example.tobias.recipist.fragment.RecipesFragment;
-import com.example.tobias.recipist.task.FetchMyRecipesTask;
-import com.example.tobias.recipist.util.FirebaseUtil;
-import com.example.tobias.recipist.util.Util;
+import com.example.tobias.recipist.fragment.FirebaseRecipeFragment;
+import com.example.tobias.recipist.fragment.PublicFirebaseRecipesFragment;
 
 public class MainActivity extends BaseActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -37,8 +34,8 @@ public class MainActivity extends BaseActivity {
 
         // Initialize & setup MainPageAdapter.
         mMainPageAdapter = new MainPageAdapter(getSupportFragmentManager());
-        mMainPageAdapter.addFragment(RecipesFragment.newInstance(RecipesFragment.TYPE_OVERVIEW), "overview");
-        mMainPageAdapter.addFragment(RecipesFragment.newInstance(RecipesFragment.TYPE_MY), "my recipes");
+        mMainPageAdapter.addFragment(new PublicFirebaseRecipesFragment(), "overview");
+//        mMainPageAdapter.addFragment(FirebaseRecipeFragment.newInstance(FirebaseRecipeFragment.TYPE_MY), "my recipes");
         mMainPageAdapter.addFragment(new LocalRecipesFragment(), "local recipes");
 
         // Initialize views.
