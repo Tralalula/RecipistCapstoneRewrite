@@ -1,5 +1,6 @@
 package com.example.tobias.recipist.activity.recipe;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.BaseActivity;
+import com.example.tobias.recipist.activity.MainActivity;
 import com.example.tobias.recipist.data.RecipistContract;
 import com.example.tobias.recipist.data.RecipistDbHandler;
 import com.example.tobias.recipist.model.Ingredients;
@@ -163,6 +165,16 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
+    public void onBackPressed() {
+        Intent data = new Intent(ViewRecipeActivity.this, MainActivity.class);
+        if (mCurrentType.equals(TYPE_OFFLINE)) {
+            data.putExtra(MainActivity.KEY_FORCE_VIEW_PAGER_ITEM, 1);
+        }
+        startActivity(data);
+        super.onBackPressed();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (mCurrentType.equals(TYPE_OFFLINE)) {
             getMenuInflater().inflate(R.menu.view_recipe, menu);
@@ -206,7 +218,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     }
 
     private void handleOfflineBinding() {
-        if (mCursor != null) {
+        if (mCursor != null && mCursor.moveToFirst()) {
             Picasso.with(ViewRecipeActivity.this)
                     .load(mCursor.getString(Recipe.COL_FULL_SIZE_IMAGE_URL))
                     .into(mPhotoImgVw);
@@ -243,7 +255,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     }
 
     private void handleOfflineIngredients() {
-        if (mCursor != null) {
+        if (mCursor != null && mCursor.moveToFirst()) {
             ArrayList<Ingredients.Ingredient> ingredients = new ArrayList<>();
             do {
                 ingredients.add(new Ingredients.Ingredient(mCursor));
@@ -255,7 +267,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     }
 
     private void handleOfflineSteps() {
-        if (mCursor != null) {
+        if (mCursor != null && mCursor.moveToFirst()) {
             ArrayList<Steps.Step> steps = new ArrayList<>();
             do {
                 steps.add(new Steps.Step(mCursor));

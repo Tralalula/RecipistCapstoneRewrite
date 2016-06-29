@@ -26,7 +26,7 @@
 
     <!-- ViewRecipe start -->
     <string name="view_recipe_image_view_image_content_description" translatable="true">Image of the recipe</string>
-    <string name="view_recipe_couldnt_load_recipe" translatable="true">Couldn't load recipe</string>
+    <string name="view_recipe_couldnt_load_recipe" translatable="true">Couldn\'t load recipe</string>
     <string name="view_recipe_publish_status_public" translatable="true">Public</string>
     <string name="view_recipe_publish_status_private" translatable="true">Private</string>
     <string name="view_recipe_nothing_added" translatable="true">Nothing added yet!</string>
@@ -52,7 +52,7 @@
     <string name="create_recipe_select_image_first" translatable="true">Select an image first.</string>
     <string name="create_recipe_add_an_ingredient" translatable="true">Add an ingredient.</string>
     <string name="create_recipe_add_a_step" translatable="true">Add a step.</string>
-    <string name="create_recipe_couldnt_resize_bitmap" translatable="true">Couldn't resize image.</string>
+    <string name="create_recipe_couldnt_resize_bitmap" translatable="true">Couldn\'t resize image.</string>
     <string name="create_recipe_recipe_created" translatable="true">Recipe created!</string>
     <string name="create_recipe_recipe_edited" translatable="true">Recipe edited!</string>
 

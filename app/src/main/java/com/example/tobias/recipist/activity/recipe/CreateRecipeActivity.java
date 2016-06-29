@@ -451,6 +451,14 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                     mRecipeFirebaseKey
             );
         }
+
+        if (mEditing) {
+            Intent data = new Intent(CreateRecipeActivity.this, ViewRecipeActivity.class);
+            data.putExtra(ViewRecipeActivity.KEY_RECIPE_FIREBASE_KEY, mRecipeFirebaseKey);
+            data.putExtra(ViewRecipeActivity.KEY_TYPE, ViewRecipeActivity.TYPE_OFFLINE);
+            startActivity(data);
+            finish();
+        }
     }
 
     private void editIngredients() {

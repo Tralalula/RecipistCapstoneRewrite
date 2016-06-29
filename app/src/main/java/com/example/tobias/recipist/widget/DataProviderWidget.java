@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Binder;
 import android.util.Log;
 import android.widget.AdapterView;
@@ -86,7 +85,7 @@ public class DataProviderWidget implements RemoteViewsService.RemoteViewsFactory
 
         Log.e("DataProviderWdiget", "mCursor.getString(Recipe.COL_TITLE) = " + mCursor.getString(Recipe.COL_TITLE));
         remoteViews.setTextViewText(R.id.widget_item_text_view_title, mCursor.getString(Recipe.COL_TITLE));
-        remoteViews.setTextViewText(R.id.widget_item_text_view_publish, String.valueOf(mCursor.getString(Recipe.COL_PUBLISH)));
+        remoteViews.setTextViewText(R.id.widget_item_text_view_servings, mCursor.getString(Recipe.COL_SERVINGS));
         remoteViews.setTextViewText(R.id.widget_item_text_view_time, Util.formatTime(Integer.parseInt(mCursor.getString(Recipe.COL_TIME))));
 
         try {
@@ -102,10 +101,6 @@ public class DataProviderWidget implements RemoteViewsService.RemoteViewsFactory
         launchIntent.putExtra(ViewRecipeActivity.KEY_TYPE, ViewRecipeActivity.TYPE_OFFLINE);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, i, launchIntent, 0);
         remoteViews.setOnClickPendingIntent(R.id.widget_item_relative_layout_root_container, pendingIntent);
-
-//        RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), android.R.layout.simple_list_item_1);
-//        remoteViews.setTextViewText(android.R.id.text1, mCursor.getString(Recipe.COL_TITLE));
-//        remoteViews.setTextColor(android.R.id.text1, Color.BLACK);
 
         return remoteViews;
     }

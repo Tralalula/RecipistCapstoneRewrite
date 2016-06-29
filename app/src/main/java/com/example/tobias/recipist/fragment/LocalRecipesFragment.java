@@ -23,6 +23,8 @@ import com.example.tobias.recipist.model.Recipe;
 public class LocalRecipesFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private RecyclerView mRecyclerView;
 
+    public static LocalRecipesAdapter mAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_recipes, container, false);
@@ -51,9 +53,9 @@ public class LocalRecipesFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        LocalRecipesAdapter adapter = new LocalRecipesAdapter(getContext(), data);
-        adapter.setHasStableIds(true);
-        mRecyclerView.setAdapter(adapter);
+        mAdapter = new LocalRecipesAdapter(getContext(), data);
+        mAdapter.setHasStableIds(true);
+        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
     }
 

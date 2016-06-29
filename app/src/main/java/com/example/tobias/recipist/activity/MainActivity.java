@@ -17,18 +17,24 @@ import com.example.tobias.recipist.fragment.FirebaseRecipeFragment;
 import com.example.tobias.recipist.fragment.PublicFirebaseRecipesFragment;
 import com.example.tobias.recipist.util.FirebaseUtil;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends BaseActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
+    public static final String KEY_FORCE_VIEW_PAGER_ITEM = TAG + "FORCE VIEW PAGER ITEM";
+
     private MainPageAdapter mMainPageAdapter;
 
-    private ViewPager mViewPager;
-    private TabLayout mTabLayout;
+    @BindView(R.id.main_view_pager) ViewPager mViewPager;
+    @BindView(R.id.main_tab_layout) TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         // Initialize & setup Toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
@@ -37,26 +43,18 @@ public class MainActivity extends BaseActivity {
         // Initialize & setup MainPageAdapter.
         mMainPageAdapter = new MainPageAdapter(getSupportFragmentManager());
         mMainPageAdapter.addFragment(new PublicFirebaseRecipesFragment(), getString(R.string.main_public_recipes_tab_title));
-//        mMainPageAdapter.addFragment(FirebaseRecipeFragment.newInstance(FirebaseRecipeFragment.TYPE_MY), "my recipes");
         mMainPageAdapter.addFragment(new LocalRecipesFragment(), getString(R.string.main_local_recipes_tab_title));
-
-        // Initialize views.
-        mViewPager = (ViewPager) findViewById(R.id.main_view_pager);
-        mTabLayout = (TabLayout) findViewById(R.id.main_tab_layout);
 
         // Setup views.
         mViewPager.setAdapter(mMainPageAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
-//        new FetchMyRecipesTask(this).execute();
-//
-//        if (FirebaseUtil.getCurrentUser() != null) {
-//            Intent intent = new Intent(MainActivity.this, CreateRecipeActivity.class);
-//            startActivity(intent);
-//        } else {
-//            Intent intent = new Intent(MainActivity.this, GoogleSignInActivity.class);
-//            startActivity(intent);
-//        }
+        Intent data = getIntent();
+        if (data != null) {
+            int viewPagerItemId = data.getIntExtra(KEY_FORCE_VIEW_PAGER_ITEM, 0);
+            mViewPager.setCurrentItem(viewPagerItemId);
+        }
+
     }
 
     @Override

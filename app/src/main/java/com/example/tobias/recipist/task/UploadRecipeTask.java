@@ -10,8 +10,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.tobias.recipist.R;
+import com.example.tobias.recipist.adapter.LocalRecipesAdapter;
 import com.example.tobias.recipist.callback.TaskCallback;
 import com.example.tobias.recipist.data.RecipistDbHandler;
+import com.example.tobias.recipist.fragment.LocalRecipesFragment;
 import com.example.tobias.recipist.model.Ingredients;
 import com.example.tobias.recipist.model.Recipe;
 import com.example.tobias.recipist.model.Author;

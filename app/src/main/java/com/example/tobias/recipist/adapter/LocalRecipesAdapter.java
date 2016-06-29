@@ -49,7 +49,7 @@ public class LocalRecipesAdapter extends RecyclerView.Adapter<RecipeViewHolder> 
                 .into(holder.mRecipeThumbnail);
 
         holder.mRecipeTitle.setText(mCursor.getString(Recipe.COL_TITLE));
-        holder.mRecipePublish.setText(String.valueOf(mCursor.getInt(Recipe.COL_PUBLISH)));
+        holder.mRecipeServings.setText(mCursor.getString(Recipe.COL_SERVINGS));
         holder.mRecipeTime.setText(Util.formatTime(Integer.parseInt(mCursor.getString(Recipe.COL_TIME))));
 
         firebaseKeys.add(mCursor.getString(Recipe.COL_FIREBASE_KEY));
