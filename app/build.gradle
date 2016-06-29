@@ -2,6 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'recipist'
+            keyPassword 'udacity'
+            storeFile file('../keystore.jks')
+            storePassword 'udacity'
+        }
+    }
+
     compileSdkVersion 24
     buildToolsVersion "23.0.3"
 
@@ -15,6 +24,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

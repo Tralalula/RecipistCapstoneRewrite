@@ -63,7 +63,7 @@
 
 
     <string name="create_recipe_firebase_storage_full_dir" translatable="false">full</string>
-    <string name="create_recipe_firebase_storage_thumb_dir" translatable="false">false</string>
+    <string name="create_recipe_firebase_storage_thumb_dir" translatable="false">thumb</string>
     <!-- CreateRecipe end -->
 
     <!-- CreateRecipeItems start -->
@@ -76,5 +76,8 @@
     <!-- Error start -->
     <string name="error_google_play_services_error" translatable="true">Google Play Services error.</string>
     <string name="error_authentication_failed" translatable="true">Authentication failed.</string>
+    <string name="error_author_not_signed_in" translatable="true">Author not signed in</string>
+    <string name="error_uploading_recipe_task" translatable="true">Error uploading recipe task...</string>
+    <string name="error_uploading_recipe" translatable="true">Error uploading recipe</string>
     <!-- Error end -->
 </resources>

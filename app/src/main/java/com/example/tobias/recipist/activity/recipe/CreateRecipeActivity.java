@@ -229,7 +229,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK && data != null) {
+        if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_PICK_IMAGE:
                     boolean isCamera;
