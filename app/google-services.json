@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "174447890507",
+    "firebase_url": "https://recipistrewrite.firebaseio.com",
+    "project_id": "recipistrewrite",
+    "storage_bucket": "recipistrewrite.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174447890507:android:011f11d1842d7be9",
+        "android_client_info": {
+          "package_name": "com.example.tobias.recipist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "174447890507-5c3jq241t3hjjkatf3be7im18fgo5hlp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tobias.recipist",
+            "certificate_hash": "932CFA0A077EC95624D24FA45AE5526F9819BB31"
+          }
+        },
+        {
+          "client_id": "174447890507-eib0819n04cm70g4tj5ojsf4cil6n2kq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDikVQ_1l6q3U4d5YyR9gFJBmTYuxdJXkc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "174447890507-eib0819n04cm70g4tj5ojsf4cil6n2kq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
