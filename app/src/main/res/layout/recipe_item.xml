@@ -21,6 +21,7 @@
             android:id="@+id/recipe_item_image_view_thumbnail"
             android:layout_width="100dp"
             android:layout_height="80dp"
+            android:contentDescription="@string/rw_item_image_view_thumbnail_content_description"
             android:scaleType="fitXY" />
 
         <RelativeLayout

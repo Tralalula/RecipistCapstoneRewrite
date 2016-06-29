@@ -19,6 +19,10 @@
     <string name="google_sign_in_title">@string/app_name</string>
     <!-- GoogleSignIn end -->
 
+    <!-- Recipe/WidgetItem start -->
+    <string name="rw_item_image_view_thumbnail_content_description">Recipe thumbnail image</string>
+    <!-- Recipe/WidgetItem end -->
+
     <!-- View/CreateRecipe start -->
     <string name="vc_recipe_ingredients_title" translatable="true">Ingredients</string>
     <string name="vc_recipe_activity_steps_title" translatable="true">Steps</string>

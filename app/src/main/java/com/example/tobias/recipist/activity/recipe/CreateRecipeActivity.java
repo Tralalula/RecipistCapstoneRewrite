@@ -141,6 +141,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         // Set click listeners.
         mCollapsingToolbarLayout.setOnClickListener(this);
         mToolbar.setOnClickListener(this);
+        mPhotoImageView.setOnClickListener(this);
         mSubmitFab.setOnClickListener(this);
         mEditIngredientsBtn.setOnClickListener(this);
         mEditStepsBtn.setOnClickListener(this);
@@ -267,6 +268,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         switch (view.getId()) {
             case R.id.create_recipe_collapsing_toolbar_layout:
             case R.id.create_recipe_toolbar:
+            case R.id.create_recipe_image_view_image:
                 selectImage();
                 break;
             case R.id.create_recipe_floating_action_button_submit:

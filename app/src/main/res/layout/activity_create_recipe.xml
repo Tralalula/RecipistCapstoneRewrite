@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@string/create_recipe_image_view_image_content_description"
+                android:focusable="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_camera_alt_72dp"
                 android:transitionName="test"
