@@ -25,11 +25,7 @@ import com.google.firebase.database.Query;
 public abstract class FirebaseRecipeFragment extends Fragment {
     public static final String TAG = FirebaseRecipeFragment.class.getSimpleName();
 
-    public static final String KEY_TYPE = "TYPE";
     public static final String KEY_LAYOUT_POSITION = "LAYOUT POSITION";
-
-    public static final int TYPE_OVERVIEW = 1357;
-    public static final int TYPE_MY = 2468;
 
     private RecyclerView mRecyclerView;
 

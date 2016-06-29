@@ -36,9 +36,9 @@ public class MainActivity extends BaseActivity {
 
         // Initialize & setup MainPageAdapter.
         mMainPageAdapter = new MainPageAdapter(getSupportFragmentManager());
-        mMainPageAdapter.addFragment(new PublicFirebaseRecipesFragment(), "overview");
+        mMainPageAdapter.addFragment(new PublicFirebaseRecipesFragment(), getString(R.string.main_public_recipes_tab_title));
 //        mMainPageAdapter.addFragment(FirebaseRecipeFragment.newInstance(FirebaseRecipeFragment.TYPE_MY), "my recipes");
-        mMainPageAdapter.addFragment(new LocalRecipesFragment(), "local recipes");
+        mMainPageAdapter.addFragment(new LocalRecipesFragment(), getString(R.string.main_local_recipes_tab_title));
 
         // Initialize views.
         mViewPager = (ViewPager) findViewById(R.id.main_view_pager);

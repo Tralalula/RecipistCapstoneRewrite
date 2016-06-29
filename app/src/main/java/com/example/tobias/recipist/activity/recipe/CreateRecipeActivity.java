@@ -20,6 +20,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,7 +59,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class CreateRecipeActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks, TaskCallback, View.OnClickListener {
     public static String TAG = CreateRecipeActivity.class.getSimpleName();
 
-    public static final String KEY_CREATE_RECIPE = "CREATE_RECIPE";
     public static final String KEY_EDIT_RECIPE = "EDIT RECIPE";
     public static final String KEY_RECIPE_FIREBASE_KEY = "RECIPE FIREBASE KEY";
     public static final String KEY_FILE_URI = "FILE URI";
@@ -281,7 +281,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private void updateIngredients() {
         mIngredientsLinearLayout.removeAllViews();
         if (mIngredients == null || mIngredients.isEmpty()) {
-            addToLinearLayout(this, mIngredientsLinearLayout, "No ingredients added yet..", Typeface.NORMAL);
+            addToLinearLayout(this, mIngredientsLinearLayout, getString(R.string.create_recipe_no_ingredients_added_yet), Typeface.NORMAL);
         } else {
             for (Ingredients.Ingredient ingredient : mIngredients) {
                 addToLinearLayout(this, mIngredientsLinearLayout, ingredient.ingredient, Typeface.NORMAL);
@@ -292,7 +292,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private void updateSteps() {
         mStepsLinearLayout.removeAllViews();
         if (mSteps == null || mSteps.isEmpty()) {
-            addToLinearLayout(this, mStepsLinearLayout, "No steps added yet..", Typeface.NORMAL);
+            addToLinearLayout(this, mStepsLinearLayout, getString(R.string.create_recipe_no_steps_added_yet), Typeface.NORMAL);
         } else {
             for (Steps.Step step : mSteps) {
                 addToLinearLayout(this, mStepsLinearLayout, step.method, Typeface.NORMAL);
@@ -323,7 +323,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         // Check for camera permissions.
         if (!EasyPermissions.hasPermissions(this, cameraPermissions)) {
             EasyPermissions.requestPermissions(this,
-                    "This will upload a picture from your camera",
+                    getString(R.string.create_recipe_camera_permission_message),
                     REQUEST_CODE_CAMERA_PERMISSIONS, cameraPermissions
             );
             return;
@@ -352,7 +352,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         // Image Picker
         Intent pickerIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        Intent chooserIntent = Intent.createChooser(pickerIntent, "Choose Image");
+        Intent chooserIntent = Intent.createChooser(pickerIntent, getString(R.string.create_recipe_choose_image));
         chooserIntent.putExtra(
                 Intent.EXTRA_INITIAL_INTENTS,
                 cameraIntents.toArray(new Parcelable[cameraIntents.size()])
@@ -361,21 +361,59 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     }
 
     private void submitRecipe() {
-        if (mResizedBitmap == null && !mEditing) {
+        if (FirebaseUtil.getCurrentUser() == null) {
             Toast.makeText(CreateRecipeActivity.this,
-                    "Select an image first.",
+                    getString(R.string.sign_in_first),
                     Toast.LENGTH_SHORT).show();
             return;
         }
 
+        if (mResizedBitmap == null && !mEditing) {
+            Toast.makeText(CreateRecipeActivity.this,
+                    getString(R.string.create_recipe_select_image_first),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String title = mTitleEditText.getText().toString();
+        String time = mTimeEditText.getText().toString();
+        String servings = mServingsEditText.getText().toString();
+
+        if (TextUtils.isEmpty(title)) {
+            mTitleEditText.setError(getString(R.string.required));
+            return;
+        }
+
+        if (TextUtils.isEmpty(time)) {
+            mTimeEditText.setError(getString(R.string.required));
+            return;
+        }
+
+        if (TextUtils.isEmpty(servings)) {
+            mServingsEditText.setError(getString(R.string.required));
+            return;
+        }
+
+        if (mIngredients == null || mIngredients.isEmpty()) {
+            Toast.makeText(CreateRecipeActivity.this,
+                    getString(R.string.create_recipe_add_an_ingredient),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (mSteps == null || mSteps.isEmpty()) {
+            Toast.makeText(CreateRecipeActivity.this,
+                    getString(R.string.create_recipe_add_a_step),
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
         showProgressDialog();
         mSubmitFab.setEnabled(true);
 
-        String title = mTitleEditText.getText().toString();
         int publish = 0;
         if (mPublishSwitch.isChecked()) publish = 1;
-        String time = mTimeEditText.getText().toString();
-        String servings = mServingsEditText.getText().toString();
 
         if (mEditing && !mNewImage) {
             mUploadTaskFragment.uploadRecipe(
@@ -394,8 +432,8 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         } else {
             Long timestamp = System.currentTimeMillis();
 
-            String bitmapPath = "/" + FirebaseUtil.getCurrentUserId() + "/full/" + timestamp.toString() + "/";
-            String thumbnailPath = "/" + FirebaseUtil.getCurrentUserId() + "/thumb/" + timestamp.toString() + "/";
+            String bitmapPath = "/" + FirebaseUtil.getCurrentUserId() + "/" + getString(R.string.create_recipe_firebase_storage_full_dir) + "/" + timestamp.toString() + "/";
+            String thumbnailPath = "/" + FirebaseUtil.getCurrentUserId() + "/" + getString(R.string.create_recipe_firebase_storage_thumb_dir) + "/" + timestamp.toString() + "/";
 
             mUploadTaskFragment.uploadRecipe(
                     mResizedBitmap,
@@ -434,7 +472,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         if (resizedBitmap == null) {
             Log.e(TAG, "Couldn't resize bitmap in background task");
             Toast.makeText(CreateRecipeActivity.this,
-                    "Couldn't resize bitmap.",
+                    getString(R.string.create_recipe_couldnt_resize_bitmap),
                     Toast.LENGTH_SHORT).show();
             return;
         }
@@ -461,9 +499,15 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                 mSubmitFab.setEnabled(true);
                 hideProgressDialog();
                 if (error == null) {
-                    Toast.makeText(CreateRecipeActivity.this,
-                            "Recipe created!",
-                            Toast.LENGTH_SHORT).show();
+                    if (mEditing) {
+                        Toast.makeText(CreateRecipeActivity.this,
+                                getString(R.string.create_recipe_recipe_edited),
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CreateRecipeActivity.this,
+                                getString(R.string.create_recipe_recipe_created),
+                                Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(CreateRecipeActivity.this,
                             error,

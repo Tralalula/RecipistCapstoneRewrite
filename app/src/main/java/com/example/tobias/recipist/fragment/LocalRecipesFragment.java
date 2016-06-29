@@ -1,6 +1,5 @@
 package com.example.tobias.recipist.fragment;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,10 +15,7 @@ import android.view.ViewGroup;
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.adapter.LocalRecipesAdapter;
 import com.example.tobias.recipist.data.RecipistContract;
-import com.example.tobias.recipist.loader.RecipeLoader;
 import com.example.tobias.recipist.model.Recipe;
-
-import java.util.ArrayList;
 
 /**
  * Created by Tobias on 25-06-2016.

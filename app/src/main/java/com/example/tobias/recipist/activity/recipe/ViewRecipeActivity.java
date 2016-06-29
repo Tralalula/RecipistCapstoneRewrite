@@ -123,12 +123,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
             ValueEventListener listener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    String notSpecified = "Not specified";
                     mRecipe = dataSnapshot.getValue(Recipe.class);
-                    String title = mRecipe.title;
-                    String time = mRecipe.time;
-                    String servings = mRecipe.servings;
-
                     ArrayList<Ingredients.Ingredient> ingredients = mRecipe.ingredients;
                     ArrayList<Steps.Step> steps = mRecipe.steps;
 
@@ -136,14 +131,10 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
                             .load(mRecipe.fullSizeImageUrl)
                             .into(mPhotoImgVw);
 
-                    if (Util.isNullOrEmpty(title)) title = notSpecified;
-                    if (Util.isNullOrEmpty(time)) time = notSpecified;
-                    if (Util.isNullOrEmpty(servings)) servings = notSpecified;
-
-                    mCollapsingToolbarLayout.setTitle(title);
-                    mTitleTxtVw.setText(title);
-                    mTimeTxtVw.setText(Util.formatTime(Integer.parseInt(time)));
-                    mServingsTxtVw.setText(servings);
+                    mCollapsingToolbarLayout.setTitle(mRecipe.title);
+                    mTitleTxtVw.setText(mRecipe.title);
+                    mTimeTxtVw.setText(Util.formatTime(Integer.parseInt(mRecipe.time)));
+                    mServingsTxtVw.setText(mRecipe.servings);
 
                     handleIngredients(mIngredientsLinLt, ingredients);
                     handleSteps(mStepsLinLt, steps);
@@ -152,7 +143,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     Log.w(TAG, "loadRecipe:onCancelled", databaseError.toException());
-                    Toast.makeText(ViewRecipeActivity.this, "Couldn't load recipe!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewRecipeActivity.this, getString(R.string.view_recipe_couldnt_load_recipe), Toast.LENGTH_SHORT).show();
                 }
             };
             mRecipeRef.addValueEventListener(listener);
@@ -223,8 +214,12 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
             mCollapsingToolbarLayout.setTitle(mCursor.getString(Recipe.COL_TITLE));
             mTitleTxtVw.setText(mCursor.getString(Recipe.COL_TITLE));
             String publish;
-            if (mCursor.getInt(Recipe.COL_PUBLISH) == 0) publish = "Private";
-            else publish = "Public";
+            if (mCursor.getInt(Recipe.COL_PUBLISH) == 0) {
+
+                publish = getString(R.string.view_recipe_publish_status_private);
+            } else {
+                publish = getString(R.string.view_recipe_publish_status_public);
+            }
             mPublishTxtVw.setText(publish);
             mTimeTxtVw.setText(Util.formatTime(Integer.parseInt(mCursor.getString(Recipe.COL_TIME))));
             mServingsTxtVw.setText(mCursor.getString(Recipe.COL_SERVINGS));
@@ -330,7 +325,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     }
 
     private void addEmptyTextViewToLinearLayout(LinearLayout linearLayout) {
-        addTextViewToLinearLayout(linearLayout, "Nothing here yet..");
+        addTextViewToLinearLayout(linearLayout, getString(R.string.view_recipe_nothing_added));
     }
 
 
@@ -389,7 +384,6 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
                 }
                 break;
             case KEY_STEPS_LOADER:
-                System.out.println("WTF");
                 if (mCursor != null && mCursor.moveToFirst()) {
                     handleOfflineSteps();
                 }
@@ -398,27 +392,30 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+        if (mCursor != null) mCursor.close();
         mCursor = null;
     }
 
     private AlertDialog removeRecipe(Context context) {
         AlertDialog removeRecipeDialogBox = new AlertDialog.Builder(context)
-                .setTitle("Remove Recipe")
-                .setMessage("Are you sure you want to remove the recipe \"" + mRecipe.title + "\" ?")
-                .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                        deleteRecipe();
-                        finish();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
+                .setTitle(getString(R.string.view_recipe_remove_recipe_title))
+                .setMessage(getString(R.string.view_recipe_remove_recipe_message, mRecipe.title))
+                .setPositiveButton(getString(R.string.view_recipe_remove_recipe_positive_button),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                deleteRecipe();
+                                finish();
+                            }
+                        })
+                .setNegativeButton(getString(R.string.view_recipe_remove_recipe_negative_button),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
                 .create();
 
         return removeRecipeDialogBox;

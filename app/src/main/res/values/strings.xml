@@ -2,9 +2,18 @@
     <string name="app_name" translatable="false">Recipist</string>
     <string name="content_authority" translatable="false">com.example.tobias.recipist</string>
 
+    <string name="no_recipes_added_yet" translatable="true">No recipes added yet!</string>
+    <string name="sign_in_first" translatable="true">Sign in first!</string>
+    <string name="required" translatable="true">Required</string>
+
     <!-- Base start -->
     <string name="base_progress_dialog_loading" translatable="true">Loading...</string>
     <!-- Base end -->
+
+    <!-- Main start -->
+    <string name="main_public_recipes_tab_title" translatable="true">Overview</string>
+    <string name="main_local_recipes_tab_title" translatable="true">My Recipes</string>
+    <!-- Main end -->
 
     <!-- GoogleSignIn start -->
     <string name="google_sign_in_title">@string/app_name</string>
@@ -17,6 +26,15 @@
 
     <!-- ViewRecipe start -->
     <string name="view_recipe_image_view_image_content_description" translatable="true">Image of the recipe</string>
+    <string name="view_recipe_couldnt_load_recipe" translatable="true">Couldn't load recipe</string>
+    <string name="view_recipe_publish_status_public" translatable="true">Public</string>
+    <string name="view_recipe_publish_status_private" translatable="true">Private</string>
+    <string name="view_recipe_nothing_added" translatable="true">Nothing added yet!</string>
+
+    <string name="view_recipe_remove_recipe_title" translatable="true">Remove Recipe</string>
+    <string name="view_recipe_remove_recipe_message" translatable="true">Are you sure you want to remove the recipe "%s" ?</string>
+    <string name="view_recipe_remove_recipe_positive_button" translatable="true">Remove</string>
+    <string name="view_recipe_remove_recipe_negative_button" translatable="true">Cancel</string>
     <!-- ViewRecipe end -->
 
     <!-- CreateRecipe start -->
@@ -26,6 +44,21 @@
     <string name="create_recipe_switch_publish_text" translatable="true">Publish</string>
     <string name="create_recipe_edit_text_time_hint" translatable="true">45 (mins)</string>
     <string name="create_recipe_edit_text_servings_hint" translatable="true">4-6</string>
+
+    <string name="create_recipe_no_ingredients_added_yet" translatable="true">No ingredients added yet!</string>
+    <string name="create_recipe_no_steps_added_yet" translatable="true">No steps added yet!</string>
+    <string name="create_recipe_camera_permission_message" translatable="true">This will upload a picture from your camera.</string>
+    <string name="create_recipe_choose_image" translatable="true">Choose Image</string>
+    <string name="create_recipe_select_image_first" translatable="true">Select an image first.</string>
+    <string name="create_recipe_add_an_ingredient" translatable="true">Add an ingredient.</string>
+    <string name="create_recipe_add_a_step" translatable="true">Add a step.</string>
+    <string name="create_recipe_couldnt_resize_bitmap" translatable="true">Couldn't resize image.</string>
+    <string name="create_recipe_recipe_created" translatable="true">Recipe created!</string>
+    <string name="create_recipe_recipe_edited" translatable="true">Recipe edited!</string>
+
+
+    <string name="create_recipe_firebase_storage_full_dir" translatable="false">full</string>
+    <string name="create_recipe_firebase_storage_thumb_dir" translatable="false">false</string>
     <!-- CreateRecipe end -->
 
     <!-- CreateRecipeItems start -->
