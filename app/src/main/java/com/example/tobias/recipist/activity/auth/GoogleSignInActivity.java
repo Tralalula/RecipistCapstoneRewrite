@@ -137,6 +137,10 @@ public class GoogleSignInActivity extends BaseActivity implements GoogleApiClien
                 if (!task.isSuccessful()) {
                     Log.w(TAG, "firebaseAuthWithGoogle:signInWithCredential:error", task.getException());
                     Toast.makeText(GoogleSignInActivity.this, getString(R.string.error_authentication_failed), Toast.LENGTH_SHORT).show();
+                } else {
+                    if (FirebaseUtil.getCurrentUserId() != null) {
+                        startActivity(new Intent(GoogleSignInActivity.this, MainActivity.class));
+                    }
                 }
 
                 hideProgressDialog();

@@ -9,5 +9,5 @@ import android.graphics.Bitmap;
  */
 public interface TaskCallback {
     void onBitmapResized(Bitmap resizedBitmap, int maxDimension);
-    void onRecipeUploaded(String error);
+    void onRecipeUploaded(String error, String firebaseKey);
 }

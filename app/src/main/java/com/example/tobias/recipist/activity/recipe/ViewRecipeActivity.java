@@ -389,6 +389,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
                                 deleteRecipe();
+                                onBackPressed();
                                 finish();
                             }
                         })

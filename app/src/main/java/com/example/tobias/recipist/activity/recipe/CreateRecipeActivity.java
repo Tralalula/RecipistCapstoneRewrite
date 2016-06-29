@@ -105,6 +105,8 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private boolean mEditing;
     private String mRecipeFirebaseKey;
 
+    private String mReturnFirebaseKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -446,14 +448,6 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                     mRecipeFirebaseKey
             );
         }
-
-        if (mEditing) {
-            Intent data = new Intent(CreateRecipeActivity.this, ViewRecipeActivity.class);
-            data.putExtra(ViewRecipeActivity.KEY_RECIPE_FIREBASE_KEY, mRecipeFirebaseKey);
-            data.putExtra(ViewRecipeActivity.KEY_TYPE, ViewRecipeActivity.TYPE_OFFLINE);
-            startActivity(data);
-            finish();
-        }
     }
 
     private void editIngredients() {
@@ -495,13 +489,14 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     }
 
     @Override
-    public void onRecipeUploaded(final String error) {
+    public void onRecipeUploaded(final String error, final String firebaseKey) {
         CreateRecipeActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mSubmitFab.setEnabled(true);
                 hideProgressDialog();
                 if (error == null) {
+                    mReturnFirebaseKey = firebaseKey;
                     if (mEditing) {
                         Toast.makeText(CreateRecipeActivity.this,
                                 getString(R.string.create_recipe_recipe_edited),
@@ -511,6 +506,12 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
                                 getString(R.string.create_recipe_recipe_created),
                                 Toast.LENGTH_SHORT).show();
                     }
+
+                    Intent data = new Intent(CreateRecipeActivity.this, ViewRecipeActivity.class);
+                    data.putExtra(ViewRecipeActivity.KEY_RECIPE_FIREBASE_KEY, mReturnFirebaseKey);
+                    data.putExtra(ViewRecipeActivity.KEY_TYPE, ViewRecipeActivity.TYPE_OFFLINE);
+                    startActivity(data);
+                    finish();
                 } else {
                     Toast.makeText(CreateRecipeActivity.this,
                             error,

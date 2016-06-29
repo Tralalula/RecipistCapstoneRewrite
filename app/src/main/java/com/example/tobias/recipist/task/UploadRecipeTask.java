@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.tobias.recipist.R;
+import com.example.tobias.recipist.activity.recipe.CreateRecipeActivity;
 import com.example.tobias.recipist.adapter.LocalRecipesAdapter;
 import com.example.tobias.recipist.callback.TaskCallback;
 import com.example.tobias.recipist.data.RecipistDbHandler;
@@ -68,6 +69,8 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
     private String mRecipeFirebaseKeyForEditing;
 
     private boolean mNewImage;
+
+    private String mReturnFirebaseKey;
 
     public UploadRecipeTask(Context context, TaskCallback callback,
                             String fullSizeUrl, String fullSizeRef,
@@ -162,7 +165,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             final DatabaseReference reference = FirebaseUtil.getBaseRef();
                             DatabaseReference recipesRef = FirebaseUtil.getRecipesRef();
-                            String newRecipeKey;
+                            final String newRecipeKey;
                             if (!mEditing) newRecipeKey = recipesRef.push().getKey();
                             else newRecipeKey = mRecipeFirebaseKeyForEditing;
 
@@ -172,7 +175,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                             Author author = FirebaseUtil.getAuthor();
                             if (author == null) {
                                 FirebaseCrash.logcat(Log.ERROR, TAG, "Couldn't upload recipe: Couldn't get signed in author.");
-                                mCallback.onRecipeUploaded("Author not signed in");
+                                mCallback.onRecipeUploaded("Author not signed in", null);
                                 return;
                             }
 
@@ -206,11 +209,11 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                                 @Override
                                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                                     if (databaseError == null) {
-                                        mCallback.onRecipeUploaded(null);
+                                        mCallback.onRecipeUploaded(null, newRecipeKey);
                                     } else {
                                         Log.e(TAG, "Unable to create new recipe: " + databaseError.getMessage());
                                         FirebaseCrash.report(databaseError.toException());
-                                        mCallback.onRecipeUploaded("Error uploading recipe task...");
+                                        mCallback.onRecipeUploaded("Error uploading recipe task...", null);
                                     }
                                 }
                             });
@@ -220,7 +223,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                         public void onFailure(@NonNull Exception e) {
                             FirebaseCrash.logcat(Log.ERROR, TAG, "thumbnail: Failed to upload recipe to database.");
                             FirebaseCrash.report(e);
-                            mCallback.onRecipeUploaded("Error uploading recipe");
+                            mCallback.onRecipeUploaded("Error uploading recipe", null);
                         }
                     });
                 }
@@ -229,7 +232,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                 public void onFailure(@NonNull Exception e) {
                     FirebaseCrash.logcat(Log.ERROR, TAG, "fullSize: Failed to upload recipe to database.");
                     FirebaseCrash.report(e);
-                    mCallback.onRecipeUploaded("Error uploading recipe");
+                    mCallback.onRecipeUploaded("Error uploading recipe", null);
                 }
             });
         } else {
@@ -242,7 +245,7 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
             Author author = FirebaseUtil.getAuthor();
             if (author == null) {
                 FirebaseCrash.logcat(Log.ERROR, TAG, "Couldn't upload recipe: Couldn't get signed in author.");
-                mCallback.onRecipeUploaded("Author not signed in");
+                mCallback.onRecipeUploaded("Author not signed in", null);
                 return null;
             }
 
@@ -276,16 +279,15 @@ public class UploadRecipeTask extends AsyncTask<Void, Void, Void> {
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                     if (databaseError == null) {
-                        mCallback.onRecipeUploaded(null);
+                        mCallback.onRecipeUploaded(null, mRecipeFirebaseKeyForEditing);
                     } else {
                         Log.e(TAG, "Unable to create new recipe: " + databaseError.getMessage());
                         FirebaseCrash.report(databaseError.toException());
-                        mCallback.onRecipeUploaded("Error uploading recipe task...");
+                        mCallback.onRecipeUploaded("Error uploading recipe task...", null);
                     }
                 }
             });
         }
-
 
         return null;
     }
