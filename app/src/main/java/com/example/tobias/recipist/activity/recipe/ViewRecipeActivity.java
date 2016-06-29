@@ -308,7 +308,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
 
     private void addTextViewToLinearLayout(LinearLayout linearLayout, String text) {
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         TextView textView = Util.setupTextView(
@@ -323,7 +323,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
 
     private void addTextViewToLinearLayout(LinearLayout linearLayout, Spanned text) {
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         TextView textView = Util.setupTextView(

@@ -20,10 +20,13 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -281,10 +284,10 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private void updateIngredients() {
         mIngredientsLinearLayout.removeAllViews();
         if (mIngredients == null || mIngredients.isEmpty()) {
-            addToLinearLayout(this, mIngredientsLinearLayout, getString(R.string.create_recipe_no_ingredients_added_yet), Typeface.NORMAL);
+            addTextViewToLinearLayout(mIngredientsLinearLayout, getString(R.string.create_recipe_no_ingredients_added_yet));
         } else {
             for (Ingredients.Ingredient ingredient : mIngredients) {
-                addToLinearLayout(this, mIngredientsLinearLayout, ingredient.ingredient, Typeface.NORMAL);
+                addTextViewToLinearLayout(mIngredientsLinearLayout, ingredient.ingredient);
             }
         }
     }
@@ -292,10 +295,10 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private void updateSteps() {
         mStepsLinearLayout.removeAllViews();
         if (mSteps == null || mSteps.isEmpty()) {
-            addToLinearLayout(this, mStepsLinearLayout, getString(R.string.create_recipe_no_steps_added_yet), Typeface.NORMAL);
+            addTextViewToLinearLayout(mStepsLinearLayout, getString(R.string.create_recipe_no_steps_added_yet));
         } else {
             for (Steps.Step step : mSteps) {
-                addToLinearLayout(this, mStepsLinearLayout, step.method, Typeface.NORMAL);
+                addTextViewToLinearLayout(mStepsLinearLayout, step.method);
             }
         }
     }
@@ -311,11 +314,34 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         return super.onOptionsItemSelected(item);
     }
 
-    private void addToLinearLayout(Context context, LinearLayout linearLayout, String text, int typeface) {
-        TextView textView = new TextView(context);
-        textView.setText(text);
-        textView.setTypeface(null, typeface);
-        linearLayout.addView(textView);
+    private void addTextViewToLinearLayout(LinearLayout linearLayout, String text) {
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextView textView = Util.setupTextView(
+                this,
+                layoutParams,
+                text,
+                getResources().getColor(R.color.text_secondary_color)
+        );
+
+        Util.addView(linearLayout, textView);
+    }
+
+    private void addTextViewToLinearLayout(LinearLayout linearLayout, Spanned text) {
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextView textView = Util.setupTextView(
+                this,
+                layoutParams,
+                text,
+                getResources().getColor(R.color.text_secondary_color)
+        );
+
+        Util.addView(linearLayout, textView);
     }
 
     @AfterPermissionGranted(REQUEST_CODE_CAMERA_PERMISSIONS)

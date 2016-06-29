@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +34,11 @@ public class Util {
     public static final int DRAWABLE_POSITION_RIGHT = 2;
     public static final int DRAWABLE_POSITION_BOTTOM = 3;
 
-    public static EditText setupEditText(Context context, ViewGroup.LayoutParams layoutParams, String text, int maxLines, int inputType, String hint) {
+    public static EditText setupEditText(Context context, ViewGroup.LayoutParams layoutParams, String text, int maxLines, int inputType, String hint, int gravity) {
         EditText editText = new EditText(context);
         editText.setLayoutParams(layoutParams);
         editText.setText(text);
+        editText.setGravity(gravity);
         editText.setMaxLines(maxLines);
         editText.setInputType(inputType);
         editText.setHint(hint);
@@ -47,6 +49,7 @@ public class Util {
         TextView textView = new TextView(context);
         textView.setLayoutParams(layoutParams);
         textView.setText(text);
+        textView.setGravity(Gravity.START);
         textView.setTextColor(textColor);
 
         return textView;
@@ -56,6 +59,7 @@ public class Util {
         TextView textView = new TextView(context);
         textView.setLayoutParams(layoutParams);
         textView.setText(text);
+        textView.setGravity(Gravity.START);
         textView.setTextColor(textColor);
 
         return textView;
@@ -69,12 +73,31 @@ public class Util {
         editText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
     }
 
-    public static void makeChildDeletableByClickingOnRightDrawalbe(final ViewGroup parent, final EditText editText) {
+    public static void addDrawableToTheLeft(EditText editText, Drawable drawable) {
+        editText.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+    }
+
+    public static void makeChildDeletableByClickingOnRightDrawable(final ViewGroup parent, final EditText editText) {
         editText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_POSITION_RIGHT].getBounds().width())) {
+                        parent.removeView(editText);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    public static void makeChildDeletableByClickingOnLeftDrawable(final ViewGroup parent, final EditText editText) {
+        editText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() <= editText.getCompoundDrawables()[DRAWABLE_POSITION_LEFT].getBounds().width() * 2) {
                         parent.removeView(editText);
                         return true;
                     }

@@ -47,6 +47,7 @@ dependencies {
     compile 'pub.devrel:easypermissions:0.1.7'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jmedeisis:draglinearlayout:1.1.0'
+    compile 'klogi.com:rtlviewpager:1.0.0'
     compile 'com.jakewharton:butterknife:8.1.0'
     apt 'com.jakewharton:butterknife-compiler:8.1.0'
 }

@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -235,12 +235,23 @@ public class CreateRecipeItemsActivity extends BaseActivity implements View.OnCl
             View child = mItemsDll.getChildAt(i);
             EditText editText = (EditText) child;
 
+            boolean isRtl = getResources().getBoolean(R.bool.is_right_to_left);
+
             if (mSorting) {
-                Util.addDrawableToTheRight(editText, getDrawable(R.drawable.ic_swap_vertical_black_24dp));
+                if (isRtl) {
+                    Util.addDrawableToTheLeft(editText, getDrawable(R.drawable.ic_swap_vertical_black_24dp));
+                } else {
+                    Util.addDrawableToTheRight(editText, getDrawable(R.drawable.ic_swap_vertical_black_24dp));
+                }
                 mItemsDll.setViewDraggable(child, child);
             } else {
-                Util.addDrawableToTheRight(editText, getDrawable(R.drawable.ic_delete_black_24dp));
-                Util.makeChildDeletableByClickingOnRightDrawalbe(mItemsDll, editText);
+                if (isRtl) {
+                    Util.addDrawableToTheLeft(editText, getDrawable(R.drawable.ic_delete_black_24dp));
+                    Util.makeChildDeletableByClickingOnLeftDrawable(mItemsDll, editText);
+                } else {
+                    Util.addDrawableToTheRight(editText, getDrawable(R.drawable.ic_delete_black_24dp));
+                    Util.makeChildDeletableByClickingOnRightDrawable(mItemsDll, editText);
+                }
             }
         }
     }
@@ -259,19 +270,33 @@ public class CreateRecipeItemsActivity extends BaseActivity implements View.OnCl
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         String hint;
+        int maxLines;
+        int inputType;
         if (mCurrentType.equals(TYPE_INGREDIENTS)) {
             hint = getString(R.string.create_recipe_items_edit_text_new_ingredient_hint);
+            maxLines = 1;
+            inputType = InputType.TYPE_CLASS_TEXT;
         } else {
             hint = getString(R.string.create_recipe_items_edit_text_new_step_hint);
+            maxLines = 5;
+            inputType = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE;
         }
+
+
+        boolean isRtl = getResources().getBoolean(R.bool.is_right_to_left);
+        int gravity;
+        if (isRtl) gravity = Gravity.RIGHT;
+        else gravity = Gravity.LEFT;
+
 
         EditText editText = Util.setupEditText(
                 this,
                 layoutParams,
                 text,
-                5,
-                InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_FLAG_MULTI_LINE,
-                hint
+                maxLines,
+                inputType,
+                hint,
+                gravity
         );
 
         Util.addView(mItemsDll, editText);
