@@ -28,6 +28,7 @@ public class MainActivity extends BaseActivity {
 
     private MainPageAdapter mMainPageAdapter;
 
+    @BindView(R.id.main_toolbar) Toolbar mToolbar;
     @BindView(R.id.main_view_pager) ViewPager mViewPager;
     @BindView(R.id.main_tab_layout) TabLayout mTabLayout;
 
@@ -37,9 +38,8 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        // Initialize & setup Toolbar.
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
+        // Setup Toolbar.
+        setSupportActionBar(mToolbar);
 
         // Initialize & setup MainPageAdapter.
         mMainPageAdapter = new MainPageAdapter(getSupportFragmentManager());
@@ -55,14 +55,20 @@ public class MainActivity extends BaseActivity {
             int viewPagerItemId = data.getIntExtra(KEY_FORCE_VIEW_PAGER_ITEM, 0);
             mViewPager.setCurrentItem(viewPagerItemId);
         }
-
-        Log.e("RTL", "Is right to left? " + getResources().getBoolean(R.bool.is_right_to_left));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent data = new Intent(Intent.ACTION_MAIN);
+        data.addCategory(Intent.CATEGORY_HOME);
+        data.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(data);
     }
 
     @Override

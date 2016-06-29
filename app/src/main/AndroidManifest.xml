@@ -15,6 +15,10 @@
 
         <activity
             android:name=".activity.MainActivity"
+            android:label="@string/app_name" />
+
+        <activity
+            android:name=".activity.auth.GoogleSignInActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,12 +27,13 @@
         </activity>
 
         <activity
-            android:name=".activity.auth.GoogleSignInActivity"
-            android:label="@string/app_name" />
-
-        <activity
             android:name=".activity.recipe.CreateRecipeActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
 
         <activity
             android:name=".activity.recipe.CreateRecipeItemsActivity"
@@ -38,7 +43,13 @@
                 android:value=".activity.recipe.CreateRecipeActivity" />
         </activity>
 
-        <activity android:name=".activity.recipe.ViewRecipeActivity" />
+        <activity
+            android:name=".activity.recipe.ViewRecipeActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
 
         <provider
             android:name=".data.RecipistProvider"

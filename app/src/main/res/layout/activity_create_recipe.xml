@@ -39,7 +39,7 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:contentInsetStart="@dimen/vc_recipe_toolbar_content_inset_start"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_left_alt_24dp" />
+                app:navigationIcon="@drawable/ic_close_alt_24dp" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 

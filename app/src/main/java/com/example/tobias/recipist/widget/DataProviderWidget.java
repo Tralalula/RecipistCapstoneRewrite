@@ -16,6 +16,7 @@ import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.recipe.ViewRecipeActivity;
 import com.example.tobias.recipist.data.RecipistContract;
 import com.example.tobias.recipist.model.Recipe;
+import com.example.tobias.recipist.util.PicassoUtil;
 import com.example.tobias.recipist.util.Util;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +46,7 @@ public class DataProviderWidget implements RemoteViewsService.RemoteViewsFactory
                     null,
                     null
             );
+
         } finally {
             Binder.restoreCallingIdentity(token);
         }
@@ -89,7 +91,7 @@ public class DataProviderWidget implements RemoteViewsService.RemoteViewsFactory
         remoteViews.setTextViewText(R.id.widget_item_text_view_time, Util.formatTime(Integer.parseInt(mCursor.getString(Recipe.COL_TIME))));
 
         try {
-            Bitmap thumbnail = Picasso.with(mContext).load(mCursor.getString(Recipe.COL_THUMBNAIL_URL)).get();
+            Bitmap thumbnail = PicassoUtil.getBitmap(mContext, mCursor.getString(Recipe.COL_THUMBNAIL_URL));
             remoteViews.setImageViewBitmap(R.id.widget_item_image_view_thumbnail, thumbnail);
         } catch (IOException e) {
             e.printStackTrace();

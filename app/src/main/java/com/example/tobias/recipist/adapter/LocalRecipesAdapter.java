@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.recipe.ViewRecipeActivity;
 import com.example.tobias.recipist.model.Recipe;
+import com.example.tobias.recipist.util.PicassoUtil;
 import com.example.tobias.recipist.util.Util;
 import com.example.tobias.recipist.viewholder.RecipeViewHolder;
 import com.squareup.picasso.Picasso;
@@ -44,9 +45,7 @@ public class LocalRecipesAdapter extends RecyclerView.Adapter<RecipeViewHolder> 
     public void onBindViewHolder(final RecipeViewHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        Picasso.with(mContext)
-                .load(mCursor.getString(Recipe.COL_THUMBNAIL_URL))
-                .into(holder.mRecipeThumbnail);
+        PicassoUtil.loadImage(mCursor.getString(Recipe.COL_THUMBNAIL_URL), holder.mRecipeThumbnail);
 
         holder.mRecipeTitle.setText(mCursor.getString(Recipe.COL_TITLE));
         holder.mRecipeServings.setText(mCursor.getString(Recipe.COL_SERVINGS));

@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -127,5 +128,35 @@ public class Util {
         if (minutes > 0) formattedTime += minutes + "m";
 
         return formattedTime;
+    }
+
+    public static void addRecipeItemTextViewToLinearLayout(Context context, LinearLayout linearLayout, String text) {
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextView textView = setupTextView(
+                context,
+                layoutParams,
+                text,
+                context.getResources().getColor(R.color.text_secondary_color)
+        );
+
+        addView(linearLayout, textView);
+    }
+
+    public static void addRecipeItemTextViewToLinearLayout(Context context, LinearLayout linearLayout, Spanned text) {
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextView textView = setupTextView(
+                context,
+                layoutParams,
+                text,
+                context.getResources().getColor(R.color.text_secondary_color)
+        );
+
+        addView(linearLayout, textView);
     }
 }

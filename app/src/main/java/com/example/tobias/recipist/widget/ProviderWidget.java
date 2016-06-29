@@ -18,9 +18,6 @@ import com.example.tobias.recipist.activity.MainActivity;
  * Created by Tobias on 26-06-2016.
  */
 public class ProviderWidget extends AppWidgetProvider {
-    private static int[] sAppWidgetIds;
-    private static AppWidgetManager sAppWidgetManager;
-
     private static final String ACTION_REFRESH = "com.example.tobias.recipist.widget.REFRESH";
 
     @SuppressLint("NewApi")
@@ -60,9 +57,5 @@ public class ProviderWidget extends AppWidgetProvider {
             AppWidgetManager manager = AppWidgetManager.getInstance(context);
             this.onUpdate(context, manager, manager.getAppWidgetIds(new ComponentName(context, ProviderWidget.class)));
         }
-    }
-
-    public static Intent receiveBroadcast(Context context) {
-        return new Intent(ACTION_REFRESH).setComponent(new ComponentName(context, ProviderWidget.class));
     }
 }

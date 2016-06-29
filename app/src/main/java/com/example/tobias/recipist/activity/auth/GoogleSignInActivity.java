@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.activity.BaseActivity;
+import com.example.tobias.recipist.activity.MainActivity;
 import com.example.tobias.recipist.util.FirebaseUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -75,6 +76,10 @@ public class GoogleSignInActivity extends BaseActivity implements GoogleApiClien
                 updateUi(FirebaseUtil.getCurrentUser());
             }
         };
+
+        if (FirebaseUtil.getCurrentUserId() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     @Override

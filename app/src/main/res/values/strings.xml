@@ -26,6 +26,9 @@
     <!-- View/CreateRecipe start -->
     <string name="vc_recipe_ingredients_title" translatable="true">Ingredients</string>
     <string name="vc_recipe_activity_steps_title" translatable="true">Steps</string>
+
+    <string name="vc_recipe_no_ingredients_added_yet" translatable="true">No ingredients added yet!</string>
+    <string name="vc_recipe_no_steps_added_yet" translatable="true">No steps added yet!</string>
     <!-- View/CreateRecipe end -->
 
     <!-- ViewRecipe start -->
@@ -49,8 +52,6 @@
     <string name="create_recipe_edit_text_time_hint" translatable="true">45 (mins)</string>
     <string name="create_recipe_edit_text_servings_hint" translatable="true">4-6</string>
 
-    <string name="create_recipe_no_ingredients_added_yet" translatable="true">No ingredients added yet!</string>
-    <string name="create_recipe_no_steps_added_yet" translatable="true">No steps added yet!</string>
     <string name="create_recipe_camera_permission_message" translatable="true">This will upload a picture from your camera.</string>
     <string name="create_recipe_choose_image" translatable="true">Choose Image</string>
     <string name="create_recipe_select_image_first" translatable="true">Select an image first.</string>

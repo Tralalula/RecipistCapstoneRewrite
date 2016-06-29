@@ -1,6 +1,5 @@
 package com.example.tobias.recipist.activity.recipe;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,12 +13,10 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +31,7 @@ import com.example.tobias.recipist.model.Ingredients;
 import com.example.tobias.recipist.model.Recipe;
 import com.example.tobias.recipist.model.Steps;
 import com.example.tobias.recipist.util.FirebaseUtil;
+import com.example.tobias.recipist.util.PicassoUtil;
 import com.example.tobias.recipist.util.Util;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -85,7 +83,9 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
 
     private String mCurrentType;
 
-    private Cursor mCursor;
+    private Cursor mRecipeCursor;
+    private Cursor mIngredientsCursor;
+    private Cursor mStepsCursor;
 
 
     @Override
@@ -94,12 +94,14 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
         setContentView(R.layout.activity_view_recipe);
         ButterKnife.bind(this);
 
+        // Setup Toolbar.
         setSupportActionBar(mToolbar);
 
         Intent data = getIntent();
         if (data == null) {
             throw new IllegalArgumentException("Intent is null.. Did you pass a recipe firebase key?");
         }
+
 
         mCurrentType = data.getStringExtra(KEY_TYPE);
 
@@ -129,9 +131,7 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
                     ArrayList<Ingredients.Ingredient> ingredients = mRecipe.ingredients;
                     ArrayList<Steps.Step> steps = mRecipe.steps;
 
-                    Picasso.with(ViewRecipeActivity.this)
-                            .load(mRecipe.fullSizeImageUrl)
-                            .into(mPhotoImgVw);
+                    PicassoUtil.loadImage(mRecipe.fullSizeImageUrl, mPhotoImgVw);
 
                     mCollapsingToolbarLayout.setTitle(mRecipe.title);
                     mTitleTxtVw.setText(mRecipe.title);
@@ -218,25 +218,24 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     }
 
     private void handleOfflineBinding() {
-        if (mCursor != null && mCursor.moveToFirst()) {
-            Picasso.with(ViewRecipeActivity.this)
-                    .load(mCursor.getString(Recipe.COL_FULL_SIZE_IMAGE_URL))
-                    .into(mPhotoImgVw);
+        if (mRecipeCursor != null && mRecipeCursor.moveToFirst()) {
 
-            mCollapsingToolbarLayout.setTitle(mCursor.getString(Recipe.COL_TITLE));
-            mTitleTxtVw.setText(mCursor.getString(Recipe.COL_TITLE));
+            PicassoUtil.loadImage(mRecipeCursor.getString(Recipe.COL_FULL_SIZE_IMAGE_URL), mPhotoImgVw);
+
+            mCollapsingToolbarLayout.setTitle(mRecipeCursor.getString(Recipe.COL_TITLE));
+            mTitleTxtVw.setText(mRecipeCursor.getString(Recipe.COL_TITLE));
             String publish;
-            if (mCursor.getInt(Recipe.COL_PUBLISH) == 0) {
+            if (mRecipeCursor.getInt(Recipe.COL_PUBLISH) == 0) {
 
                 publish = getString(R.string.view_recipe_publish_status_private);
             } else {
                 publish = getString(R.string.view_recipe_publish_status_public);
             }
             mPublishTxtVw.setText(publish);
-            mTimeTxtVw.setText(Util.formatTime(Integer.parseInt(mCursor.getString(Recipe.COL_TIME))));
-            mServingsTxtVw.setText(mCursor.getString(Recipe.COL_SERVINGS));
+            mTimeTxtVw.setText(Util.formatTime(Integer.parseInt(mRecipeCursor.getString(Recipe.COL_TIME))));
+            mServingsTxtVw.setText(mRecipeCursor.getString(Recipe.COL_SERVINGS));
 
-            mRecipe = new Recipe(mCursor);
+            mRecipe = new Recipe(mRecipeCursor);
 
             mEditFab.setVisibility(View.VISIBLE);
             mPublishTxtVw.setVisibility(View.VISIBLE);
@@ -255,11 +254,11 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     }
 
     private void handleOfflineIngredients() {
-        if (mCursor != null && mCursor.moveToFirst()) {
+        if (mIngredientsCursor != null && mIngredientsCursor.moveToFirst()) {
             ArrayList<Ingredients.Ingredient> ingredients = new ArrayList<>();
             do {
-                ingredients.add(new Ingredients.Ingredient(mCursor));
-            } while (mCursor.moveToNext());
+                ingredients.add(new Ingredients.Ingredient(mIngredientsCursor));
+            } while (mIngredientsCursor.moveToNext());
 
             handleIngredients(mIngredientsLinLt, ingredients);
             mIngredients = ingredients;
@@ -267,11 +266,11 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
     }
 
     private void handleOfflineSteps() {
-        if (mCursor != null && mCursor.moveToFirst()) {
+        if (mStepsCursor != null && mStepsCursor.moveToFirst()) {
             ArrayList<Steps.Step> steps = new ArrayList<>();
             do {
-                steps.add(new Steps.Step(mCursor));
-            } while (mCursor.moveToNext());
+                steps.add(new Steps.Step(mStepsCursor));
+            } while (mStepsCursor.moveToNext());
 
             handleSteps(mStepsLinLt, steps);
             mSteps = steps;
@@ -282,10 +281,10 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
         linearLayout.removeAllViews();
 
         if (ingredients == null || ingredients.isEmpty()) {
-            addEmptyTextViewToLinearLayout(mIngredientsLinLt);
+            Util.addRecipeItemTextViewToLinearLayout(this, mIngredientsLinLt, getString(R.string.vc_recipe_no_ingredients_added_yet));
         } else {
             for (Ingredients.Ingredient ingredient : ingredients) {
-                addTextViewToLinearLayout(mIngredientsLinLt, ingredient.ingredient);
+                Util.addRecipeItemTextViewToLinearLayout(this, mIngredientsLinLt, ingredient.ingredient);
             }
         }
     }
@@ -295,51 +294,16 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
         linearLayout.removeAllViews();
 
         if (steps == null || steps.isEmpty()) {
-            addEmptyTextViewToLinearLayout(mStepsLinLt);
+            Util.addRecipeItemTextViewToLinearLayout(this, mStepsLinLt, getString(R.string.vc_recipe_no_steps_added_yet));
         } else {
             for (int i = 0; i < steps.size(); i++) {
                 String text = "<strong>" + (i + 1) + ".</strong> " + steps.get(i).method;
                 if (i != steps.size() - 1) text += "<br>";
 
-                addTextViewToLinearLayout(mStepsLinLt, Html.fromHtml(text));
+                Util.addRecipeItemTextViewToLinearLayout(this, mStepsLinLt, Html.fromHtml(text));
             }
         }
     }
-
-    private void addTextViewToLinearLayout(LinearLayout linearLayout, String text) {
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        TextView textView = Util.setupTextView(
-                this,
-                layoutParams,
-                text,
-                getResources().getColor(R.color.text_secondary_color)
-        );
-
-        Util.addView(linearLayout, textView);
-    }
-
-    private void addTextViewToLinearLayout(LinearLayout linearLayout, Spanned text) {
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        TextView textView = Util.setupTextView(
-                this,
-                layoutParams,
-                text,
-                getResources().getColor(R.color.text_secondary_color)
-        );
-
-        Util.addView(linearLayout, textView);
-    }
-
-    private void addEmptyTextViewToLinearLayout(LinearLayout linearLayout) {
-        addTextViewToLinearLayout(linearLayout, getString(R.string.view_recipe_nothing_added));
-    }
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -383,20 +347,22 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mCursor = data;
         switch (loader.getId()) {
             case KEY_RECIPE_LOADER:
-                if (mCursor != null && mCursor.moveToFirst()) {
+                if (data != null && data.moveToFirst()) {
+                    mRecipeCursor = data;
                     handleOfflineBinding();
                 }
                 break;
             case KEY_INGREDIENTS_LOADER:
-                if (mCursor != null && mCursor.moveToFirst()) {
+                if (data != null && data.moveToFirst()) {
+                    mIngredientsCursor = data;
                     handleOfflineIngredients();
                 }
                 break;
             case KEY_STEPS_LOADER:
-                if (mCursor != null && mCursor.moveToFirst()) {
+                if (data != null && data.moveToFirst()) {
+                    mStepsCursor = data;
                     handleOfflineSteps();
                 }
         }
@@ -404,8 +370,13 @@ public class ViewRecipeActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        if (mCursor != null) mCursor.close();
-        mCursor = null;
+        if (mRecipeCursor != null) mRecipeCursor.close();
+        if (mIngredientsCursor != null) mIngredientsCursor.close();
+        if (mStepsCursor != null) mStepsCursor.close();
+
+        mRecipeCursor = null;
+        mIngredientsCursor = null;
+        mStepsCursor = null;
     }
 
     private AlertDialog removeRecipe(Context context) {

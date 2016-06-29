@@ -5,12 +5,10 @@ package com.example.tobias.recipist.activity.recipe;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -20,19 +18,16 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.text.Spanned;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tobias.recipist.R;
@@ -43,6 +38,7 @@ import com.example.tobias.recipist.model.Ingredients;
 import com.example.tobias.recipist.model.Recipe;
 import com.example.tobias.recipist.model.Steps;
 import com.example.tobias.recipist.util.FirebaseUtil;
+import com.example.tobias.recipist.util.PicassoUtil;
 import com.example.tobias.recipist.util.Util;
 import com.squareup.picasso.Picasso;
 
@@ -177,9 +173,7 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         mIngredients = recipe.ingredients;
         mSteps = recipe.steps;
 
-        Picasso.with(this)
-                .load(imageUrl)
-                .into(mPhotoImageView);
+        PicassoUtil.loadImage(imageUrl, mPhotoImageView);
 
         if (!Util.isNullOrEmpty(title)) mTitleEditText.setText(title);
         mPublishSwitch.setChecked(publish);
@@ -286,10 +280,10 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private void updateIngredients() {
         mIngredientsLinearLayout.removeAllViews();
         if (mIngredients == null || mIngredients.isEmpty()) {
-            addTextViewToLinearLayout(mIngredientsLinearLayout, getString(R.string.create_recipe_no_ingredients_added_yet));
+            Util.addRecipeItemTextViewToLinearLayout(this, mIngredientsLinearLayout, getString(R.string.vc_recipe_no_ingredients_added_yet));
         } else {
             for (Ingredients.Ingredient ingredient : mIngredients) {
-                addTextViewToLinearLayout(mIngredientsLinearLayout, ingredient.ingredient);
+                Util.addRecipeItemTextViewToLinearLayout(this, mIngredientsLinearLayout, ingredient.ingredient);
             }
         }
     }
@@ -297,10 +291,13 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
     private void updateSteps() {
         mStepsLinearLayout.removeAllViews();
         if (mSteps == null || mSteps.isEmpty()) {
-            addTextViewToLinearLayout(mStepsLinearLayout, getString(R.string.create_recipe_no_steps_added_yet));
+            Util.addRecipeItemTextViewToLinearLayout(this, mStepsLinearLayout, getString(R.string.vc_recipe_no_steps_added_yet));
         } else {
-            for (Steps.Step step : mSteps) {
-                addTextViewToLinearLayout(mStepsLinearLayout, step.method);
+            for (int i = 0; i < mSteps.size(); i++) {
+                String text = "<strong>" + (i + 1) + ".</strong> " + mSteps.get(i).method;
+                if (i != mSteps.size() - 1) text += "<br>";
+
+                Util.addRecipeItemTextViewToLinearLayout(this, mStepsLinearLayout, Html.fromHtml(text));
             }
         }
     }
@@ -314,36 +311,6 @@ public class CreateRecipeActivity extends BaseActivity implements EasyPermission
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void addTextViewToLinearLayout(LinearLayout linearLayout, String text) {
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        TextView textView = Util.setupTextView(
-                this,
-                layoutParams,
-                text,
-                getResources().getColor(R.color.text_secondary_color)
-        );
-
-        Util.addView(linearLayout, textView);
-    }
-
-    private void addTextViewToLinearLayout(LinearLayout linearLayout, Spanned text) {
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        TextView textView = Util.setupTextView(
-                this,
-                layoutParams,
-                text,
-                getResources().getColor(R.color.text_secondary_color)
-        );
-
-        Util.addView(linearLayout, textView);
     }
 
     @AfterPermissionGranted(REQUEST_CODE_CAMERA_PERMISSIONS)

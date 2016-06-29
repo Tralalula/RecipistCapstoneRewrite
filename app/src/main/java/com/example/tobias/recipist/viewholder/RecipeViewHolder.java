@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.tobias.recipist.R;
 import com.example.tobias.recipist.model.Recipe;
+import com.example.tobias.recipist.util.PicassoUtil;
 import com.example.tobias.recipist.util.Util;
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +37,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
         String time = Util.formatTime(Integer.parseInt(recipe.time));
 
         mRecipeTitle.setText(title);
-        Picasso.with(context).load(thumbnailUrl).into(mRecipeThumbnail);
+        PicassoUtil.loadImage(thumbnailUrl, mRecipeThumbnail);
         mRecipeServings.setText(servings);
         mRecipeTime.setText(time);
     }
